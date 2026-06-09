@@ -1,0 +1,311 @@
+{
+  "Metadata": {
+    "title": "Official Hisense Distributor in Iran | Zarrin Namaye Caspian",
+    "description": "Zarrin Namaye Caspian is the official Hisense distributor in Iran for TVs, home appliances, and HVAC systems with nationwide warranty and after-sales service.",
+    "keywords": [
+      "Hisense Iran",
+      "Hisense exclusive distributor Iran",
+      "Zarrin Namaye Caspian",
+      "official Hisense partner Iran",
+      "Hisense home appliances",
+      "Hisense residential HVAC",
+      "Hisense commercial HVAC",
+      "Hisense air conditioner Iran",
+      "Hisense refrigerator Iran"
+    ]
+  },
+  "Header": {
+    "brand": "Hisense",
+    "tagline": "Official Hisense distributor in Iran",
+    "actions": {
+      "language": "Change language",
+      "search": "Search the catalog",
+      "menu": "Open navigation",
+      "close": "Close navigation",
+      "theme": {
+        "dark": "Switch to dark mode",
+        "light": "Switch to light mode"
+      }
+    },
+    "navigation": {
+      "items": {
+        "tvAudio": "TV & Audio",
+        "airConditioner": "Air-Conditioner",
+        "homeAppliances": "Home Appliances",
+        "about": "About Hisense",
+        "support": "Support"
+      }
+    },
+    "searchPlaceholder": "Search Hisense"
+  },
+  "LanguageSwitcher": {
+    "label": "Language",
+    "options": {
+      "fa": "Persian",
+      "en": "English"
+    }
+  },
+  "HomePage": {
+    "hero": {
+      "title": "Zarrin Namaye Caspian - Official Hisense Distributor in Iran",
+      "subtitle": "Shop Hisense LED TVs, refrigerators, air conditioners, and residential and commercial HVAC solutions with certified after-sales support across Iran."
+    },
+    "categories": {
+      "eyebrow": "",
+      "title": "Discover our series",
+      "items": {
+        "tv": {
+          "eyebrow": "Television",
+          "title": "Hisense TVs & Displays",
+          "description": "Mini-LED, ULED TVs",
+          "cta": "View all"
+        },
+        "refrigerator": {
+          "eyebrow": "Cooling",
+          "title": "Hisense Refrigerators",
+          "description": "Side-by-side, and top-mount fridges",
+          "cta": "View all"
+        },
+        "washingMachine": {
+          "eyebrow": "Laundry",
+          "title": "Hisense Washing Machines",
+          "description": "Inverter motors for spotless, energy-efficient cleaning.",
+          "cta": "View all"
+        },
+        "rac": {
+          "eyebrow": "Residential HVAC",
+          "title": "Hisense Air Conditioners",
+          "description": "Smart inverter splits",
+          "cta": "View all"
+        }
+      }
+    }
+  },
+  "UnderConstruction": {
+    "eyebrow": "Work in progress",
+    "title": "We are still putting this page together.",
+    "description": "This section is being built. In the meantime you can browse the catalog or reach our team for help.",
+    "supporting": "We are wiring up content, imagery, and links for this section. Thanks for your patience.",
+    "status": {
+      "content": "Content and specs are being finalized.",
+      "links": "Navigation, downloads, and support links will show up here soon."
+    },
+    "actions": {
+      "backHome": "Back to homepage",
+      "viewProducts": "Browse products",
+      "contact": "Contact support"
+    }
+  },
+  "NotFound": {
+    "eyebrow": "Page",
+    "title": "Sorry, we couldn't find that page.",
+    "description": "The link may be broken or the page may have been moved. Check the URL or return to the homepage.",
+    "actions": {
+      "home": "Back to homepage",
+      "contact": "Contact us"
+    }
+  },
+  "Footer": {
+    "branding": {
+      "title": "Zarrin Namaye Caspian",
+      "tagline": "Official Hisense distributor in Iran."
+    },
+    "about": {
+      "title": "Information"
+    },
+    "products": {
+      "title": "Products"
+    },
+    "support": {
+      "title": "Support"
+    },
+    "links": {
+      "about": "About us",
+      "contact": "Contact",
+      "complaint": "Complaint form",
+      "feedback": "Feedback form",
+      "refrigerator": "Refrigerator",
+      "washingMachine": "Washing machine",
+      "television": "Television",
+      "ventilation": "Residential HVAC",
+      "industrialVentilation": "Industrial HVAC",
+      "faq": "FAQ",
+      "warranty": "Warranty conditions",
+      "hisenseRepair": "Repair & Support",
+      "dealerPortal": "Service dealer portal",
+      "dealerList": "Service center list",
+      "becomeDealer": "Become a dealer",
+      "tvHisense": "Hisense TV (LED)",
+      "rac": "Residential Air Conditioner",
+      "cac": "Commercial Air Conditioner",
+      "portal": "Dealer & Partner Portal",
+      "survey": "Customer Survey"
+    },
+    "contact": {
+      "address": "No. 6, Kameliya Dead end, Sasanipour street, Ketabi Square (Ahmadi Roshan Square), Tehran/Iran",
+      "phone": "+98 21 72133",
+      "email": "info@zarrinac.com",
+      "hours": "Sat - Wed: 8:30 to 16:00 | Thu: 8:30 to 13:00",
+      "holidays": "Official holidays: closed"
+    },
+    "social": {
+      "whatsappSales": "WhatsApp Sales",
+      "whatsappService": "WhatsApp Service",
+      "instagram": "Instagram"
+    },
+    "legal": {
+      "notice": "© Zarrin Namaye Caspian, official Hisense representative in Iran. All rights reserved.",
+      "privacy": "Privacy Policy",
+      "cookies": "Cookies Policy",
+      "terms": "Terms & Conditions",
+      "sitemap": "Sitemap"
+    }
+  },
+  "TvHisensePage": {
+    "hero": {
+      "cta": "Talk to sales"
+    },
+    "productSection": {
+      "eyebrow": "100-inch lineup",
+      "title": "Explore 100\" Hisense TVs",
+      "description": "Detailed view of our flagship 100-inch LED and Mini-LED televisions."
+    },
+    "seriesSection": {
+      "eyebrow": "Series lineup",
+      "title": "Hisense ULED Mini-LED TVs"
+    },
+    "actions": {
+      "quote": "Get a quote",
+      "support": "Support",
+      "details": "View details"
+    },
+    "heroSlides": {
+      "ux": {
+        "eyebrow": "ULED X | Mini-LED",
+        "title": "UX Series",
+        "subtitle": "Flagship brightness, precise contrast control, and cinematic color accuracy."
+      },
+      "u8": {
+        "eyebrow": "U8 Mini-LED",
+        "title": "U8 Series",
+        "subtitle": "Peak luminance, fast gaming, and Dolby Vision/Atoms built in."
+      },
+      "u7": {
+        "eyebrow": "U7 Mini-LED",
+        "title": "U7 Series",
+        "subtitle": "Balanced performance for sports, movies, and next-gen consoles."
+      },
+      "rgb": {
+        "eyebrow": "RGB LED",
+        "title": "RGB",
+        "subtitle": "Balanced performance for sports, movies, and next-gen consoles."
+      }
+    },
+    "series": {
+      "ux": {
+        "badge": "UX",
+        "title": "UX | ULED X",
+        "blurb": "Hisense's brightest ULED X Mini-LED display engineered for reference-level contrast and detail."
+      },
+      "u8": {
+        "badge": "U8",
+        "title": "U8 | Mini-LED",
+        "blurb": "Award-winning U8 delivers vivid HDR, low-latency gaming, and premium design."
+      },
+      "u7": {
+        "badge": "U7",
+        "title": "U7 | Mini-LED",
+        "blurb": "Versatile performance with smooth motion and rich color for every room."
+      }
+    },
+    "metadata": {
+      "keywords": [
+        "Hisense TV Iran",
+        "Hisense Mini-LED",
+        "Hisense ULED TV",
+        "UX Mini-LED",
+        "U8 Mini-LED",
+        "U7 Mini-LED",
+        "Hisense Laser TV",
+        "Hisense gaming TV"
+      ]
+    }
+  },
+  "Routes": {
+    "tvHisense": {
+      "eyebrow": "Hisense TV",
+      "title": "Hisense TV & LED Displays",
+      "description": "Experience the ULED, Mini-LED, and QLED lineup engineered for cinematic brilliance, vivid colors, and premium sound integration"
+    },
+    "rac": {
+      "eyebrow": "Residential Air Conditioning",
+      "title": "Hisense Residential Air Conditioners",
+      "description": "Smart inverter splits with AI airflow, silent comfort, and efficient cooling for every home across Iran."
+    },
+    "cac": {
+      "eyebrow": "Commercial HVAC",
+      "title": "Hisense Commercial Air Conditioning",
+      "description": "Complete VRF and ducted HVAC systems designed for hotels, malls, and industrial venues with nationwide project support."
+    },
+    "refrigerator": {
+      "eyebrow": "Refrigeration",
+      "title": "Hisense Refrigerators & Freezers",
+      "description": "Side-by-side, top mount, and chest freezers featuring Total No-Frost, smart sensors, and PureFlat finishing."
+    },
+    "washingMachine": {
+      "eyebrow": "Laundry",
+      "title": "Hisense Washing Machines",
+      "description": "Allergy Steam cycles, durable inverter motors, and large capacities tailored for modern Iranian households."
+    },
+    "about": {
+      "eyebrow": "About",
+      "title": "About Zarrin Namaye Caspian",
+      "description": "Learn how Zarrin Namaye Caspian became the exclusive Hisense distributor in Iran with 1300+ sales and service partners."
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "title": "Contact Hisense Iran",
+      "description": "Reach our Tehran HQ, customer care lines, and regional teams for sales, installation, or partnership requests."
+    },
+    "hisenseRepair": {
+      "eyebrow": "Service",
+      "title": "Hisense product repair and support",
+      "description": "Request official repair, maintenance, and support for Hisense products with certified technicians, genuine parts, and nationwide coverage."
+    },
+    "complaint": {
+      "eyebrow": "Support",
+      "title": "Submit a Complaint",
+      "description": "Share service issues or feedback directly with Hisense Iran to trigger rapid case handling and follow-up."
+    },
+    "survey": {
+      "eyebrow": "Feedback",
+      "title": "Customer Survey",
+      "description": "Help us improve product quality and after-sales care by completing this quick satisfaction survey."
+    },
+    "faq": {
+      "eyebrow": "Help Center",
+      "title": "Air Conditioner and TV FAQ",
+      "description": "Find answers about Hisense split AC installation, copper piping, gas charging, TV installation, warranty coverage, and repair service."
+    },
+    "warranty": {
+      "eyebrow": "Warranty",
+      "title": "Hisense Warranty & Guarantee Terms",
+      "description": "Review Hisense Iran warranty coverage, guarantee terms, after-sales service, exclusions, and official warranty PDF downloads."
+    },
+    "portal": {
+      "eyebrow": "Service Representatives",
+      "title": "After-Sales Service Representatives Portal",
+      "description": "Dedicated access for Zarrin Namaye Caspian after-sales service representatives to the official Hisense service portal."
+    },
+    "findServiceCenter": {
+      "eyebrow": "Service Representatives",
+      "title": "After-Sales Service Representative List",
+      "description": "Find official Hisense after-sales service representatives by city and service type."
+    },
+    "requestRepresentation": {
+      "eyebrow": "Partner with us",
+      "title": "Sales and Service Representation Request",
+      "description": "Apply for sales representation or after-sales installation and service representation with Zarrin Namaye Caspian, the official Hisense representative in Iran."
+    }
+  }
+}

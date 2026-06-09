@@ -1,0 +1,10 @@
+# Machine-local Claude tooling — not project code.
+# (Git does not support trailing inline comments, so keep these on their own lines.)
+
+# Obsidian vault UI state (window layout, regenerable)
+.obsidian/
+
+# Skills are installed per-machine (~/.claude/skills), not via the repo
+skills/
+
+# Commit these: CLAUDE.md (graphify trigger) and settings.json (graphify hooks)

@@ -1,0 +1,6 @@
+# Machine-local agent tooling — not project code (mirrors .claude/.gitignore).
+
+# Skills are installed per-machine, not via the repo.
+skills/
+
+# Commit these: AGENTS.md (repo root, Codex guide) and .codex/hooks.json (Codex hooks).

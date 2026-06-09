@@ -1,0 +1,237 @@
+{
+  "hero": {
+    "eyebrow": "About Hisense Iran",
+    "title": "Global Hisense DNA, localized for Iran",
+    "summary": "Zarrin Namaye Caspian has represented Hisense in Iran since 2009, translating the brand’s global reliability, innovation, and service discipline into tailored experiences for Iranian households, projects, and channel partners.",
+    "imageKey": "hisense",
+    "ctas": [
+      {
+        "label": "Plan a visit",
+        "href": "tel:+982122614205"
+      },
+      {
+        "label": "Discover our network",
+        "href": "/en/warranty-and-guarantee"
+      }
+    ]
+  },
+  "meta": {
+    "title": "About Zarrin Namaye Caspian | Official Hisense Iran Overview",
+    "description": "Learn how Zarrin Namaye Caspian brings Hisense’s global innovation, industrial strength, and CSR vision to Iran with 1,300+ sales & service partners and a flagship showroom in Tehran.",
+    "keywords": [
+      "Hisense Iran overview",
+      "Zarrin Namaye Caspian",
+      "Hisense distributor Iran",
+      "Hisense Tehran showroom",
+      "Hisense CSR Iran",
+      "Hisense industrial group",
+      "Hisense history Iran"
+    ]
+  },
+  "stats": [
+    {
+      "value": "2009",
+      "label": "Start of Hisense partnership"
+    },
+    {
+      "value": "1,300+",
+      "label": "Sales & service partners",
+      "sublabel": "Nationwide coverage"
+    },
+    {
+      "value": "5+",
+      "label": "Core product categories",
+      "sublabel": "TV, HVAC, refrigeration, laundry"
+    },
+    {
+      "value": "24/7",
+      "label": "Customer support mindset",
+      "sublabel": "Training and monitoring programs"
+    }
+  ],
+  "pillars": [
+    {
+      "title": "Reliable innovation",
+      "description": "Adapting Hisense’s global R&D breakthroughs—ULED displays, smart cooling, medical-grade precision—to meet local consumer journeys."
+    },
+    {
+      "title": "Industrial strength",
+      "description": "Leveraging Hisense’s worldwide manufacturing and quality assurance systems to guarantee genuine parts, controlled logistics, and on-time deployment."
+    },
+    {
+      "title": "Customer & partner success",
+      "description": "Empowering 1,300+ dealers with specialized academies, digital warranty systems, and B2B engineering teams."
+    },
+    {
+      "title": "Sustainable growth",
+      "description": "Aligning with Hisense Global’s CSR roadmap through energy-efficient products, recycling programs, and community initiatives across Iran."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Zarrin Namaye Caspian Manufacturing & Operations",
+      "subtitle": "The exclusive Hisense representative in Iran",
+      "body": [
+        "Every process—forecasting, inbound logistics, showroom planning, and training—is benchmarked against the same KPIs used by Hisense Global. This guarantees that Iranian customers receive original products, updated firmware, and certified accessories.",
+        "Our centralized operation orchestrates over 1,300 certified sales and service points. Installations, spare-part traceability, and quality audits are coordinated through a unified CRM that mirrors Hisense’s international service playbook.",
+        "Our smart TV portfolio extends the Hisense experience with localized content partnerships and premium after-sales programs designed for family entertainment in Iran."
+      ],
+      "highlights": [
+        {
+          "title": "Comprehensive portfolio",
+          "description": "ULED TVs, refrigerators, washing machines, and RAC/CAC solutions."
+        },
+        {
+          "title": "Service-driven network",
+          "description": "Managed logistics, genuine spare parts, on-site installation, and responsive customer care."
+        },
+        {
+          "title": "Ongoing capability building",
+          "description": "Product and engineering academies focused on HVAC, display, and commercial tenders."
+        }
+      ],
+      "image": {
+        "key": "factory",
+        "alt": "Zarrin Namaye Caspian operations hub and logistics center"
+      }
+    },
+    {
+      "title": "Hisense Global",
+      "subtitle": "Innovation across consumer electronics, HVAC, medical devices, and IT",
+      "body": [
+        "Hisense ranks among the world’s most trusted appliance and display brands, with 29 industrial parks and 26 R&D centers powering continuous innovation in TVs, HVAC, refrigeration, and medical imaging.",
+        "The global group’s investments in AI picture processing, high-efficiency compressors, and IoT platforms are shared with Hisense Iran to accelerate market-ready solutions.",
+        "Joint programs with Zarrin Namaye Caspian deliver market intelligence back to the global product teams, ensuring that Iran’s requirements influence future generations of displays and climate solutions."
+      ],
+      "highlights": [
+        {
+          "title": "Global manufacturing footprint",
+          "description": "Production bases across China, Europe, South Africa, and the Americas with unified QA standards."
+        },
+        {
+          "title": "Cross-industry expertise",
+          "description": "From 8K ULED TVs to medical ultrasound and rail transit display systems."
+        },
+        {
+          "title": "Trusted sports partnerships",
+          "description": "Official sponsor of FIFA World Cup and UEFA EURO, boosting worldwide brand equity."
+        }
+      ],
+      "image": {
+        "key": "hisense",
+        "alt": "Hisense global headquarters campus"
+      }
+    },
+    {
+      "title": "Flagship Hisense Iran Showroom",
+      "subtitle": "Experience the portfolio in person",
+      "body": [
+        "Located on Shariati Street in Tehran, the flagship showroom recreates the immersive style of global.hisense.com experiences with large-format storytelling, interactive demo walls, and project consultation lounges.",
+        "Customers can compare premium ULED TVs, laser displays, smart refrigerators, washers, and RAC/CAC systems under one roof.",
+        "Specialized consultants guide households, architects, hospitality groups, and government tenders with financing, maintenance plans, and on-site training."
+      ],
+      "highlights": [
+        {
+          "title": "Immersive demo suites",
+          "description": "Test picture, audio, and IoT integrations before purchasing."
+        },
+        {
+          "title": "Project advisory desks",
+          "description": "Dedicated HVAC and display engineers for complex RFPs."
+        },
+        {
+          "title": "On-site service coordination",
+          "description": "Warranty registration, spare-part ordering, and installation scheduling in one place."
+        }
+      ],
+      "image": {
+        "key": "showroom",
+        "alt": "Hisense Iran flagship showroom in Tehran"
+      }
+    }
+  ],
+  "timeline": [
+    {
+      "year": "2009",
+      "title": "Official partnership",
+      "description": "Zarrin Namaye Caspian appointed as Hisense’s exclusive representative in Iran."
+    },
+    {
+      "year": "2012",
+      "title": "Nationwide service mesh",
+      "description": "500+ certified service centers connected to the unified CRM for faster turnaround."
+    },
+    {
+      "year": "2016",
+      "title": "Smart TV portfolio expansion",
+      "description": "Expanded the smart TV lineup with stronger Persian content partnerships and education initiatives."
+    },
+    {
+      "year": "2020",
+      "title": "Enterprise & HVAC focus",
+      "description": "CAC and VRF solutions for commercial towers, hospitality, and healthcare projects."
+    },
+    {
+      "year": "2024",
+      "title": "Experience-led showroom",
+      "description": "Transformation of the Tehran flagship into an immersive gallery mirroring global.hisense.com storytelling."
+    }
+  ],
+  "values": [
+    {
+      "title": "Integrity & responsibility",
+      "description": "Transparent warranties, genuine parts, and adherence to Iranian regulatory frameworks."
+    },
+    {
+      "title": "Innovation with purpose",
+      "description": "Applying Hisense’s R&D breakthroughs to local lifestyles, climate, and infrastructure."
+    },
+    {
+      "title": "Customer obsession",
+      "description": "Always-on technical support, digital monitoring, and proactive training for partners."
+    },
+    {
+      "title": "Co-creating the future",
+      "description": "Collaborating with universities, installers, and developers to shape the next era of smart living."
+    }
+  ],
+  "csr": {
+    "title": "Sustainability & CSR inspired by Hisense Global",
+    "description": "Just like the global CSR pillars—education, environment, and community—we invest locally to make technology accessible, energy-efficient, and inclusive across Iran.",
+    "highlights": [
+      {
+        "title": "Energy literacy programs",
+        "description": "Educating families and installers on eco modes, green refrigerants, and recycling best practices."
+      },
+      {
+        "title": "STEM & workforce development",
+        "description": "Scholarships and technical labs that prepare young engineers for HVAC and display careers."
+      },
+      {
+        "title": "Community care",
+        "description": "Supporting hospitals, sports clubs, and relief organizations with reliable Hisense equipment."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Zarrin Namaye Caspian Showroom",
+    "description": "Plan your visit, request a corporate proposal, or speak with a Hisense Iran specialist. Our flagship team will coordinate the next steps immediately.",
+    "ctaLabel": "Book a visit or call",
+    "ctaHref": "tel:+982122614205",
+    "items": [
+      {
+        "label": "Address",
+        "value": "Tehran, Shariati St., above Dowlat, Firouzeh Alley corner"
+      },
+      {
+        "label": "Visiting hours",
+        "value": "Saturday to Wednesday, 08:30 – 15:00"
+      },
+      {
+        "label": "Phone",
+        "value": "+98 21 2261 4205",
+        "href": "tel:+982122614205"
+      }
+    ]
+  }
+}

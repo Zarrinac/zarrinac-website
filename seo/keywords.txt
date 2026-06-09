@@ -1,0 +1,198 @@
+# Hisense Iran — SEO keyword strategy & targeting map
+#
+# HOW THIS FILE IS USED (see lib/seo/keywords.ts)
+# - Only lines starting with "- " (dash + space) are read. Headers/comments are ignored.
+# - Lines longer than 70 characters are ignored (they live here as content seeds only).
+# - The FIRST 12 Persian and FIRST 12 English entries (in file order) are emitted into
+#   <meta name="keywords"> on every page. Order = priority — keep the strongest first.
+# - REALITY CHECK: Google ignores the meta-keywords tag for ranking. The real value of
+#   this list is as a TARGETING MAP: put these phrases in <title>, <h1>/<h2>, body copy,
+#   image alt, FAQ questions, and internal-link anchor text. One primary keyword per page.
+# - Intent legend: [brand] discovery · [info] research · [buy] purchase-intent · [service] support.
+
+
+# ============================================================
+# PRIORITY — first 12 per language (these fill the meta tag)
+# ============================================================
+
+# Persian — brand + four product pillars + service + company
+- هایسنس
+- هایسنس ایران
+- نماینده رسمی هایسنس در ایران
+- تلویزیون هایسنس
+- یخچال فریزر هایسنس
+- ماشین لباسشویی هایسنس
+- کولر گازی هایسنس
+- لوازم خانگی هایسنس
+- گارانتی هایسنس
+- نمایندگی هایسنس
+- خدمات پس از فروش هایسنس
+- زرین نمای کاسپین
+
+# English — brand + four product pillars + service + company
+- Hisense Iran
+- Hisense official distributor Iran
+- Hisense TV Iran
+- Hisense refrigerator Iran
+- Hisense washing machine Iran
+- Hisense air conditioner Iran
+- Hisense home appliances Iran
+- Hisense warranty Iran
+- Hisense service center Iran
+- Hisense ULED TV
+- Hisense inverter air conditioner
+- Zarrin Namaye Caspian
+
+
+# ============================================================
+# BRAND & AUTHORITY  [brand]
+# ============================================================
+- تنها نماینده رسمی هایسنس در ایران
+- نماینده انحصاری هایسنس در ایران
+- نمایندگی رسمی هایسنس
+- نمایندگی مجاز هایسنس
+- محصولات هایسنس
+- برند هایسنس
+- لوازم خانگی Hisense
+- صنایع زرین نمای کاسپین
+- شرکت صنایع زرین نمای کاسپین
+- Hisense exclusive distributor Iran
+- Hisense official partner Iran
+- Hisense authorized dealer Iran
+- Zarrin Namaye Caspian Industries
+
+
+# ============================================================
+# TELEVISIONS  [buy] / [info]
+# ============================================================
+- خرید تلویزیون هایسنس
+- قیمت تلویزیون هایسنس
+- تلویزیون هوشمند هایسنس
+- تلویزیون هایسنس ایران
+- تلویزیون 4K هایسنس
+- تلویزیون ULED هایسنس
+- تلویزیون QLED هایسنس
+- تلویزیون 43 اینچ هایسنس
+- تلویزیون 50 اینچ هایسنس
+- تلویزیون 55 اینچ هایسنس
+- تلویزیون 65 اینچ هایسنس
+- تلویزیون 75 اینچ هایسنس
+- مشخصات تلویزیون هایسنس
+- بهترین تلویزیون هایسنس
+- تلویزیون هایسنس با گارانتی
+- buy Hisense TV Iran
+- Hisense TV price Iran
+- Hisense Smart TV
+- Hisense 4K TV
+- Hisense QLED TV
+- Hisense 55 inch TV
+- Hisense 65 inch TV
+
+
+# ============================================================
+# REFRIGERATORS & FREEZERS  [buy] / [info]
+# ============================================================
+- خرید یخچال هایسنس
+- قیمت یخچال فریزر هایسنس
+- یخچال ساید بای ساید هایسنس
+- یخچال دوقلو هایسنس
+- یخچال فریزر بالا هایسنس
+- فریزر هایسنس
+- یخچال هایسنس نوفراست
+- یخچال هایسنس با گارانتی
+- مشخصات یخچال هایسنس
+- buy Hisense refrigerator Iran
+- Hisense side by side refrigerator
+- Hisense no frost refrigerator
+- Hisense freezer
+
+
+# ============================================================
+# WASHING MACHINES  [buy] / [info]
+# ============================================================
+- خرید ماشین لباسشویی هایسنس
+- قیمت ماشین لباسشویی هایسنس
+- ماشین لباسشویی اتوماتیک هایسنس
+- ماشین لباسشویی 8 کیلویی هایسنس
+- ماشین لباسشویی 9 کیلویی هایسنس
+- ماشین لباسشویی 10 کیلویی هایسنس
+- لباسشویی درب از جلو هایسنس
+- لباسشویی اینورتر هایسنس
+- مشخصات ماشین لباسشویی هایسنس
+- buy Hisense washing machine Iran
+- Hisense front load washing machine
+- Hisense 8kg washing machine
+- Hisense automatic washing machine
+
+
+# ============================================================
+# RESIDENTIAL AIR CONDITIONERS (RAC)  [buy] / [service]
+# ============================================================
+- خرید کولر گازی هایسنس
+- قیمت کولر گازی هایسنس
+- کولر گازی اینورتر هایسنس
+- کولر گازی سرد و گرم هایسنس
+- اسپلیت هایسنس
+- کولر گازی 9000 هایسنس
+- کولر گازی 12000 هایسنس
+- کولر گازی 18000 هایسنس
+- کولر گازی 24000 هایسنس
+- کولر گازی 30000 هایسنس
+- نصب کولر گازی هایسنس
+- بهترین کولر گازی هایسنس
+- Hisense split air conditioner
+- Hisense inverter AC Iran
+- Hisense air conditioner price Iran
+
+
+# ============================================================
+# COMMERCIAL / INDUSTRIAL HVAC (CAC)  [buy] / [info]
+# ============================================================
+- داکت اسپلیت هایسنس
+- اسپلیت کانالی هایسنس
+- چیلر هایسنس
+- سیستم VRF هایسنس
+- تهویه مطبوع صنعتی هایسنس
+- تهویه مطبوع تجاری هایسنس
+- هواساز هایسنس
+- Hisense duct split
+- Hisense VRF system
+- Hisense commercial air conditioning
+- Hisense chiller
+
+
+# ============================================================
+# SERVICE, WARRANTY & SUPPORT  [service]
+# ============================================================
+- نمایندگی هایسنس در تهران
+- لیست نمایندگی های هایسنس
+- خدمات پس از فروش محصولات هایسنس
+- مرکز خدمات هایسنس
+- تعمیرگاه مجاز هایسنس
+- تعمیر تلویزیون هایسنس
+- تعمیر کولر گازی هایسنس
+- تعمیر یخچال هایسنس
+- تعمیر ماشین لباسشویی هایسنس
+- قطعات یدکی هایسنس
+- ثبت گارانتی هایسنس
+- ثبت گارانتی محصولات هایسنس
+- شماره تماس خدمات هایسنس
+- درخواست نمایندگی هایسنس
+- پرتال نمایندگان هایسنس
+- پرتال نمایندگان زرین نمای کاسپین
+- Hisense after sales service Iran
+- Hisense spare parts Iran
+- Hisense warranty registration
+- Hisense repair Iran
+- Hisense customer service Iran
+- Hisense dealership Iran
+
+
+# ============================================================
+# CONTENT SEEDS (over 70 chars — NOT emitted; use in copy/FAQ/H2s)
+# ============================================================
+- زرین نمای کاسپین، تنها نماینده رسمی هایسنس در ایران از سال ۱۳۸۸
+- خرید تلویزیون هایسنس از نمایندگی رسمی با گارانتی معتبر
+- راهنمای خرید کولر گازی اینورتر هایسنس متناسب با متراژ
+- مقایسه مدل های تلویزیون هایسنس و انتخاب بهترین گزینه
+- شبکه بیش از ۱۳۰۰ نماینده فروش و خدمات پس از فروش هایسنس در سراسر ایران

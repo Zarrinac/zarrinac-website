@@ -1,0 +1,70 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# pm2 ecosystem.config.cjs
+/ecosystem.config.cjs
+
+# media moved to server, keep out of repo
+/public/products/
+/public/images/
+/public/tv-banner/
+/public/banner/
+/public/contact-us/
+/public/downloads/
+/public/representatives/
+
+/app/generated/prisma
+
+
+# temp files
+/temp-files
+
+# database backups — never commit dumps (may contain PII)
+/backups/
+
+# Stale sitemaps/robots from the old next-sitemap postbuild. The sitemap and
+# robots are now served by app/sitemap.ts and app/robots.ts. These patterns
+# stay ignored so a leftover build artifact is never committed; delete any
+# existing public/sitemap*.xml and public/robots.txt on the server once so the
+# native routes are not shadowed by static files.
+/public/sitemap*.xml
+/public/robots.txt

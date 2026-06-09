@@ -1,0 +1,1017 @@
+{
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.claude\\settings.json": {
+    "mtime": 1780733220.8835182,
+    "ast_hash": "af5683cedca023035194f9ad92eb0eef",
+    "semantic_hash": "af5683cedca023035194f9ad92eb0eef"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.claude\\settings.local.json": {
+    "mtime": 1780465392.9869187,
+    "ast_hash": "7b968deff7f7ba446e3755231ba2c48e",
+    "semantic_hash": "7b968deff7f7ba446e3755231ba2c48e"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\applypatch-msg": {
+    "mtime": 1776503249.075575,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\commit-msg": {
+    "mtime": 1776503249.0735755,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\h": {
+    "mtime": 1776501685.0286422,
+    "ast_hash": "15239a01c5554e56ff745570fb583a91",
+    "semantic_hash": "15239a01c5554e56ff745570fb583a91"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\husky.sh": {
+    "mtime": 1776503249.0809312,
+    "ast_hash": "13871d2ab13e8423790ecb2c01c78c18",
+    "semantic_hash": "13871d2ab13e8423790ecb2c01c78c18"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\post-applypatch": {
+    "mtime": 1776503249.0765753,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\post-checkout": {
+    "mtime": 1776503249.0785754,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\post-commit": {
+    "mtime": 1776503249.0745752,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\post-merge": {
+    "mtime": 1776503249.0785754,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\post-rewrite": {
+    "mtime": 1776503249.0775757,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\pre-applypatch": {
+    "mtime": 1776503249.075575,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\pre-auto-gc": {
+    "mtime": 1776503249.0795755,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\pre-commit": {
+    "mtime": 1776503249.0725791,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\pre-merge-commit": {
+    "mtime": 1776503249.0725791,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\pre-push": {
+    "mtime": 1776503249.0795755,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\pre-rebase": {
+    "mtime": 1776503249.0775757,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\_\\prepare-commit-msg": {
+    "mtime": 1776503249.0735755,
+    "ast_hash": "0b71c2e7d39daa010985d529f1320b37",
+    "semantic_hash": "0b71c2e7d39daa010985d529f1320b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.husky\\pre-commit": {
+    "mtime": 1757767557.303388,
+    "ast_hash": "756e16c85006c1c59c479ff49fd924ef",
+    "semantic_hash": "756e16c85006c1c59c479ff49fd924ef"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.vscode\\settings.json": {
+    "mtime": 1776510185.6758957,
+    "ast_hash": "e21598ab261bad9c03d700c295c63245",
+    "semantic_hash": "e21598ab261bad9c03d700c295c63245"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\about\\page.tsx": {
+    "mtime": 1777444440.8484035,
+    "ast_hash": "287c6d03620174613dc109f4d1e9d0fe",
+    "semantic_hash": "287c6d03620174613dc109f4d1e9d0fe"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\cac\\page.tsx": {
+    "mtime": 1780476644.854115,
+    "ast_hash": "32fc4114a668d5a09b15ab0c2f36d161",
+    "semantic_hash": "32fc4114a668d5a09b15ab0c2f36d161"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\complaint\\page.tsx": {
+    "mtime": 1777444214.632177,
+    "ast_hash": "ee40d4a0cb4d0d043a82be29ddde190a",
+    "semantic_hash": "ee40d4a0cb4d0d043a82be29ddde190a"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\contact-us\\page.tsx": {
+    "mtime": 1777451464.7827137,
+    "ast_hash": "0f63c1ae29429a1094cf58c920cc5b4b",
+    "semantic_hash": "0f63c1ae29429a1094cf58c920cc5b4b"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\faq\\page.tsx": {
+    "mtime": 1777444100.0382354,
+    "ast_hash": "d34ab237cb2a5142ef1283493dd2bdfc",
+    "semantic_hash": "d34ab237cb2a5142ef1283493dd2bdfc"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\find-service-center\\page.tsx": {
+    "mtime": 1777449165.4662712,
+    "ast_hash": "c3c706c5ca88e59acbd15c3e6a8bdb17",
+    "semantic_hash": "c3c706c5ca88e59acbd15c3e6a8bdb17"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\hisense-repair\\page.tsx": {
+    "mtime": 1777451464.8553002,
+    "ast_hash": "44f09f99c7c02b2a9dcf1fb0a663a289",
+    "semantic_hash": "44f09f99c7c02b2a9dcf1fb0a663a289"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\layout.tsx": {
+    "mtime": 1777451464.8685417,
+    "ast_hash": "41acffcf19aebf85369a141b7b62f156",
+    "semantic_hash": "41acffcf19aebf85369a141b7b62f156"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\not-found.tsx": {
+    "mtime": 1767601016.7354333,
+    "ast_hash": "aff25d5d99d55c0e3073e2c18c1ba279",
+    "semantic_hash": "aff25d5d99d55c0e3073e2c18c1ba279"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\page.tsx": {
+    "mtime": 1777451464.8873048,
+    "ast_hash": "6d77318002d4892a4fa87397cb3a5f33",
+    "semantic_hash": "6d77318002d4892a4fa87397cb3a5f33"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\portal\\page.tsx": {
+    "mtime": 1780734038.8556292,
+    "ast_hash": "556033815564a3c057d5e1c122c389dc",
+    "semantic_hash": "556033815564a3c057d5e1c122c389dc"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\products\\[category]\\[productId]\\page.tsx": {
+    "mtime": 1780477077.7165277,
+    "ast_hash": "d3cb9b2bf69ea5ff3a51864a30c51905",
+    "semantic_hash": "d3cb9b2bf69ea5ff3a51864a30c51905"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\products\\[category]\\page.tsx": {
+    "mtime": 1780477370.694197,
+    "ast_hash": "ec3b8cad22660fba88a5df862a0552cb",
+    "semantic_hash": "ec3b8cad22660fba88a5df862a0552cb"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\rac\\page.tsx": {
+    "mtime": 1780476630.9832785,
+    "ast_hash": "3479a44fe77ae3a80e2637c0fa225a49",
+    "semantic_hash": "3479a44fe77ae3a80e2637c0fa225a49"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\refrigerator\\[productId]\\page.tsx": {
+    "mtime": 1780477137.5603147,
+    "ast_hash": "66d8968299852fd6bc40939779b9dd7a",
+    "semantic_hash": "66d8968299852fd6bc40939779b9dd7a"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\refrigerator\\page.tsx": {
+    "mtime": 1780477425.941677,
+    "ast_hash": "ace551d7515cb4f59d192aa41f86165d",
+    "semantic_hash": "ace551d7515cb4f59d192aa41f86165d"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\request-representation\\page.tsx": {
+    "mtime": 1780479971.318666,
+    "ast_hash": "a68aea4438bf6a862a8ece29ea878cc8",
+    "semantic_hash": "a68aea4438bf6a862a8ece29ea878cc8"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\support\\find-service-center\\page.tsx": {
+    "mtime": 1780476665.1621952,
+    "ast_hash": "7228e6d250802937f0e8bb5e62c6d615",
+    "semantic_hash": "7228e6d250802937f0e8bb5e62c6d615"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\support\\portal\\page.tsx": {
+    "mtime": 1780476682.0870645,
+    "ast_hash": "47fd13842a8e084ef07536e59047d5e0",
+    "semantic_hash": "47fd13842a8e084ef07536e59047d5e0"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\support\\request-representation\\page.tsx": {
+    "mtime": 1780476693.7382746,
+    "ast_hash": "4e2231b544547212c8f4de34b6bb5488",
+    "semantic_hash": "4e2231b544547212c8f4de34b6bb5488"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\survey\\page.tsx": {
+    "mtime": 1777444230.4239888,
+    "ast_hash": "b6904b1b933e2705d626a3e5dab55d9d",
+    "semantic_hash": "b6904b1b933e2705d626a3e5dab55d9d"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\tv-hisense\\[productId]\\page.tsx": {
+    "mtime": 1767615665.2223291,
+    "ast_hash": "660a886a467b932234769d1209fa8395",
+    "semantic_hash": "660a886a467b932234769d1209fa8395"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\tv-hisense\\page.tsx": {
+    "mtime": 1767615652.5016112,
+    "ast_hash": "a214b52d8c24c15bf6c3d9acb43e5a3d",
+    "semantic_hash": "a214b52d8c24c15bf6c3d9acb43e5a3d"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\warranty-and-guarantee\\page.tsx": {
+    "mtime": 1777444125.2030108,
+    "ast_hash": "652a934337db3bdafe6bb35c5f105a27",
+    "semantic_hash": "652a934337db3bdafe6bb35c5f105a27"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\washing-machine\\[productId]\\page.tsx": {
+    "mtime": 1767615689.5493174,
+    "ast_hash": "ea57ccc445a609000287b5476114c85a",
+    "semantic_hash": "ea57ccc445a609000287b5476114c85a"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\[locale]\\washing-machine\\page.tsx": {
+    "mtime": 1767615677.5622997,
+    "ast_hash": "ed5f5d766665860b0642fcd9a6a531db",
+    "semantic_hash": "ed5f5d766665860b0642fcd9a6a531db"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\admin\\complaints\\page.tsx": {
+    "mtime": 1777533487.1111162,
+    "ast_hash": "6239e39949c60873553e41f840c87bf8",
+    "semantic_hash": "6239e39949c60873553e41f840c87bf8"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\admin\\layout.tsx": {
+    "mtime": 1777532064.7407846,
+    "ast_hash": "5834552417474ffb25c15f72b747bac0",
+    "semantic_hash": "5834552417474ffb25c15f72b747bac0"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\admin\\login\\page.tsx": {
+    "mtime": 1780467265.2348578,
+    "ast_hash": "2ac73e38487e406e73ad714e70cd1362",
+    "semantic_hash": "2ac73e38487e406e73ad714e70cd1362"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\admin\\page.tsx": {
+    "mtime": 1777532123.3143976,
+    "ast_hash": "3258bae8e1df925953546dd9f0e57d4d",
+    "semantic_hash": "3258bae8e1df925953546dd9f0e57d4d"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\admin\\products\\page.tsx": {
+    "mtime": 1777532123.315398,
+    "ast_hash": "8bcc029d3bb6ef01727257793bcbb6bf",
+    "semantic_hash": "8bcc029d3bb6ef01727257793bcbb6bf"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\admin\\service-centers\\page.tsx": {
+    "mtime": 1777532123.3207307,
+    "ast_hash": "b9b752f8902883b9a78b8633528cbd08",
+    "semantic_hash": "b9b752f8902883b9a78b8633528cbd08"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\admin\\settings\\page.tsx": {
+    "mtime": 1777532123.3207307,
+    "ast_hash": "297b6f86e0bb1183f846f352ba7a7e5a",
+    "semantic_hash": "297b6f86e0bb1183f846f352ba7a7e5a"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\admin\\submissions\\page.tsx": {
+    "mtime": 1777533487.1091163,
+    "ast_hash": "2518a250f3e87ee1917fa2bf305517de",
+    "semantic_hash": "2518a250f3e87ee1917fa2bf305517de"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\admin\\surveys\\page.tsx": {
+    "mtime": 1777533487.113116,
+    "ast_hash": "dff9fe90d8abad9a71e6629c256d765f",
+    "semantic_hash": "dff9fe90d8abad9a71e6629c256d765f"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\api\\admin\\auth\\login\\route.ts": {
+    "mtime": 1780467316.1332507,
+    "ast_hash": "dffd902e2eb87c96f8505c3b979b7b18",
+    "semantic_hash": "dffd902e2eb87c96f8505c3b979b7b18"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\api\\admin\\auth\\logout\\route.ts": {
+    "mtime": 1777700515.3722763,
+    "ast_hash": "a28f299920993a943632ae5a24f6b6fa",
+    "semantic_hash": "a28f299920993a943632ae5a24f6b6fa"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\api\\admin\\locale\\route.ts": {
+    "mtime": 1777700515.3722763,
+    "ast_hash": "e7bd321a8abe46d4bf459b80410be9ca",
+    "semantic_hash": "e7bd321a8abe46d4bf459b80410be9ca"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\api\\complaints\\route.ts": {
+    "mtime": 1776848623.150241,
+    "ast_hash": "0e8b0eb723ad04ed140c87a8a09fac00",
+    "semantic_hash": "0e8b0eb723ad04ed140c87a8a09fac00"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\api\\products\\[id]\\route.ts": {
+    "mtime": 1767616504.9768922,
+    "ast_hash": "7078989d6511995bccb3eae27e3250ee",
+    "semantic_hash": "7078989d6511995bccb3eae27e3250ee"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\api\\products\\route.ts": {
+    "mtime": 1767616504.9919162,
+    "ast_hash": "aad0fd6f7461955fdbce6b6a80d5fdc2",
+    "semantic_hash": "aad0fd6f7461955fdbce6b6a80d5fdc2"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\api\\surveys\\route.ts": {
+    "mtime": 1777100000.180164,
+    "ast_hash": "c44745a87a929e1d4c95a7582125d7e6",
+    "semantic_hash": "c44745a87a929e1d4c95a7582125d7e6"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\layout.tsx": {
+    "mtime": 1778314105.045191,
+    "ast_hash": "87b94e6be9d3b6050167bb759cd57f90",
+    "semantic_hash": "87b94e6be9d3b6050167bb759cd57f90"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\not-found.tsx": {
+    "mtime": 1766483188.5324707,
+    "ast_hash": "21630dbacefff58269b99b9e0e4d53a3",
+    "semantic_hash": "21630dbacefff58269b99b9e0e4d53a3"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\page.tsx": {
+    "mtime": 1780480122.2088747,
+    "ast_hash": "98a1c7349b43bc7d3e22c864ceddafe6",
+    "semantic_hash": "98a1c7349b43bc7d3e22c864ceddafe6"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\robots.ts": {
+    "mtime": 1780476448.0282042,
+    "ast_hash": "8a3baa83936ff0a6b785467448f10f7c",
+    "semantic_hash": "8a3baa83936ff0a6b785467448f10f7c"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\app\\sitemap.ts": {
+    "mtime": 1780476430.9094038,
+    "ast_hash": "ab62ac11a199ef0d4116cade5e6fb5d5",
+    "semantic_hash": "ab62ac11a199ef0d4116cade5e6fb5d5"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\Footer.tsx": {
+    "mtime": 1780479423.9951499,
+    "ast_hash": "fa00402be4ab66a33b7c8139de3d03b3",
+    "semantic_hash": "fa00402be4ab66a33b7c8139de3d03b3"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\Header.tsx": {
+    "mtime": 1766483188.5373547,
+    "ast_hash": "13ae7a75ceb30decde8bf849aba9cc24",
+    "semantic_hash": "13ae7a75ceb30decde8bf849aba9cc24"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\LanguageSwitcher.tsx": {
+    "mtime": 1766483188.538858,
+    "ast_hash": "6b45c7c8023aecfe63f664705a089b57",
+    "semantic_hash": "6b45c7c8023aecfe63f664705a089b57"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\UnderConstruction.tsx": {
+    "mtime": 1766492842.2089853,
+    "ast_hash": "91366dc5dd29a51d0f8215052f78fb63",
+    "semantic_hash": "91366dc5dd29a51d0f8215052f78fb63"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\admin\\AdminPageHeader.tsx": {
+    "mtime": 1777530136.473035,
+    "ast_hash": "137efdfd91abcbeab76ed05f30081aee",
+    "semantic_hash": "137efdfd91abcbeab76ed05f30081aee"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\admin\\AdminShell.tsx": {
+    "mtime": 1777533335.030691,
+    "ast_hash": "1f1a069d76112e1d1285335ff36a47cc",
+    "semantic_hash": "1f1a069d76112e1d1285335ff36a47cc"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\admin\\AdminStatusCard.tsx": {
+    "mtime": 1777530136.4760342,
+    "ast_hash": "5744e58f9cc722de1572b0d43c91a3b3",
+    "semantic_hash": "5744e58f9cc722de1572b0d43c91a3b3"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\admin\\AdminSubmissionTables.tsx": {
+    "mtime": 1780734060.5286698,
+    "ast_hash": "3057e106a785238144bd72fa669db95a",
+    "semantic_hash": "3057e106a785238144bd72fa669db95a"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\complaint\\ComplaintForm.tsx": {
+    "mtime": 1776849419.900349,
+    "ast_hash": "e0b4380a9d24f3ac26d9faff0a354255",
+    "semantic_hash": "e0b4380a9d24f3ac26d9faff0a354255"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\header\\DesktopNavigation.tsx": {
+    "mtime": 1776505243.368415,
+    "ast_hash": "2f33ec74bf8a925319c88c392c2883e9",
+    "semantic_hash": "2f33ec74bf8a925319c88c392c2883e9"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\header\\MobileNavPanel.tsx": {
+    "mtime": 1780734067.2243357,
+    "ast_hash": "0a57abf2345f54c7dd7ec137ef6e948b",
+    "semantic_hash": "0a57abf2345f54c7dd7ec137ef6e948b"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\header\\SearchOverlay.tsx": {
+    "mtime": 1777529452.3338263,
+    "ast_hash": "8cbcd98eee63d365b1667f3fa565627e",
+    "semantic_hash": "8cbcd98eee63d365b1667f3fa565627e"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\header\\navigationData.ts": {
+    "mtime": 1777443614.7359254,
+    "ast_hash": "193afe93ff2c8300ace359e56197c9c0",
+    "semantic_hash": "193afe93ff2c8300ace359e56197c9c0"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\header\\submenuProductLinks.ts": {
+    "mtime": 1776675766.482737,
+    "ast_hash": "da6ad88d4842e3d61625a7d4c37c0a90",
+    "semantic_hash": "da6ad88d4842e3d61625a7d4c37c0a90"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\hero\\HeroBanner.tsx": {
+    "mtime": 1780480122.2573829,
+    "ast_hash": "b2245d04a84f173e3dcc5d9662a60b3b",
+    "semantic_hash": "b2245d04a84f173e3dcc5d9662a60b3b"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\home\\CategorySpotlights.tsx": {
+    "mtime": 1766483188.5476506,
+    "ast_hash": "bc480cbd432fba46d738d6c24744428a",
+    "semantic_hash": "bc480cbd432fba46d738d6c24744428a"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\refrigerator\\RefrigeratorHero.tsx": {
+    "mtime": 1776676755.1442003,
+    "ast_hash": "7c1525a95ae55008fef3ace7cb5ce36d",
+    "semantic_hash": "7c1525a95ae55008fef3ace7cb5ce36d"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\routes\\RouteHero.tsx": {
+    "mtime": 1777451465.1201458,
+    "ast_hash": "32f667a0946472f60356efab34d66877",
+    "semantic_hash": "32f667a0946472f60356efab34d66877"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\routes\\createRoutePage.tsx": {
+    "mtime": 1776676868.3380342,
+    "ast_hash": "d04fca692f7be646f1270a630f56019a",
+    "semantic_hash": "d04fca692f7be646f1270a630f56019a"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\seo\\Analytics.tsx": {
+    "mtime": 1766492842.2192934,
+    "ast_hash": "a6a2bd468d71c185a20d05afc5063577",
+    "semantic_hash": "a6a2bd468d71c185a20d05afc5063577"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\seo\\CategorySeoSection.tsx": {
+    "mtime": 1780477319.7552118,
+    "ast_hash": "7fd9a4adac0a86e0fa5904f915e59884",
+    "semantic_hash": "7fd9a4adac0a86e0fa5904f915e59884"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\seo\\GtmNoScript.tsx": {
+    "mtime": 1766483188.5520878,
+    "ast_hash": "4c27fdbed54196e250a115858f09ad41",
+    "semantic_hash": "4c27fdbed54196e250a115858f09ad41"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\seo\\JsonLd.tsx": {
+    "mtime": 1777451465.1201458,
+    "ast_hash": "f14fe7d1bd2718e3a4f7cf104ae348e3",
+    "semantic_hash": "f14fe7d1bd2718e3a4f7cf104ae348e3"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\seo\\OfficialLinksSection.tsx": {
+    "mtime": 1776676868.3460596,
+    "ast_hash": "8696bf5875b379404b539f1151bc000a",
+    "semantic_hash": "8696bf5875b379404b539f1151bc000a"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\seo\\PageBreadcrumbs.tsx": {
+    "mtime": 1780479376.6731367,
+    "ast_hash": "51d6e72a6938f913390d6ded1aba24ae",
+    "semantic_hash": "51d6e72a6938f913390d6ded1aba24ae"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\seo\\StructuredData.tsx": {
+    "mtime": 1777444076.003118,
+    "ast_hash": "117541d8be309600bc6f3084ccd33989",
+    "semantic_hash": "117541d8be309600bc6f3084ccd33989"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\service-centers\\ServiceCenterFinder.tsx": {
+    "mtime": 1777367953.0480807,
+    "ast_hash": "ef3b0b1f74329ece3a5880ed5ee7afe6",
+    "semantic_hash": "ef3b0b1f74329ece3a5880ed5ee7afe6"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\survey\\SurveyForm.tsx": {
+    "mtime": 1777100544.236727,
+    "ast_hash": "382cf6c3f84cddc545825ac60fa7dcb1",
+    "semantic_hash": "382cf6c3f84cddc545825ac60fa7dcb1"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\theme\\ThemeProvider.tsx": {
+    "mtime": 1766483188.5550165,
+    "ast_hash": "2f3fd5b7c1a8f15423f522943e9401eb",
+    "semantic_hash": "2f3fd5b7c1a8f15423f522943e9401eb"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\theme\\ThemeToggle.tsx": {
+    "mtime": 1766483188.555993,
+    "ast_hash": "0ccf2f08170ce326a76373edb020920a",
+    "semantic_hash": "0ccf2f08170ce326a76373edb020920a"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\BeforeAfterSlider.tsx": {
+    "mtime": 1766483188.5569694,
+    "ast_hash": "38b77e290126013d4c6c9ace2b217f38",
+    "semantic_hash": "38b77e290126013d4c6c9ace2b217f38"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\ContentSections.tsx": {
+    "mtime": 1771398957.534155,
+    "ast_hash": "e03877ae7019cf9b334e3bb6eb8a5cec",
+    "semantic_hash": "e03877ae7019cf9b334e3bb6eb8a5cec"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\FeatureCardImage.tsx": {
+    "mtime": 1766483188.5594501,
+    "ast_hash": "50046439f8b91322fc5376ae8ba0b9f9",
+    "semantic_hash": "50046439f8b91322fc5376ae8ba0b9f9"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\OverlayContentSections.tsx": {
+    "mtime": 1771398957.5469384,
+    "ast_hash": "aeb97f93c47c68d49901d8eb81210b2a",
+    "semantic_hash": "aeb97f93c47c68d49901d8eb81210b2a"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\StackedContentSections.tsx": {
+    "mtime": 1771396553.8919296,
+    "ast_hash": "0bda17e2d9cbfe9ac1f32245610c7aaf",
+    "semantic_hash": "0bda17e2d9cbfe9ac1f32245610c7aaf"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\TvHeroCarousel.tsx": {
+    "mtime": 1776513560.0917292,
+    "ast_hash": "24ada5415d015c856ae924d6662a209f",
+    "semantic_hash": "24ada5415d015c856ae924d6662a209f"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\TvProductShowcase.tsx": {
+    "mtime": 1778917197.9282875,
+    "ast_hash": "6f92834b6a9b7518d8eb7b6d5799e76a",
+    "semantic_hash": "6f92834b6a9b7518d8eb7b6d5799e76a"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\product-detail\\BannerSection.tsx": {
+    "mtime": 1771398957.5802076,
+    "ast_hash": "84a212045ae01705285c568dc16ad2b4",
+    "semantic_hash": "84a212045ae01705285c568dc16ad2b4"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\product-detail\\Breadcrumbs.tsx": {
+    "mtime": 1780479392.5973635,
+    "ast_hash": "ceb4ab14f180e4e1c5c0e779a12334cf",
+    "semantic_hash": "ceb4ab14f180e4e1c5c0e779a12334cf"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\product-detail\\ComparisonSections.tsx": {
+    "mtime": 1771398957.5876508,
+    "ast_hash": "eb2f41279c59a2abe4213f99d0c48e71",
+    "semantic_hash": "eb2f41279c59a2abe4213f99d0c48e71"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\product-detail\\FeatureCardsGrid.tsx": {
+    "mtime": 1771396634.0250177,
+    "ast_hash": "ef9599c5158385c4e98f7555876fedab",
+    "semantic_hash": "ef9599c5158385c4e98f7555876fedab"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\product-detail\\FeatureIntro.tsx": {
+    "mtime": 1771396465.9158466,
+    "ast_hash": "e85c52a4ce9bb9ece4a2ee9774d4df21",
+    "semantic_hash": "e85c52a4ce9bb9ece4a2ee9774d4df21"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\product-detail\\HeroMedia.tsx": {
+    "mtime": 1766483188.5726805,
+    "ast_hash": "401f4a8972bd8a623e7dc02d80f4b8e6",
+    "semantic_hash": "401f4a8972bd8a623e7dc02d80f4b8e6"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\product-detail\\MobileHeader.tsx": {
+    "mtime": 1777446041.7306511,
+    "ast_hash": "0637d825ab5f047311461f2363e86b9e",
+    "semantic_hash": "0637d825ab5f047311461f2363e86b9e"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\product-detail\\SectionGroupsRenderer.tsx": {
+    "mtime": 1770552018.322422,
+    "ast_hash": "498ff579c8310741e96b532989c54aa2",
+    "semantic_hash": "498ff579c8310741e96b532989c54aa2"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\components\\tv\\product-detail\\SpecsSection.tsx": {
+    "mtime": 1771398957.6203408,
+    "ast_hash": "56de4ce010219af5fb85463d246209a7",
+    "semantic_hash": "56de4ce010219af5fb85463d246209a7"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\content\\CacProducts.ts": {
+    "mtime": 1776676194.6926312,
+    "ast_hash": "9c29d86b37a48fe8da6a7f37add416c9",
+    "semantic_hash": "9c29d86b37a48fe8da6a7f37add416c9"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\content\\RacProducts.ts": {
+    "mtime": 1776513123.779564,
+    "ast_hash": "a1f209a6813123b840cc7cd6197fd1f2",
+    "semantic_hash": "a1f209a6813123b840cc7cd6197fd1f2"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\content\\RefProducts.ts": {
+    "mtime": 1771056248.65633,
+    "ast_hash": "616092a4e8a27e310819bd0fceeac998",
+    "semantic_hash": "616092a4e8a27e310819bd0fceeac998"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\content\\WmProducts.ts": {
+    "mtime": 1767614258.6924913,
+    "ast_hash": "25677b7da880a5b869ab1be70248eb2a",
+    "semantic_hash": "25677b7da880a5b869ab1be70248eb2a"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\content\\about\\en.json": {
+    "mtime": 1772259770.303897,
+    "ast_hash": "5a8b4bf8e6f2c5fc9136bc2c69f0fa78",
+    "semantic_hash": "5a8b4bf8e6f2c5fc9136bc2c69f0fa78"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\content\\about\\fa.json": {
+    "mtime": 1772259770.319417,
+    "ast_hash": "e7f775390fbae979f4367ee379fc514b",
+    "semantic_hash": "e7f775390fbae979f4367ee379fc514b"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\content\\about\\index.ts": {
+    "mtime": 1766483188.5775647,
+    "ast_hash": "1bc165a78c2960baa6be1c5179725c05",
+    "semantic_hash": "1bc165a78c2960baa6be1c5179725c05"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\content\\about\\types.ts": {
+    "mtime": 1766483188.5785398,
+    "ast_hash": "b39b9ce7192dc2354bf66061e46d919a",
+    "semantic_hash": "b39b9ce7192dc2354bf66061e46d919a"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\content\\service-centers\\serviceCenters.json": {
+    "mtime": 1780467721.2284734,
+    "ast_hash": "0cf083cfd21c349aae5fa8f80887c4ef",
+    "semantic_hash": "0cf083cfd21c349aae5fa8f80887c4ef"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\content\\service-centers\\serviceCenters.ts": {
+    "mtime": 1780467666.634698,
+    "ast_hash": "d8e5922c601b7b6ba5d486c3b640c178",
+    "semantic_hash": "d8e5922c601b7b6ba5d486c3b640c178"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\content\\tvProducts.ts": {
+    "mtime": 1766483188.5800428,
+    "ast_hash": "6f11de175e1eb68db2b33b104b703cfe",
+    "semantic_hash": "6f11de175e1eb68db2b33b104b703cfe"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\i18n\\navigation.ts": {
+    "mtime": 1766483188.581024,
+    "ast_hash": "699cadfc040f641648a53e57cfc5cec0",
+    "semantic_hash": "699cadfc040f641648a53e57cfc5cec0"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\i18n\\request.ts": {
+    "mtime": 1766483188.5820003,
+    "ast_hash": "a483fb7bbdfd73795dec72edf543fdf8",
+    "semantic_hash": "a483fb7bbdfd73795dec72edf543fdf8"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\i18n\\routing.ts": {
+    "mtime": 1766483188.5829768,
+    "ast_hash": "8df00be02e4b9e288fc515374e090624",
+    "semantic_hash": "8df00be02e4b9e288fc515374e090624"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\admin\\auth.ts": {
+    "mtime": 1777530715.5993063,
+    "ast_hash": "95be703280585b9d386ddc7039d10f12",
+    "semantic_hash": "95be703280585b9d386ddc7039d10f12"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\admin\\dashboard.ts": {
+    "mtime": 1777700530.9787416,
+    "ast_hash": "f01b1cddaf2ab73dcb13826deb27c433",
+    "semantic_hash": "f01b1cddaf2ab73dcb13826deb27c433"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\admin\\i18n.server.ts": {
+    "mtime": 1777532027.7703433,
+    "ast_hash": "e3f17727f6f42385410a650aa9251f62",
+    "semantic_hash": "e3f17727f6f42385410a650aa9251f62"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\admin\\i18n.ts": {
+    "mtime": 1780467249.7747066,
+    "ast_hash": "13b9b27d39af6a3e1b82963594b00c31",
+    "semantic_hash": "13b9b27d39af6a3e1b82963594b00c31"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\admin\\rateLimit.ts": {
+    "mtime": 1780467235.3173926,
+    "ast_hash": "01e8be0d1da78207e8cb8b1431561ec1",
+    "semantic_hash": "01e8be0d1da78207e8cb8b1431561ec1"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\admin\\submissions.ts": {
+    "mtime": 1777700540.268207,
+    "ast_hash": "44cb30de6a944b0607c606f91fe3ccb1",
+    "semantic_hash": "44cb30de6a944b0607c606f91fe3ccb1"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\admin\\url.ts": {
+    "mtime": 1777700515.3657637,
+    "ast_hash": "b8a836a4d6e737ad6e7730b295aa2660",
+    "semantic_hash": "b8a836a4d6e737ad6e7730b295aa2660"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\api\\internalUrl.ts": {
+    "mtime": 1780466429.3526173,
+    "ast_hash": "94b4b97dca38dc377f5754a07e5bf263",
+    "semantic_hash": "94b4b97dca38dc377f5754a07e5bf263"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\api\\products\\categories.ts": {
+    "mtime": 1772258238.8905394,
+    "ast_hash": "e69c28d0cb0e8eede1010ad3ce990d82",
+    "semantic_hash": "e69c28d0cb0e8eede1010ad3ce990d82"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\api\\products\\mediaPaths.ts": {
+    "mtime": 1767601016.8572662,
+    "ast_hash": "deb28c10749cf3acec2ac3931f5b03d4",
+    "semantic_hash": "deb28c10749cf3acec2ac3931f5b03d4"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\api\\products\\normalizers.ts": {
+    "mtime": 1776675766.4797378,
+    "ast_hash": "90ab9ddabb4541bcdd188650c2d590eb",
+    "semantic_hash": "90ab9ddabb4541bcdd188650c2d590eb"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\api\\products\\types.ts": {
+    "mtime": 1767616505.1500263,
+    "ast_hash": "65d5d13484415bd086aa7babea94cc69",
+    "semantic_hash": "65d5d13484415bd086aa7babea94cc69"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\complaints\\schema.ts": {
+    "mtime": 1780466848.762704,
+    "ast_hash": "d9af9a01eb6fb2828ed6174d9d256525",
+    "semantic_hash": "d9af9a01eb6fb2828ed6174d9d256525"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\contentSource.ts": {
+    "mtime": 1766483188.5888374,
+    "ast_hash": "c1b38828ca00536e416e982fa74f1bf3",
+    "semantic_hash": "c1b38828ca00536e416e982fa74f1bf3"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\db.ts": {
+    "mtime": 1766483188.5888374,
+    "ast_hash": "8b1a38ca2be5c77290e3483e95e16880",
+    "semantic_hash": "8b1a38ca2be5c77290e3483e95e16880"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\iranLocationSource.ts": {
+    "mtime": 1776769586.4719453,
+    "ast_hash": "afd873c7b547dade568ec99df6f1a963",
+    "semantic_hash": "afd873c7b547dade568ec99df6f1a963"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\iranLocations.json": {
+    "mtime": 1780467721.3385572,
+    "ast_hash": "4e50e3ddbb8849c6beb353c854b43df9",
+    "semantic_hash": "4e50e3ddbb8849c6beb353c854b43df9"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\iranLocations.ts": {
+    "mtime": 1780467630.0554602,
+    "ast_hash": "dea2199b6b48de092d189335883deb2d",
+    "semantic_hash": "dea2199b6b48de092d189335883deb2d"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\mediaUrl.ts": {
+    "mtime": 1777108503.4563358,
+    "ast_hash": "d2371783a0dace6e93f34c39300ed541",
+    "semantic_hash": "d2371783a0dace6e93f34c39300ed541"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\seo\\categorySeoContent.ts": {
+    "mtime": 1780477270.049837,
+    "ast_hash": "159b30669bacbe57261ad49b7b1e38a2",
+    "semantic_hash": "159b30669bacbe57261ad49b7b1e38a2"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\seo\\keywords.ts": {
+    "mtime": 1766483188.591323,
+    "ast_hash": "5684f5fd232883efaa637563b0b0aefe",
+    "semantic_hash": "5684f5fd232883efaa637563b0b0aefe"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\seo\\productSchema.ts": {
+    "mtime": 1780477033.421134,
+    "ast_hash": "51cbd45d322cb50f44d8db709af48a86",
+    "semantic_hash": "51cbd45d322cb50f44d8db709af48a86"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\seo\\site.ts": {
+    "mtime": 1777444019.7567043,
+    "ast_hash": "8c633d54d1ea91d6cc0d408d398c38ee",
+    "semantic_hash": "8c633d54d1ea91d6cc0d408d398c38ee"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\serviceCenterSource.ts": {
+    "mtime": 1780477658.680955,
+    "ast_hash": "0f68b365edf65b69602caee6d1de3634",
+    "semantic_hash": "0f68b365edf65b69602caee6d1de3634"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\lib\\surveys\\schema.ts": {
+    "mtime": 1780466861.4907424,
+    "ast_hash": "17f33937180ac626133b0cb1b1bfd477",
+    "semantic_hash": "17f33937180ac626133b0cb1b1bfd477"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\messages\\en.json": {
+    "mtime": 1777278054.847925,
+    "ast_hash": "d86e61e48981f56a4a24ce7ac9b361ba",
+    "semantic_hash": "d86e61e48981f56a4a24ce7ac9b361ba"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\messages\\fa.json": {
+    "mtime": 1777278054.8453991,
+    "ast_hash": "7d13ef236d989fecc3ca0bb4f6fe9b37",
+    "semantic_hash": "7d13ef236d989fecc3ca0bb4f6fe9b37"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\next.config.ts": {
+    "mtime": 1780468699.5605762,
+    "ast_hash": "505f05cb2dd6e4d483d941aebda9dce5",
+    "semantic_hash": "505f05cb2dd6e4d483d941aebda9dce5"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\package.json": {
+    "mtime": 1780476493.508843,
+    "ast_hash": "8cad469e6f179559f6447e2a26262a6e",
+    "semantic_hash": "8cad469e6f179559f6447e2a26262a6e"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\postcss.config.mjs": {
+    "mtime": 1780735039.7035449,
+    "ast_hash": "f4e93057c0189a2398d312d3000cb51d",
+    "semantic_hash": "f4e93057c0189a2398d312d3000cb51d"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\prisma.config.ts": {
+    "mtime": 1777536564.643852,
+    "ast_hash": "29c8506e0cd94482df6254433facbbe2",
+    "semantic_hash": "29c8506e0cd94482df6254433facbbe2"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\prisma\\migrations\\20251209070715_init\\migration.sql": {
+    "mtime": 1766483188.6055236,
+    "ast_hash": "d1177852dda372159a6a0ccfc04c069c",
+    "semantic_hash": "d1177852dda372159a6a0ccfc04c069c"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\prisma\\migrations\\20260105115839_add_product_category\\migration.sql": {
+    "mtime": 1767614319.6228893,
+    "ast_hash": "9f951b400b6f02ed025b672d9f76bee1",
+    "semantic_hash": "9f951b400b6f02ed025b672d9f76bee1"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\prisma\\migrations\\20260105133000_move_tv_specs\\migration.sql": {
+    "mtime": 1767615993.1801913,
+    "ast_hash": "3433e7435407a69810513665797f218c",
+    "semantic_hash": "3433e7435407a69810513665797f218c"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\prisma\\migrations\\20260421065452_add_complaint_submissions\\migration.sql": {
+    "mtime": 1776754492.59952,
+    "ast_hash": "075ad6696f0c1332c944fdb9ffdf9291",
+    "semantic_hash": "075ad6696f0c1332c944fdb9ffdf9291"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\prisma\\migrations\\20260421093736_add_iran_locations\\migration.sql": {
+    "mtime": 1776764256.7274563,
+    "ast_hash": "224ccc308662857997bd158c190b78b7",
+    "semantic_hash": "224ccc308662857997bd158c190b78b7"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\prisma\\migrations\\20260425065352_add_survey_submissions\\migration.sql": {
+    "mtime": 1777100032.6301298,
+    "ast_hash": "b3a3781f0bc37f5af096add609dbbe07",
+    "semantic_hash": "b3a3781f0bc37f5af096add609dbbe07"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\prisma\\migrations\\20260425082500_add_download_assets\\migration.sql": {
+    "mtime": 1777108402.8238573,
+    "ast_hash": "09764797baf7d963d97937338a2fb4c2",
+    "semantic_hash": "09764797baf7d963d97937338a2fb4c2"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\prisma\\migrations\\20260428102000_add_service_representatives\\migration.sql": {
+    "mtime": 1777363363.7319038,
+    "ast_hash": "829ec6ddcc6c610e69f88f24fe9a1dca",
+    "semantic_hash": "829ec6ddcc6c610e69f88f24fe9a1dca"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\proxy.ts": {
+    "mtime": 1777700515.3824942,
+    "ast_hash": "5b6788bb1abf4b58adf227e76b97a847",
+    "semantic_hash": "5b6788bb1abf4b58adf227e76b97a847"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\scripts\\seed-download-assets.ts": {
+    "mtime": 1777108422.5605073,
+    "ast_hash": "1207488fa00402214ccee3d5d8c4b525",
+    "semantic_hash": "1207488fa00402214ccee3d5d8c4b525"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\scripts\\seed-iran-locations.ts": {
+    "mtime": 1776764199.1645875,
+    "ast_hash": "9868284754bf7535f94d32b7d25d96a1",
+    "semantic_hash": "9868284754bf7535f94d32b7d25d96a1"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\scripts\\seed-products.ts": {
+    "mtime": 1776675935.7431278,
+    "ast_hash": "d8112d9bc5cc9ed60f3d317c5ae3ff32",
+    "semantic_hash": "d8112d9bc5cc9ed60f3d317c5ae3ff32"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\scripts\\seed-service-representatives.ts": {
+    "mtime": 1777363412.3604355,
+    "ast_hash": "333e58696d202b9bb8d8c39d5fd2d7b2",
+    "semantic_hash": "333e58696d202b9bb8d8c39d5fd2d7b2"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\tailwind.config.ts": {
+    "mtime": 1766483188.6148448,
+    "ast_hash": "aec056c0e11dc280f32ecec4e9376804",
+    "semantic_hash": "aec056c0e11dc280f32ecec4e9376804"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\tsconfig.json": {
+    "mtime": 1776513560.2081473,
+    "ast_hash": "fa73cd5c37f1beed178559ead76f4fc5",
+    "semantic_hash": "fa73cd5c37f1beed178559ead76f4fc5"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\types\\svg.d.ts": {
+    "mtime": 1766483188.6167989,
+    "ast_hash": "f57df8273dff106d422783c175d926b5",
+    "semantic_hash": "f57df8273dff106d422783c175d926b5"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\types\\tv.ts": {
+    "mtime": 1776675766.4777381,
+    "ast_hash": "aadf6e6a7e359fdf7b9a47dd800eeb1e",
+    "semantic_hash": "aadf6e6a7e359fdf7b9a47dd800eeb1e"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\types\\wm.ts": {
+    "mtime": 1767614249.5253203,
+    "ast_hash": "f13c89ad2c95a3b01abfcbcec1cf03a7",
+    "semantic_hash": "f13c89ad2c95a3b01abfcbcec1cf03a7"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.claude\\CLAUDE.md": {
+    "mtime": 1780733220.8672545,
+    "ast_hash": "817fe671013b35ae0bc9301dfe449a87",
+    "semantic_hash": "817fe671013b35ae0bc9301dfe449a87"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.claude\\skills\\graphify\\SKILL.md": {
+    "mtime": 1780733220.8672545,
+    "ast_hash": "c0ac08140ebbce36e6562f1a8d3a97b9",
+    "semantic_hash": "c0ac08140ebbce36e6562f1a8d3a97b9"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.claude\\skills\\graphify\\references\\add-watch.md": {
+    "mtime": 1780732111.3982458,
+    "ast_hash": "0df0589623217ca38a12bdcabfb42f4c",
+    "semantic_hash": "0df0589623217ca38a12bdcabfb42f4c"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.claude\\skills\\graphify\\references\\exports.md": {
+    "mtime": 1780732111.3982458,
+    "ast_hash": "7fb1a81aca17a462db70684a324fcfb0",
+    "semantic_hash": "7fb1a81aca17a462db70684a324fcfb0"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.claude\\skills\\graphify\\references\\extraction-spec.md": {
+    "mtime": 1780732111.4810748,
+    "ast_hash": "24808b03abfeaf5f6435bb69c0125b2c",
+    "semantic_hash": "24808b03abfeaf5f6435bb69c0125b2c"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.claude\\skills\\graphify\\references\\github-and-merge.md": {
+    "mtime": 1780732111.5778773,
+    "ast_hash": "cde13df085e4c492aeb7ba298a996d0d",
+    "semantic_hash": "cde13df085e4c492aeb7ba298a996d0d"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.claude\\skills\\graphify\\references\\hooks.md": {
+    "mtime": 1780732111.5778773,
+    "ast_hash": "3f545db6ce646650bb9de588f5512a27",
+    "semantic_hash": "3f545db6ce646650bb9de588f5512a27"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.claude\\skills\\graphify\\references\\query.md": {
+    "mtime": 1780732111.7501717,
+    "ast_hash": "c2a8e798674a81b02aa9975f43023819",
+    "semantic_hash": "c2a8e798674a81b02aa9975f43023819"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.claude\\skills\\graphify\\references\\transcribe.md": {
+    "mtime": 1780732111.90218,
+    "ast_hash": "70f6aa30d6211f3a2c7e9fc45479f50c",
+    "semantic_hash": "70f6aa30d6211f3a2c7e9fc45479f50c"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\.claude\\skills\\graphify\\references\\update.md": {
+    "mtime": 1780732112.2071424,
+    "ast_hash": "735932eaa4f0c8fef9566c538ae3e5f8",
+    "semantic_hash": "735932eaa4f0c8fef9566c538ae3e5f8"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\ADMIN_DEPLOYMENT.md": {
+    "mtime": 1777704613.6471574,
+    "ast_hash": "7b82176fd3bdd3ab89393bf01eb39a15",
+    "semantic_hash": "7b82176fd3bdd3ab89393bf01eb39a15"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\CLAUDE.md": {
+    "mtime": 1780733220.8835182,
+    "ast_hash": "6979b79fe6c96c1f59aea8a34cb7e923",
+    "semantic_hash": "6979b79fe6c96c1f59aea8a34cb7e923"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\DOCS.md": {
+    "mtime": 1780466106.530712,
+    "ast_hash": "fdda6c137b743fc77373c566f9d5df22",
+    "semantic_hash": "fdda6c137b743fc77373c566f9d5df22"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\GUIDE.md": {
+    "mtime": 1778314029.8373978,
+    "ast_hash": "5c3416b774ca53c19765a958d579e003",
+    "semantic_hash": "5c3416b774ca53c19765a958d579e003"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\README.md": {
+    "mtime": 1766483188.507966,
+    "ast_hash": "d3028305f1808bab3874bbca4cf76c7d",
+    "semantic_hash": "d3028305f1808bab3874bbca4cf76c7d"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\public\\google792b60685361c0d2.html": {
+    "mtime": 1766483188.6094303,
+    "ast_hash": "db1cc2de9e46ce36a7f0d70da32cf453",
+    "semantic_hash": "db1cc2de9e46ce36a7f0d70da32cf453"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\scripts\\_tmp_sbs650.txt": {
+    "mtime": 1769846770.2127602,
+    "ast_hash": "52e65e029aecd2392e16640816175ad3",
+    "semantic_hash": "52e65e029aecd2392e16640816175ad3"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\seo\\keywords.txt": {
+    "mtime": 1772257904.044393,
+    "ast_hash": "1e0e69ded47884b56b5e41322a4c7cee",
+    "semantic_hash": "1e0e69ded47884b56b5e41322a4c7cee"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\public\\apple-touch-icon.png": {
+    "mtime": 1763176168.0,
+    "ast_hash": "ae157fc522231bfda01791a03158b06c",
+    "semantic_hash": "ae157fc522231bfda01791a03158b06c"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\public\\favicon-96x96.png": {
+    "mtime": 1763176168.0,
+    "ast_hash": "1280aabdd101fac8fc7cc4085109fccc",
+    "semantic_hash": "1280aabdd101fac8fc7cc4085109fccc"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\public\\favicon.svg": {
+    "mtime": 1763176168.0,
+    "ast_hash": "f858502038609f019c584caec6c66c53",
+    "semantic_hash": "f858502038609f019c584caec6c66c53"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\public\\icons\\Zarrin-Logo-Black.png": {
+    "mtime": 1763287844.1854954,
+    "ast_hash": "4f94c6783324b967a52333701e20975b",
+    "semantic_hash": "4f94c6783324b967a52333701e20975b"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\public\\icons\\Zarrin-Logo-White.png": {
+    "mtime": 1763292063.7742429,
+    "ast_hash": "5f5300e626ba4dd6129a8e265aa01d12",
+    "semantic_hash": "5f5300e626ba4dd6129a8e265aa01d12"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\public\\icons\\hisense-logo-full.svg": {
+    "mtime": 1763196452.2290072,
+    "ast_hash": "a8293e2099d636f22ae000528961decb",
+    "semantic_hash": "a8293e2099d636f22ae000528961decb"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\public\\icons\\hisense-logo.svg": {
+    "mtime": 1763193219.5746248,
+    "ast_hash": "07137178bc97ad0b2d5567052c195ba7",
+    "semantic_hash": "07137178bc97ad0b2d5567052c195ba7"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\public\\web-app-manifest-192x192.png": {
+    "mtime": 1763176168.0,
+    "ast_hash": "87a54176e235cb2a77bf563b391b3e43",
+    "semantic_hash": "87a54176e235cb2a77bf563b391b3e43"
+  },
+  "C:\\Users\\r.saberifard\\Documents\\IT-Hisense\\HIsense-Website\\hisense\\public\\web-app-manifest-512x512.png": {
+    "mtime": 1763176168.0,
+    "ast_hash": "f07a6e65bb4cf2bccaf4d1892ba4cb75",
+    "semantic_hash": "f07a6e65bb4cf2bccaf4d1892ba4cb75"
+  }
+}

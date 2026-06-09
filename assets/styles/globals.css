@@ -1,0 +1,263 @@
+/* Global design tokens and Tailwind base import. */
+@import 'tailwindcss';
+
+:root {
+  --brand-color: #00b3ac;
+  --brand-color-dark: #008b86;
+  --brand-color-light: #e1fffb;
+  --brand-gradient: linear-gradient(90deg, #6debe6, #00aaa6, #067977);
+  --default-black-font: #1d1d1f;
+  --default-white-font: #ffffff;
+  --background-color: #f8fafc;
+  --background-gradient: linear-gradient(135deg, #f5fffd 0%, #dcf8f3 50%, #c2f0e8 100%);
+  --surface-color: #ffffff;
+  --surface-muted-color: #f1f5f9;
+  --surface-accent-color: #ffffff;
+  --surface-hover-color: #f3f6fb;
+  --text-muted-color: #475569;
+  --text-subtle-color: #94a3b8;
+  --border-color: #e2e8f0;
+  --border-color-two: color-mix(in srgb, #00b3ac 25%, #e2e8f0);
+  --overlay-color: rgba(15, 23, 42, 0.6);
+  --panel-shadow: 0px 20px 45px rgba(15, 23, 42, 0.12);
+  --hero-surface-color: #dbeafe;
+  --hero-title-color: #082f49;
+  --hero-subtitle-color: #0f172a;
+}
+
+[data-theme='dark'] {
+  --brand-color: #00d7ce;
+  --brand-color-dark: #00a39c;
+  --brand-color-light: rgba(0, 181, 173, 0.16);
+  --brand-gradient: linear-gradient(90deg, #6debe6, #00aaa6, #067977);
+  --default-black-font: #f8fafc;
+  --background-color: #020617;
+  --background-gradient: linear-gradient(135deg, #0a2a33 0%, #07373f 45%, #0a4a4f 100%);
+  --surface-color: #0f172a;
+  --surface-muted-color: #1e293b;
+  --surface-accent-color: #0b1120;
+  --surface-hover-color: rgba(255, 255, 255, 0.08);
+  --text-muted-color: #cbd5f5;
+  --text-subtle-color: #9fb7d9;
+  --border-color: rgba(148, 163, 184, 0.35);
+  --border-color-two: color-mix(in srgb, #00d7ce 30%, rgba(148, 163, 184, 0.35));
+  --overlay-color: rgba(2, 6, 23, 0.75);
+  --panel-shadow: 0px 20px 45px rgba(2, 6, 23, 0.6);
+  --hero-surface-color: #0b1120;
+  --hero-title-color: #e0f2fe;
+  --hero-subtitle-color: #cbd5f5;
+  --default-white-font: #ffffff;
+}
+
+@theme {
+  --breakpoint-xs: 30rem; /* 480 px */
+  --breakpoint-2xs: 20rem; /* 320 px */
+  --breakpoint-3xl: 90.0625rem; /* 1440 px */
+  --breakpoint-4xl: 108rem; /* 1728 px */
+  --breakpoint-5xl: 120rem; /* 1920 px */
+}
+
+@font-face {
+  font-family: 'IRANSansXV';
+  src:
+    url('/fonts/IRANSansXV.woff2') format('woff2-variations'),
+    url('/fonts/IRANSansXV.woff') format('woff');
+  font-weight: 100 1000;
+  font-style: normal;
+  font-display: swap;
+  font-variation-settings: 'dots' 0;
+}
+
+@font-face {
+  font-family: 'Hisense Sans Alfabet';
+  src: url('/fonts/Hisense Sans Alfabet Light-normal-300-100.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hisense Sans Alfabet';
+  src: url('/fonts/Hisense Sans Alfabet-normal-400-100.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hisense Sans Alfabet';
+  src: url('/fonts/Hisense Sans Alfabet Medium-normal-500-100.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hisense Sans Alfabet';
+  src: url('/fonts/Hisense Sans Alfabet-normal-700-100.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hisense Sans Alfabet';
+  src: url('/fonts/Hisense-Sans-Alfabet-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hisense Sans Alfabet';
+  src: url('/fonts/Hisense-Sans-Alfabet-Bold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-feature-settings: 'kern';
+  font-synthesis: none;
+  background: var(--background-color, var(--background-gradient));
+  background-color: var(--background-color);
+  color: var(--default-black-font);
+  accent-color: var(--brand-color);
+  overflow-x: hidden;
+}
+
+html[lang='en'] body {
+  font-family: 'Hisense Sans Alfabet', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+html[lang='fa'] body {
+  font-family: 'IRANSansXV', 'Hisense Sans Alfabet', 'Segoe UI', Tahoma, sans-serif;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.header-nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 0.5rem;
+  font-weight: 500;
+  color: var(--default-black-font);
+  text-decoration: none;
+  transition: color 200ms ease;
+  white-space: nowrap;
+}
+
+.header-nav-link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  width: 0;
+  height: 2px;
+  opacity: 0;
+  background-color: var(--brand-color);
+  transform: translateX(-50%);
+  transition:
+    width 220ms ease,
+    left 220ms ease,
+    transform 220ms ease,
+    opacity 160ms ease;
+}
+
+.header-nav-link:hover,
+.header-nav-link:focus-visible,
+.header-nav-link[aria-expanded='true'] {
+  color: var(--brand-color);
+}
+
+.header-nav-link:hover::after,
+.header-nav-link:focus-visible::after,
+.header-nav-link[aria-expanded='true']::after {
+  left: 0;
+  width: 100%;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.header-submenu-panel {
+  border-top: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+  box-shadow: var(--panel-shadow);
+  animation: submenu-fade 220ms ease forwards;
+}
+
+.header-submenu-card {
+  padding: 1.25rem;
+  border-radius: 1rem;
+  background-color: var(--surface-muted-color);
+  border: 1px solid transparent;
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease;
+}
+
+.header-submenu-card:hover {
+  border-color: transparent;
+  background-color: var(--surface-muted-color);
+  color: var(--default-black-font);
+  transform: translateY(-4px);
+}
+
+.header-submenu-card:hover p {
+  color: var(--default-black-font);
+}
+
+@keyframes submenu-fade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-nav-link,
+  .header-nav-link::after,
+  .header-submenu-card {
+    transition: none;
+  }
+  .header-submenu-panel {
+    animation: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .header-nav-link {
+    white-space: normal;
+  }
+}
+
+@media (min-width: 1200px) {
+  .header-nav-link {
+    padding: 0 2.25rem; /* 36px */
+  }
+}
+
+@media (min-width: 1440px) {
+  .header-nav-link {
+    padding: 0 3rem; /* 48px */
+  }
+}

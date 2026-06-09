@@ -1,0 +1,192 @@
+// Product catalog schema with localized copy blocks stored per product.
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ProductCategory {
+  TVS
+  WMS
+  RAC
+  CAC
+  REFRIGERATOR
+  TV_DCODE
+}
+
+model Product {
+  id                    String          @id
+  slug                  String          @unique
+  category              ProductCategory @default(TVS)
+  sku                   String?
+  series                String
+  seriesLabel           String?
+  size                  String?
+  sizes                 String[]        @default([])
+  extras                String[]        @default([])
+  imageUrl              String
+  posterImageUrl        String?
+  heroVideoUrl          String?
+  gallery               Json?
+  banners               Json?
+  featureCards          Json?
+  sectionGroups         Json?
+  contentSections       Json?
+  stackedSections       Json?
+  bottomStackedSections Json?
+  comparisonSections    Json?
+  experienceSection     Json?
+  badges                Json?
+  specs                 Json?
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+
+  copies ProductCopy[]
+  tvSpec TvSpec?
+}
+
+model TvSpec {
+  productId    String   @id
+  panel        String
+  resolution   String
+  refreshRate  String
+  os           String
+  sound        String
+  connectivity String[] @default([])
+  tuner        String
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductCopy {
+  id          String   @id @default(cuid())
+  productId   String
+  locale      String
+  name        String
+  tagline     String
+  description String?
+  highlights  String[] @default([])
+  blocks      Json?
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, locale])
+}
+
+model IranProvince {
+  id        String   @id
+  nameFa    String
+  nameEn    String
+  sortOrder Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cities IranCity[]
+
+  @@index([sortOrder])
+}
+
+model IranCity {
+  id         String   @id
+  provinceId String
+  nameFa     String
+  nameEn     String
+  sortOrder  Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  province IranProvince @relation(fields: [provinceId], references: [id], onDelete: Cascade)
+
+  @@index([provinceId, sortOrder])
+}
+
+model ComplaintSubmission {
+  id                     String    @id @default(cuid())
+  referenceCode          String    @unique
+  locale                 String
+  fullName               String
+  phone                  String
+  email                  String?
+  productCategory        String
+  productModel           String
+  invoiceNumber          String?
+  referenceNumber        String?
+  purchaseDate           DateTime?
+  complaintTopic         String
+  preferredContactMethod String
+  city                   String
+  address                String?
+  description            String
+  status                 String    @default("NEW")
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+}
+
+model SurveySubmission {
+  id                     String    @id @default(cuid())
+  referenceCode          String    @unique
+  locale                 String
+  fullName               String
+  mobile                 String
+  phone                  String?
+  email                  String?
+  productCategory        String
+  productModel           String?
+  referenceNumber        String?
+  serviceChannel         String
+  serviceDate            DateTime?
+  communicationClarity   String
+  staffBehavior          String
+  timeliness             String
+  overallSatisfaction    String
+  followUpConsent        String
+  overallFeedback        String
+  improvementSuggestions String?
+  status                 String    @default("NEW")
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+}
+
+model DownloadAsset {
+  id          String   @id @default(cuid())
+  pageKey     String
+  locale      String
+  fileLocale  String
+  label       String
+  description String
+  path        String
+  mimeType    String   @default("application/pdf")
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([pageKey, locale, fileLocale])
+  @@index([pageKey, locale, isActive, sortOrder])
+}
+
+model ServiceRepresentative {
+  id                   String   @id
+  provinceId           String
+  cityId               String
+  provinceNameFa       String
+  provinceNameEn       String
+  cityNameFa           String
+  cityNameEn           String
+  serviceKind          String
+  representativeNameFa String
+  representativeNameEn String
+  representativeCode   String
+  primaryPhone         String
+  mobilePhone          String
+  addressFa            String
+  addressEn            String
+  sortOrder            Int
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@index([provinceId, cityId, serviceKind, sortOrder])
+  @@index([serviceKind, sortOrder])
+}

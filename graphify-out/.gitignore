@@ -1,0 +1,9 @@
+# Machine-local state (absolute paths / regenerable) — never commit
+.graphify_python
+.graphify_root
+.graphify_*.json
+cache/
+cost.json
+
+# Commit these (the actual map): graph.json, GRAPH_REPORT.md, manifest.json,
+# and optionally graph.html. They are NOT ignored.
