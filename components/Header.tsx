@@ -63,10 +63,15 @@ export default function Header() {
     () => [...navItems, ...secondryNavItems],
     [navItems, secondryNavItems],
   );
-  const activeSubMenuItems = activeMenuKey ? SUB_MENU_CONTENT[activeMenuKey] : null;
-  const mobileActiveSubMenuItems = mobileActiveMenuKey
-    ? SUB_MENU_CONTENT[mobileActiveMenuKey]
-    : null;
+  // Resolve a key's submenu, treating an empty list as "no panel" so plain-link
+  // tabs (e.g. D'code) don't open a blank mega-menu.
+  const resolveSubMenu = (key: NavKey | null) => {
+    if (!key) return null;
+    const items = SUB_MENU_CONTENT[key];
+    return items.length > 0 ? items : null;
+  };
+  const activeSubMenuItems = resolveSubMenu(activeMenuKey);
+  const mobileActiveSubMenuItems = resolveSubMenu(mobileActiveMenuKey);
 
   const activeNavLabel = useMemo(() => {
     if (!activeMenuKey) {

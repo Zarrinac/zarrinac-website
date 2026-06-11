@@ -5,7 +5,7 @@ import { HiChevronRight, HiChevronLeft } from 'react-icons/hi2';
 import Logo from '@/public/icons/hisense-logo-full.svg';
 import type { NavKey, SubMenuItem } from './navigationData';
 import { buildSubmenuProductLinks } from './submenuProductLinks';
-import { canonicalizeHref } from './navigationData';
+import { canonicalizeHref, SUB_MENU_CONTENT } from './navigationData';
 
 // Mobile navigation drawer with nested submenus and deep links into TV models.
 
@@ -83,17 +83,35 @@ export default function MobileNavPanel({
             }`}
             aria-hidden={mobileActiveMenuKey ? 'true' : 'false'}
           >
-            {allNavItems.map((item) => (
-              <button
-                type="button"
-                key={item.key}
-                className="flex items-center justify-between border-b border-(--border-color) pb-4 text-left transition-colors hover:text-(--brand-color)"
-                onClick={() => onMobileMenuKeyChange(item.key)}
-              >
-                <span className="text-(--default-black-font)">{item.label}</span>
-                {locale === 'fa' ? <HiChevronLeft /> : <HiChevronRight />}
-              </button>
-            ))}
+            {allNavItems.map((item) => {
+              // Tabs without a mega-menu (empty submenu) link straight through
+              // instead of sliding into a blank sub-view.
+              const hasSubMenu = SUB_MENU_CONTENT[item.key].length > 0;
+              if (!hasSubMenu) {
+                return (
+                  <Link
+                    key={item.key}
+                    href={toLocalePath(item.href)}
+                    onClick={handleNavigate}
+                    className="flex items-center justify-between border-b border-(--border-color) pb-4 text-left transition-colors hover:text-(--brand-color)"
+                  >
+                    <span className="text-(--default-black-font)">{item.label}</span>
+                    {locale === 'fa' ? <HiChevronLeft /> : <HiChevronRight />}
+                  </Link>
+                );
+              }
+              return (
+                <button
+                  type="button"
+                  key={item.key}
+                  className="flex items-center justify-between border-b border-(--border-color) pb-4 text-left transition-colors hover:text-(--brand-color)"
+                  onClick={() => onMobileMenuKeyChange(item.key)}
+                >
+                  <span className="text-(--default-black-font)">{item.label}</span>
+                  {locale === 'fa' ? <HiChevronLeft /> : <HiChevronRight />}
+                </button>
+              );
+            })}
           </nav>
 
           <div

@@ -12,8 +12,9 @@
     "prepare": "husky",
     "db:migrate": "prisma migrate dev --name init",
     "db:deploy": "prisma migrate deploy",
-    "db:seed": "npm run db:seed:products && npm run db:seed:locations && npm run db:seed:downloads && npm run db:seed:representatives",
+    "db:seed": "node scripts/seed-all.mjs",
     "db:seed:products": "tsx scripts/seed-products.ts",
+    "db:seed:dcode": "tsx scripts/seed-dcode.ts",
     "db:seed:locations": "tsx scripts/seed-iran-locations.ts",
     "db:seed:downloads": "tsx scripts/seed-download-assets.ts",
     "db:seed:representatives": "tsx scripts/seed-service-representatives.ts"
