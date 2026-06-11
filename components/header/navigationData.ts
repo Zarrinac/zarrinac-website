@@ -15,6 +15,7 @@ export const NAV_ITEMS = [
   { key: 'tvAudio', href: '/products/tvs' },
   { key: 'airConditioner', href: '/rac' },
   { key: 'homeAppliances', href: '/refrigerator' },
+  { key: 'dcode', href: '/dcode' },
 ] as const;
 
 export const NAV_SECONDARY_ITEMS = [
@@ -81,6 +82,8 @@ export const SUB_MENU_CONTENT: Record<NavKey, SubMenuItem[]> = {
       href: '/products/wms',
     },
   ],
+  // D'code is a plain nav link with no mega-menu — empty submenu suppresses the panel.
+  dcode: [],
   about: [
     {
       title: { en: 'Our Story', fa: 'داستان ما' },

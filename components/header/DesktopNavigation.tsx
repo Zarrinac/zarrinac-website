@@ -116,7 +116,7 @@ export default function DesktopNavigation({
     <div
       ref={navContainerRef}
       className={`sticky top-0 z-50 w-full transform-gpu transition-[transform,opacity] duration-500 ease-in-out ${
-        isHidden ? '-translate-y-[105%] opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
+        isHidden ? 'translate-y-[-105%] opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
       }`}
       onMouseLeave={handleMouseLeave}
       dir={direction}
@@ -139,7 +139,7 @@ export default function DesktopNavigation({
               <Link
                 key={item.key}
                 href={toLocalePath(item.href)}
-                className="header-nav-link"
+                className={`header-nav-link${item.key === 'dcode' ? ' header-nav-link--dcode' : ''}`}
                 onMouseEnter={() => onMenuKeyChange(item.key)}
                 onFocus={() => onMenuKeyChange(item.key)}
                 aria-haspopup="true"
