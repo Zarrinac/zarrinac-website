@@ -242,11 +242,16 @@ async function seed() {
   console.log('Seed complete.');
 }
 
+// Exit synchronously on success rather than awaiting Prisma/pg teardown: the
+// tsx + @prisma/adapter-pg + pg Pool teardown intermittently terminates the
+// process with a non-zero code AFTER the seed work is already committed, which
+// would break the `db:seed` && chain on success. The OS reclaims the short-lived
+// connection on exit. Real seed failures still reject seed() and exit 1.
 seed()
+  .then(() => {
+    process.exit(0);
+  })
   .catch((error) => {
     console.error('Seed failed:', error);
     process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
   });

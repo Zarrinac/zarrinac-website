@@ -75,6 +75,76 @@ model ProductCopy {
   @@unique([productId, locale])
 }
 
+// D'code is a separate brand from Hisense with its own (eventually standalone)
+// site. Its catalog is modeled independently of the Hisense `Product` tree: one
+// product per line with size `variants`, each variant carrying its own SKU and
+// box dimensions. Today only the LED family exists.
+enum DcodeCategory {
+  LED
+}
+
+model DcodeProduct {
+  id             String        @id
+  slug           String        @unique
+  brand          String        @default("dcode")
+  category       DcodeCategory @default(LED)
+  series         String
+  panel          String
+  resolution     String
+  os             String
+  storage        String
+  viewingAngle   String
+  tuner          String
+  sound          String
+  connectivity   String[]      @default([])
+  warrantyMonths Int
+  extras         String[]      @default([])
+  heroImageUrl   String
+  heroVideoUrl   String?
+  remoteImageUrl String?
+  gallery        Json?
+  featureCards   Json?
+  remotes        Json?
+  specs          Json?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  variants DcodeVariant[]
+  copies   DcodeProductCopy[]
+
+  @@index([category])
+}
+
+model DcodeVariant {
+  sku                    String @id
+  productId              String
+  size                   String
+  diagonalInch           Int
+  imageUrl               String
+  dimensionsWithoutStand String
+  dimensionsWithStand    String
+  netWeight              String
+  sortOrder              Int    @default(0)
+
+  product DcodeProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId, sortOrder])
+}
+
+model DcodeProductCopy {
+  id          String   @id @default(cuid())
+  productId   String
+  locale      String
+  name        String
+  tagline     String
+  description String?
+  highlights  String[] @default([])
+
+  product DcodeProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, locale])
+}
+
 model IranProvince {
   id        String   @id
   nameFa    String
