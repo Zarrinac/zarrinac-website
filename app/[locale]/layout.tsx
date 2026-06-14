@@ -16,7 +16,7 @@ import { getSeoKeywords } from '@/lib/seo/keywords';
 
 // Locale layout validates the locale, wires translations/theme, and applies shared page chrome.
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.zarrinac.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zarrinac.com';
 const OG_LOCALE_MAP: Record<Locale, string> = {
   fa: 'fa_IR',
   en: 'en_US',

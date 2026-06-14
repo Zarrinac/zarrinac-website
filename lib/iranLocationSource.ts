@@ -1,6 +1,5 @@
 import type { Locale } from '@/i18n/routing';
 import { prisma } from '@/lib/db';
-import { useLocalContent } from '@/lib/contentSource';
 import { getLocationDisplayName, iranProvinces, type IranProvince } from '@/lib/iranLocations';
 
 type LocationDataSource = 'database' | 'fallback';
@@ -88,7 +87,7 @@ export async function loadIranProvinces(): Promise<{
 }> {
   const locationClient = getIranLocationClient();
 
-  if (!useLocalContent && locationClient) {
+  if (locationClient) {
     try {
       const provinces = await locationClient.iranProvince.findMany({
         orderBy: { sortOrder: 'asc' },
@@ -123,7 +122,7 @@ export async function getIranLocationDisplayName(
 ): Promise<string | null> {
   const locationClient = getIranLocationClient();
 
-  if (!useLocalContent && locationClient) {
+  if (locationClient) {
     try {
       const city = await locationClient.iranCity.findFirst({
         where: {

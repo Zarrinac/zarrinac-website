@@ -80,7 +80,7 @@ export default function BeforeAfterSlider({
         alt={afterLabel ?? 'After'}
         fill
         className="object-cover"
-        sizes="100vw"
+        sizes="(min-width: 1024px) 720px, 100vw"
         priority
       />
       <div
@@ -96,7 +96,7 @@ export default function BeforeAfterSlider({
           alt={beforeLabel ?? 'Before'}
           fill
           className="object-cover"
-          sizes="100vw"
+          sizes="(min-width: 1024px) 720px, 100vw"
           priority
         />
       </div>

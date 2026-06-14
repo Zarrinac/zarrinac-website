@@ -35,6 +35,7 @@ type ProductWithMedia = Pick<
   ApiProduct,
   | 'imageUrl'
   | 'posterImageUrl'
+  | 'heroVideoUrl'
   | 'banners'
   | 'featureCards'
   | 'sectionGroups'
@@ -54,6 +55,9 @@ export const mapProductMedia = <T extends ProductWithMedia | null | undefined>(p
 
   product.imageUrl = toPublicMediaPath(product.imageUrl);
   product.posterImageUrl = toPublicMediaPath(product.posterImageUrl);
+  // Hero clip lives under the same media root — without this the DB-stored
+  // `/products/...` path 404s on the server (media is served under `/media/`).
+  product.heroVideoUrl = toPublicMediaPath(product.heroVideoUrl);
 
   if (Array.isArray(product.banners)) {
     product.banners = product.banners.map(

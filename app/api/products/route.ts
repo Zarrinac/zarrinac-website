@@ -1,7 +1,6 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { useLocalContent } from '@/lib/contentSource';
 import { FALLBACK_PRODUCTS, normalizeDbProducts } from '@/lib/api/products/normalizers';
 import type { ApiProduct } from '@/lib/api/products/types';
 import { mapProductMedia } from '@/lib/api/products/mediaPaths';
@@ -18,10 +17,13 @@ type DataSource = 'database' | 'fallback';
 const loadProducts = async (
   category?: ProductCategory,
 ): Promise<{ products: ApiProduct[]; source: DataSource }> => {
-  if (!useLocalContent && prisma) {
+  // DB is the primary source whenever a database is configured (prisma is defined);
+  // bundled content is only a fallback. Order by the seeded `position` so DB-backed
+  // listings match the content/curated order deterministically on every host.
+  if (prisma) {
     try {
       const products = await prisma.product.findMany({
-        orderBy: { series: 'asc' },
+        orderBy: { position: 'asc' },
         where: category ? { category } : undefined,
         include: { copies: true, tvSpec: true },
       });

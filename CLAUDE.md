@@ -19,22 +19,21 @@ Stack: Next.js 16 App Router · React 19 · TypeScript 6 · PostgreSQL + Prisma 
 
 ## Commands
 
-| Command                           | Purpose                                    |
-| --------------------------------- | ------------------------------------------ |
-| `npm run dev`                     | Dev server at http://localhost:3000        |
-| `npm run build`                   | Production build (runs sitemap postbuild)  |
-| `npm run start`                   | Serve production build                     |
-| `npm run lint`                    | ESLint check                               |
-| `npm run format`                  | Prettier format                            |
-| `npm run db:migrate`              | Apply Prisma migrations (dev)              |
-| `npm run db:deploy`               | Apply migrations (production)              |
-| `npm run db:seed`                 | Seed all data (via `scripts/seed-all.mjs`) |
-| `npm run db:seed:products`        | Seed products only                         |
-| `npm run db:seed:dcode`           | Seed D'code brand products only            |
-| `npm run db:seed:locations`       | Seed Iran provinces/cities                 |
-| `npm run db:seed:downloads`       | Seed download assets                       |
-| `npm run db:seed:representatives` | Seed service representatives               |
-| `npx playwright test`             | Run E2E tests                              |
+| Command                           | Purpose                                   |
+| --------------------------------- | ----------------------------------------- |
+| `npm run dev`                     | Dev server at http://localhost:3000       |
+| `npm run build`                   | Production build (runs sitemap postbuild) |
+| `npm run start`                   | Serve production build                    |
+| `npm run lint`                    | ESLint check                              |
+| `npm run format`                  | Prettier format                           |
+| `npm run db:migrate`              | Apply Prisma migrations (dev)             |
+| `npm run db:deploy`               | Apply migrations (production)             |
+| `npm run db:seed`                 | Seed all data                             |
+| `npm run db:seed:products`        | Seed products only                        |
+| `npm run db:seed:locations`       | Seed Iran provinces/cities                |
+| `npm run db:seed:downloads`       | Seed download assets                      |
+| `npm run db:seed:representatives` | Seed service representatives              |
+| `npx playwright test`             | Run E2E tests                             |
 
 ## Architecture
 
@@ -49,13 +48,12 @@ Stack: Next.js 16 App Router · React 19 · TypeScript 6 · PostgreSQL + Prisma 
 
 The app runs without a database. If `DATABASE_URL` is absent, API routes fall back to bundled static data.
 
-| Data            | Primary                                                                             | Fallback                                                                                            |
-| --------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Products        | DB (`Product` + `ProductCopy` + `TvSpec`)                                           | `FALLBACK_PRODUCTS` in `lib/api/products/` (TV/WM/RAC/CAC); refrigerators via `content/RefProducts` |
-| D'code (brand)  | DB (`DcodeProduct` + `DcodeVariant` + `DcodeProductCopy`) via `lib/dcode/source.ts` | `DCODE_PRODUCTS` in `content/DcodeProducts.ts`                                                      |
-| Locations       | DB (`IranProvince` + `IranCity`)                                                    | `lib/iranLocations.json`                                                                            |
-| Service Centers | DB (`ServiceRepresentative`)                                                        | `lib/iranLocations.json` static data                                                                |
-| Downloads       | DB (`DownloadAsset`)                                                                | none                                                                                                |
+| Data            | Primary                                   | Fallback                                                                                            |
+| --------------- | ----------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Products        | DB (`Product` + `ProductCopy` + `TvSpec`) | `FALLBACK_PRODUCTS` in `lib/api/products/` (TV/WM/RAC/CAC); refrigerators via `content/RefProducts` |
+| Locations       | DB (`IranProvince` + `IranCity`)          | `lib/iranLocations.json`                                                                            |
+| Service Centers | DB (`ServiceRepresentative`)              | `lib/iranLocations.json` static data                                                                |
+| Downloads       | DB (`DownloadAsset`)                      | none                                                                                                |
 
 Content source is toggled by `NEXT_PUBLIC_CONTENT_SOURCE` (`"local"` or `"remote"`).
 

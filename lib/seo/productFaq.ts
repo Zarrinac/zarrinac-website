@@ -15,6 +15,12 @@ type ProductFaqInput = {
   productName: string;
   /** Screen sizes in inches — TVs only (drives an extra, data-backed FAQ). */
   tvSizes?: string[];
+  /**
+   * TV operating system (e.g. "VIDAA Smart OS"). When empty/absent the TV is not
+   * a smart TV (e.g. A3Q), so the smart-OS FAQ is omitted — we never claim a
+   * non-smart model runs a smart OS.
+   */
+  tvOs?: string;
 };
 
 export const getProductFaqHeading = (locale: Locale, productName: string) =>
@@ -27,6 +33,7 @@ export const buildProductFaqs = ({
   category,
   productName: name,
   tvSizes = [],
+  tvOs = '',
 }: ProductFaqInput): ProductFaq[] => {
   const fa = locale === 'fa';
   const faqs: ProductFaq[] = [];
@@ -57,12 +64,16 @@ export const buildProductFaqs = ({
 
   // Category-specific — each statement holds for the whole category.
   if (category === 'tvs') {
-    faqs.push({
-      question: fa ? `سیستم‌عامل ${name} چیست؟` : `Which operating system does the ${name} use?`,
-      answer: fa
-        ? `${name} مانند دیگر تلویزیون‌های هوشمند هایسنس از سیستم‌عامل VIDAA بهره می‌برد که دسترسی سریع به سرویس‌های پخش محتوا و اپلیکیشن‌ها را فراهم می‌کند.`
-        : `Like other Hisense smart TVs, the ${name} runs the VIDAA operating system for fast access to streaming services and apps.`,
-    });
+    // Only smart TVs (those with an OS) get the operating-system FAQ — a
+    // non-smart model like the A3Q has no OS and must not claim VIDAA.
+    if (tvOs) {
+      faqs.push({
+        question: fa ? `سیستم‌عامل ${name} چیست؟` : `Which operating system does the ${name} use?`,
+        answer: fa
+          ? `${name} مانند دیگر تلویزیون‌های هوشمند هایسنس از سیستم‌عامل VIDAA بهره می‌برد که دسترسی سریع به سرویس‌های پخش محتوا و اپلیکیشن‌ها را فراهم می‌کند.`
+          : `Like other Hisense smart TVs, the ${name} runs the VIDAA operating system for fast access to streaming services and apps.`,
+      });
+    }
     if (tvSizes.length > 0) {
       const sizeList = tvSizes.join(fa ? '، ' : ', ');
       faqs.push({

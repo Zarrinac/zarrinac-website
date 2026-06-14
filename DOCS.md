@@ -1,8 +1,8 @@
-# Hisense Iran Web App — Documentation
+# Zarrinac / Hisense Iran Web App — Documentation
 
-Marketing and support website for Hisense Iran (zarrinac.com). Bi-lingual (Persian/English), SEO-first, with a full admin portal and automated ops pipeline.
+Marketing and support website for Zarrinac / Hisense Iran (zarrinac.com). Bi-lingual (Persian/English), SEO-first, with a full admin portal, DB-first catalog, and a retained D'code brand section.
 
-**Last updated: 2026-06-09**
+**Last updated: 2026-06-14**
 
 ---
 
@@ -37,24 +37,25 @@ Requirements: Node 20+, npm, PostgreSQL (optional — app runs on static fallbac
 ```bash
 cp .env.example .env.local   # fill DATABASE_URL, NEXT_PUBLIC_SITE_URL, admin secrets
 npm install
-npm run dev                  # http://localhost:3000
+npm run dev                  # http://localhost:3001
 ```
 
-| Command                           | Purpose                                                 |
-| --------------------------------- | ------------------------------------------------------- |
-| `npm run dev`                     | Dev server at http://localhost:3000                     |
-| `npm run build`                   | Production build (auto-runs sitemap postbuild)          |
-| `npm run start`                   | Serve production build                                  |
-| `npm run lint`                    | ESLint check                                            |
-| `npm run format`                  | Prettier format                                         |
-| `npm run db:migrate`              | Apply Prisma migrations (dev, creates migration file)   |
-| `npm run db:deploy`               | Apply existing migrations (production)                  |
-| `npm run db:seed`                 | Seed all data (products + locations + downloads + reps) |
-| `npm run db:seed:products`        | Seed products only                                      |
-| `npm run db:seed:locations`       | Seed Iran provinces and cities                          |
-| `npm run db:seed:downloads`       | Seed download assets                                    |
-| `npm run db:seed:representatives` | Seed service representatives                            |
-| `npx playwright test`             | Run E2E tests                                           |
+| Command                           | Purpose                                                          |
+| --------------------------------- | ---------------------------------------------------------------- |
+| `npm run dev`                     | Dev server at http://localhost:3001                              |
+| `npm run build`                   | Production build (auto-runs sitemap postbuild)                   |
+| `npm run start`                   | Serve production build                                           |
+| `npm run lint`                    | ESLint check                                                     |
+| `npm run format`                  | Prettier format                                                  |
+| `npm run db:migrate`              | Apply Prisma migrations (dev, creates migration file)            |
+| `npm run db:deploy`               | Apply existing migrations (production)                           |
+| `npm run db:seed`                 | Seed all data (products + D'code + locations + downloads + reps) |
+| `npm run db:seed:products`        | Seed products only                                               |
+| `npm run db:seed:dcode`           | Seed D'code brand products only                                  |
+| `npm run db:seed:locations`       | Seed Iran provinces and cities                                   |
+| `npm run db:seed:downloads`       | Seed download assets                                             |
+| `npm run db:seed:representatives` | Seed service representatives                                     |
+| `npx playwright test`             | Run E2E tests                                                    |
 
 ---
 
@@ -69,7 +70,7 @@ npm run dev                  # http://localhost:3000
 | UI        | MUI 9 (Autocomplete, TextField, Select for forms)                   |
 | Forms     | react-hook-form + Zod via @hookform/resolvers/zod                   |
 | SEO       | Hand-written JSON-LD, generateMetadata, native app/sitemap.ts route |
-| Analytics | Google Analytics 4 (via `NEXT_PUBLIC_GA_ID`), GTM noscript          |
+| Analytics | Optional GA/GTM scripts, rendered only when public env IDs are set  |
 | Testing   | Playwright for E2E                                                  |
 | Linting   | ESLint + Prettier, enforced by Husky pre-commit (lint-staged)       |
 
@@ -77,19 +78,19 @@ npm run dev                  # http://localhost:3000
 
 ## Environment Variables
 
-| Variable                               | Required | Purpose                                                             |
-| -------------------------------------- | -------- | ------------------------------------------------------------------- |
-| `DATABASE_URL`                         | Optional | PostgreSQL connection string; app runs on static fallback if absent |
-| `NEXT_PUBLIC_SITE_URL`                 | Yes      | Canonical/OG base URL (e.g., `https://zarrinac.com`)              |
-| `ADMIN_USERNAME`                       | Yes      | Admin portal login username                                         |
-| `ADMIN_PASSWORD`                       | Yes      | Admin portal login password                                         |
-| `ADMIN_SESSION_SECRET`                 | Yes      | HMAC-SHA256 key for signing session tokens                          |
-| `INTERNAL_API_BASE_URL`                | Dev      | Internal fetch base (`http://localhost:3000` in dev)                |
-| `NEXT_PUBLIC_MEDIA_BASE_URL`           | Optional | CDN base for product images (defaults to `/` for local serving)     |
-| `NEXT_PUBLIC_CONTENT_SOURCE`           | Optional | `"local"` or `"remote"` content mode                                |
-| `NEXT_PUBLIC_GA_ID`                    | Optional | Google Analytics 4 measurement ID                                   |
-| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Optional | Google Search Console verification token                            |
-| `NEXT_PUBLIC_BING_SITE_VERIFICATION`   | Optional | Bing Webmaster Tools verification token                             |
+| Variable                               | Required | Purpose                                                                  |
+| -------------------------------------- | -------- | ------------------------------------------------------------------------ |
+| `DATABASE_URL`                         | Optional | PostgreSQL connection string; app runs on static fallback if absent      |
+| `NEXT_PUBLIC_SITE_URL`                 | Yes      | Canonical/OG base URL (e.g., `https://zarrinac.com`)                     |
+| `ADMIN_USERNAME`                       | Yes      | Admin portal login username                                              |
+| `ADMIN_PASSWORD`                       | Yes      | Admin portal login password                                              |
+| `ADMIN_SESSION_SECRET`                 | Yes      | HMAC-SHA256 key for signing session tokens                               |
+| `INTERNAL_API_BASE_URL`                | Dev      | Internal fetch base (`http://localhost:3001` in dev)                     |
+| `NEXT_PUBLIC_MEDIA_BASE_URL`           | Optional | CDN base for product images (defaults to `/` for local serving)          |
+| `NEXT_PUBLIC_CONTENT_SOURCE`           | Optional | `"local"` or `"remote"` media mode; product data remains DB-first        |
+| `NEXT_PUBLIC_GA_ID`                    | Optional | Google Analytics 4 measurement ID; leave unset/commented to disable      |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Optional | Google Search Console verification token; unset unless zarrinac-specific |
+| `NEXT_PUBLIC_BING_SITE_VERIFICATION`   | Optional | Bing Webmaster Tools verification token; unset unless zarrinac-specific  |
 
 ---
 
@@ -105,6 +106,7 @@ app/                    Pages, layouts, API routes, sitemap/robots generators
 components/             UI components grouped by feature
   admin/                AdminShell, AdminPageHeader, AdminStatusCard, AdminSubmissionTables
   complaint/            ComplaintForm (multi-step)
+  dcode/                D'code brand logo/showcase components and scoped theme
   header/               DesktopNavigation, MobileNavPanel, SearchOverlay
   hero/                 HeroBanner (homepage carousel)
   home/                 CategorySpotlights
@@ -125,6 +127,7 @@ components/             UI components grouped by feature
   Footer.tsx, Header.tsx, LanguageSwitcher.tsx, UnderConstruction.tsx
 content/                Static fallback data
   tvProducts.ts         (legacy) TV catalog fallback
+  DcodeProducts.ts      D'code catalog fallback
   RefProducts/          Refrigerator catalog fallback
   about/                About-page copy
 i18n/                   next-intl routing config and request helpers
@@ -133,6 +136,7 @@ lib/                    Cross-cutting utilities
                         i18n.ts, i18n.server.ts, url.ts
   api/products/         normalizers.ts, types.ts, categories.ts, mediaPaths.ts
   complaints/           schema.ts (Zod)
+  dcode/                D'code DB-first source and brand helpers
   surveys/              schema.ts (Zod)
   seo/                  site.ts, productSchema.ts, productMeta.ts, productFaq.ts,
                         categorySeoContent.ts, localBusiness.ts, keywords.ts
@@ -153,7 +157,7 @@ ops/                    Server operational scripts (version-controlled source of
 prisma/                 Prisma schema + migration history
 scripts/                DB seed scripts
 seo/                    keywords.txt + keywords helper
-types/                  tv.ts (TV product model), wm.ts (washing machine), svg.d.ts
+types/                  tv.ts, wm.ts, dcode.ts, svg.d.ts
 assets/styles/          globals.css (Tailwind v4 + CSS vars), Swiper/Select2 styles
 public/                 Images, fonts, PWA manifest
 ```
@@ -169,6 +173,7 @@ All models live in `prisma/schema.prisma`. Postgres is required for the full exp
 **`Product`** — master product record shared across locales.
 
 - `id` (string PK), `slug` (unique), `category` (enum), `sku`, `series`, `size`, `sizes[]`
+- `position` stores curated display order, seeded from source content so DB-backed listings stay stable.
 - Rich content stored as `Json` fields: `gallery`, `banners`, `featureCards`, `sectionGroups`, `contentSections`, `stackedSections`, `bottomStackedSections`, `comparisonSections`, `experienceSection`, `badges`, `specs`
 - Relations: `copies` (ProductCopy[]), `tvSpec` (TvSpec?)
 
@@ -184,6 +189,19 @@ All models live in `prisma/schema.prisma`. Postgres is required for the full exp
 ```
 ProductCategory enum: TVS | WMS | RAC | CAC | REFRIGERATOR | TV_DCODE
 ```
+
+### D'code catalog
+
+D'code is modeled separately from the Hisense `Product` tree because it is a distinct brand section.
+
+**`DcodeProduct`** — one D'code product line, currently the LED `R6D` family.
+
+- `id`, `slug`, `brand`, `category`, `series`, panel/spec fields, warranty, hero media, `gallery`, `featureCards`, `remotes`, `specs`
+- Relations: `variants` (DcodeVariant[]), `copies` (DcodeProductCopy[])
+
+**`DcodeVariant`** — size/SKU-specific records with dimensions and weight.
+
+**`DcodeProductCopy`** — localized product copy per locale.
 
 ### Locations
 
@@ -221,16 +239,17 @@ ProductCategory enum: TVS | WMS | RAC | CAC | REFRIGERATOR | TV_DCODE
 
 ### Product data sources
 
-| Category           | DB primary                | Static fallback                                          |
-| ------------------ | ------------------------- | -------------------------------------------------------- |
-| TVs, WMs, RAC, CAC | `Product` + `ProductCopy` | `FALLBACK_PRODUCTS` in `lib/api/products/normalizers.ts` |
-| Refrigerators      | `Product` + `ProductCopy` | `content/RefProducts/` directory                         |
+| Category           | DB primary                         | Static fallback                                          |
+| ------------------ | ---------------------------------- | -------------------------------------------------------- |
+| TVs, WMs, RAC, CAC | `Product` + `ProductCopy`          | `FALLBACK_PRODUCTS` in `lib/api/products/normalizers.ts` |
+| Refrigerators      | `Product` + `ProductCopy`          | `content/RefProducts/` directory                         |
+| D'code             | `DcodeProduct` + variants + copies | `DCODE_PRODUCTS` in `content/DcodeProducts.ts`           |
 
-The toggle is `NEXT_PUBLIC_CONTENT_SOURCE` (`"local"` / `"remote"`).
+Product API routes are DB-first whenever Prisma is configured. Static content is an emergency fallback when the DB query fails or returns no matching rows. `NEXT_PUBLIC_CONTENT_SOURCE` (`"local"` / `"remote"`) controls media URL behavior, not product data priority.
 
 ### API routes
 
-- `GET /api/products` — returns a normalized `ApiProduct[]`. DB first; falls back to `FALLBACK_PRODUCTS`. Filtered by `?category=` and `?locale=`. Sets `Cache-Control: s-maxage=60, stale-while-revalidate=300` and `X-Data-Source` headers.
+- `GET /api/products` — returns a normalized `ApiProduct[]`. DB first; falls back to `FALLBACK_PRODUCTS`. Filtered by `?category=`. Orders DB rows by `position`. Sets `Cache-Control: s-maxage=60, stale-while-revalidate=300` and `X-Data-Source` headers.
 - `GET /api/products/[id]` — fetches by `id` or `slug`, same DB→fallback chain.
 - `POST /api/complaints` — validates with Zod schema, generates `referenceCode`, saves to DB.
 - `POST /api/surveys` — validates with Zod schema, generates `referenceCode`, saves to DB.
@@ -261,31 +280,36 @@ The root `app/page.tsx` redirects to `/fa`. All public pages live under `app/[lo
 
 ### Public pages
 
-| Route                                      | Page file                                              | Notes                                              |
-| ------------------------------------------ | ------------------------------------------------------ | -------------------------------------------------- |
-| `/[locale]`                                | `app/[locale]/page.tsx`                                | Home: hero carousel + category spotlights          |
-| `/[locale]/tv-hisense`                     | `app/[locale]/tv-hisense/page.tsx`                     | TV catalog listing (ISR, revalidate=3600)          |
-| `/[locale]/tv-hisense/[productId]`         | `app/[locale]/tv-hisense/[productId]/page.tsx`         | TV product detail, full JSON-LD + FAQ              |
-| `/[locale]/washing-machine`                | `app/[locale]/washing-machine/page.tsx`                | WM catalog listing                                 |
-| `/[locale]/washing-machine/[productId]`    | `app/[locale]/washing-machine/[productId]/page.tsx`    | WM product detail                                  |
-| `/[locale]/refrigerator`                   | `app/[locale]/refrigerator/page.tsx`                   | Refrigerator catalog listing                       |
-| `/[locale]/refrigerator/[productId]`       | `app/[locale]/refrigerator/[productId]/page.tsx`       | Refrigerator product detail                        |
-| `/[locale]/rac`                            | `app/[locale]/rac/page.tsx`                            | Residential AC (under construction)                |
-| `/[locale]/cac`                            | `app/[locale]/cac/page.tsx`                            | Commercial AC (under construction)                 |
-| `/[locale]/faq`                            | `app/[locale]/faq/page.tsx`                            | FAQPage schema, accordion                          |
-| `/[locale]/contact-us`                     | `app/[locale]/contact-us/page.tsx`                     | Contact + LocalBusiness JSON-LD                    |
-| `/[locale]/about`                          | `app/[locale]/about/page.tsx`                          | Company overview                                   |
-| `/[locale]/warranty-and-guarantee`         | `app/[locale]/warranty-and-guarantee/page.tsx`         | Warranty terms                                     |
-| `/[locale]/hisense-repair`                 | `app/[locale]/hisense-repair/page.tsx`                 | Repair services                                    |
-| `/[locale]/complaint`                      | `app/[locale]/complaint/page.tsx`                      | After-sales complaint form (multi-step Zod form)   |
-| `/[locale]/survey`                         | `app/[locale]/survey/page.tsx`                         | Satisfaction survey form                           |
-| `/[locale]/support/find-service-center`    | `app/[locale]/support/find-service-center/page.tsx`    | Province/city autocomplete → service center finder |
-| `/[locale]/find-service-center`            | `app/[locale]/find-service-center/page.tsx`            | Legacy path (same feature)                         |
-| `/[locale]/support/portal`                 | `app/[locale]/support/portal/page.tsx`                 | Support portal (noindex)                           |
-| `/[locale]/portal`                         | `app/[locale]/portal/page.tsx`                         | Legacy portal path (noindex)                       |
-| `/[locale]/support/request-representation` | `app/[locale]/support/request-representation/page.tsx` | Rep application form                               |
-| `/[locale]/request-representation`         | `app/[locale]/request-representation/page.tsx`         | Legacy path                                        |
-| `/[locale]/not-found`                      | `app/[locale]/not-found.tsx`                           | Locale-aware 404                                   |
+| Route                                       | Page file                                               | Notes                                                            |
+| ------------------------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------- |
+| `/[locale]`                                 | `app/[locale]/page.tsx`                                 | Home: hero carousel + category spotlights                        |
+| `/[locale]/products/[category]`             | `app/[locale]/products/[category]/page.tsx`             | Canonical DB-first category listing (`tvs`, `wms`, `rac`, `cac`) |
+| `/[locale]/products/[category]/[productId]` | `app/[locale]/products/[category]/[productId]/page.tsx` | Canonical DB-first product detail, full JSON-LD + FAQ            |
+| `/[locale]/tv-hisense`                      | `app/[locale]/tv-hisense/page.tsx`                      | Legacy TV listing path                                           |
+| `/[locale]/tv-hisense/[productId]`          | `app/[locale]/tv-hisense/[productId]/page.tsx`          | Legacy TV detail path                                            |
+| `/[locale]/washing-machine`                 | `app/[locale]/washing-machine/page.tsx`                 | Legacy WM listing path                                           |
+| `/[locale]/washing-machine/[productId]`     | `app/[locale]/washing-machine/[productId]/page.tsx`     | Legacy WM detail path                                            |
+| `/[locale]/dcode`                           | `app/[locale]/dcode/page.tsx`                           | D'code brand landing page                                        |
+| `/[locale]/dcode/tvs`                       | `app/[locale]/dcode/tvs/page.tsx`                       | D'code TV category page                                          |
+| `/[locale]/dcode/tvs/[productId]`           | `app/[locale]/dcode/tvs/[productId]/page.tsx`           | D'code product detail page                                       |
+| `/[locale]/refrigerator`                    | `app/[locale]/refrigerator/page.tsx`                    | Refrigerator catalog listing                                     |
+| `/[locale]/refrigerator/[productId]`        | `app/[locale]/refrigerator/[productId]/page.tsx`        | Refrigerator product detail                                      |
+| `/[locale]/rac`                             | `app/[locale]/rac/page.tsx`                             | Residential AC (under construction)                              |
+| `/[locale]/cac`                             | `app/[locale]/cac/page.tsx`                             | Commercial AC (under construction)                               |
+| `/[locale]/faq`                             | `app/[locale]/faq/page.tsx`                             | FAQPage schema, accordion                                        |
+| `/[locale]/contact-us`                      | `app/[locale]/contact-us/page.tsx`                      | Contact + LocalBusiness JSON-LD                                  |
+| `/[locale]/about`                           | `app/[locale]/about/page.tsx`                           | Company overview                                                 |
+| `/[locale]/warranty-and-guarantee`          | `app/[locale]/warranty-and-guarantee/page.tsx`          | Warranty terms                                                   |
+| `/[locale]/hisense-repair`                  | `app/[locale]/hisense-repair/page.tsx`                  | Repair services                                                  |
+| `/[locale]/complaint`                       | `app/[locale]/complaint/page.tsx`                       | After-sales complaint form (multi-step Zod form)                 |
+| `/[locale]/survey`                          | `app/[locale]/survey/page.tsx`                          | Satisfaction survey form                                         |
+| `/[locale]/support/find-service-center`     | `app/[locale]/support/find-service-center/page.tsx`     | Province/city autocomplete → service center finder               |
+| `/[locale]/find-service-center`             | `app/[locale]/find-service-center/page.tsx`             | Legacy path (same feature)                                       |
+| `/[locale]/support/portal`                  | `app/[locale]/support/portal/page.tsx`                  | Support portal (noindex)                                         |
+| `/[locale]/portal`                          | `app/[locale]/portal/page.tsx`                          | Legacy portal path (noindex)                                     |
+| `/[locale]/support/request-representation`  | `app/[locale]/support/request-representation/page.tsx`  | Rep application form                                             |
+| `/[locale]/request-representation`          | `app/[locale]/request-representation/page.tsx`          | Legacy path                                                      |
+| `/[locale]/not-found`                       | `app/[locale]/not-found.tsx`                            | Locale-aware 404                                                 |
 
 ### Admin portal pages
 
@@ -332,18 +356,18 @@ The admin portal at `/admin` provides an interface for managing submissions and 
 
 ### Categories
 
-| Enum value     | Route segment     | Description         |
-| -------------- | ----------------- | ------------------- |
-| `TVS`          | `tv-hisense`      | Televisions         |
-| `WMS`          | `washing-machine` | Washing machines    |
-| `RAC`          | `rac`             | Residential AC      |
-| `CAC`          | `cac`             | Commercial AC       |
-| `REFRIGERATOR` | `refrigerator`    | Refrigerators       |
-| `TV_DCODE`     | —                 | D-Code TV sub-range |
+| Enum value     | Route segment  | Description       |
+| -------------- | -------------- | ----------------- |
+| `TVS`          | `products/tvs` | Televisions       |
+| `WMS`          | `products/wms` | Washing machines  |
+| `RAC`          | `products/rac` | Residential AC    |
+| `CAC`          | `products/cac` | Commercial AC     |
+| `REFRIGERATOR` | `refrigerator` | Refrigerators     |
+| `TV_DCODE`     | `dcode/tvs`    | D'code TV section |
 
 ### Product detail page anatomy
 
-A product detail page (`app/[locale]/tv-hisense/[productId]/page.tsx` etc.) renders:
+A canonical product detail page (`app/[locale]/products/[category]/[productId]/page.tsx`) renders:
 
 1. **HeroMedia** — full-width hero image or video.
 2. **MobileHeader** — sticky product name + breadcrumbs on mobile.
@@ -359,6 +383,10 @@ A product detail page (`app/[locale]/tv-hisense/[productId]/page.tsx` etc.) rend
 ### Media URLs
 
 Always use `mediaUrl(path)` from `lib/mediaUrl.ts`. It switches between `/` (local) and `NEXT_PUBLIC_MEDIA_BASE_URL` (CDN). Never hardcode `/media/` paths in components.
+
+### D'code section
+
+D'code pages live under `/[locale]/dcode`. They use `lib/dcode/source.ts`, which queries `DcodeProduct` first and falls back to `content/DcodeProducts.ts`. The desktop nav treats D'code as a plain link: it keeps the red brand hover underline but does not open a mega-menu dropdown.
 
 ---
 
@@ -460,17 +488,20 @@ Hreflang is emitted as HTML `<link rel="alternate">` tags only. The next-intl HT
 
 All JSON-LD is rendered server-side via `components/seo/JsonLd.tsx`.
 
-| Schema type                   | Where emitted                                                            |
-| ----------------------------- | ------------------------------------------------------------------------ |
-| `Organization`                | Root layout (`app/[locale]/layout.tsx`)                                  |
-| `WebSite`                     | Root layout                                                              |
-| `LocalBusiness`               | Contact page, service-center pages (`lib/seo/localBusiness.ts`)          |
-| `Product`                     | Product detail pages (`lib/seo/productSchema.ts`)                        |
-| `CollectionPage` + `ItemList` | Category listing pages                                                   |
-| `BreadcrumbList`              | All product detail pages (`components/seo/PageBreadcrumbs.tsx`)          |
-| `FAQPage`                     | FAQ page + product detail pages (`components/seo/ProductFaqSection.tsx`) |
+| Schema type                   | Where emitted                                                                                       |
+| ----------------------------- | --------------------------------------------------------------------------------------------------- |
+| `Organization`                | Root layout (`app/[locale]/layout.tsx`)                                                             |
+| `WebSite`                     | Root layout                                                                                         |
+| `LocalBusiness`               | Contact page, service-center pages (`lib/seo/localBusiness.ts`)                                     |
+| `Product`                     | Product detail pages (`lib/seo/productSchema.ts`)                                                   |
+| `CollectionPage` + `ItemList` | Category listing pages                                                                              |
+| `BreadcrumbList`              | All product detail pages (`components/seo/PageBreadcrumbs.tsx`)                                     |
+| `FAQPage`                     | FAQ page + product detail pages (`components/seo/ProductFaqSection.tsx`)                            |
+| `VideoObject`                 | Product detail pages with a `heroVideoUrl` (`buildVideoObjectJsonLd` in `lib/seo/productSchema.ts`) |
 
 **Product `offers` rule:** No prices are published (rial volatility). `buildProductJsonLd` in `lib/seo/productSchema.ts` emits no `offers` by default. It auto-emits a valid `Offer` only when a positive `price` is passed. Never emit a price-less `Offer` — it's invalid for Google rich results.
+
+**Hero videos are self-hosted.** Product `heroVideoUrl`s point at first-party files under the product media folders (e.g. `products/tvs/U7K-Files/u7k-hero.mp4`), resolved via `mediaUrl()` — not third-party hotlinks. Self-hosting is what makes the `VideoObject`'s `contentUrl` a valid first-party claim for video rich results. Compress masters to web-optimized 1080p H.264 (`-crf 21 -movflags +faststart -an`, downscale 4K → 1080p) before placing them under `public/products/` (local) and the `media/` staging folder (promoted to the server via `ops/upload-media.ps1`). Keep the originals as backups outside the synced `media/` folder.
 
 ### SEO copy for category pages
 
@@ -531,7 +562,7 @@ develop locally (Windows)
 
 ### Media workflow
 
-Media lives outside git (`HIsense-Website/media` locally, `/var/www/hisense-ir/media` on the server).
+Media lives outside git (`C:\Users\r.saberifard\Documents\IT-Hisense\zarrin\media` locally, `/var/www/hisense-ir/media` on the server). The local media folder is mirrored from the upstream Hisense media set plus the retained `media/dcode` directory.
 
 **Local → server:**
 
@@ -588,13 +619,13 @@ pm2 start hisense-ir
 
 ## Content Management Tips
 
-### Adding a product (no DB)
+### Adding fallback product content
 
-Extend `content/tvProducts.ts` (TVs) or `content/RefProducts/` (refrigerators) using the shapes in `types/tv.ts`. Provide both `fa` and `en` copy blocks.
+Extend the relevant fallback source (`content/tvProducts.ts`, `content/WmProducts.ts`, `content/RacProducts.ts`, `content/CacProducts.ts`, `content/RefProducts/`, or `content/DcodeProducts.ts`). Provide both `fa` and `en` copy blocks. Fallback content is not authoritative when the database is available.
 
 ### Adding a product (with DB)
 
-Use the admin portal or a seed script. Insert a `Product` row + `ProductCopy` rows for each locale.
+Use the admin portal or a seed script. Insert a `Product` row + `ProductCopy` rows for each locale, and keep `position` set for deterministic listing order. For D'code, seed `DcodeProduct`, `DcodeVariant`, and `DcodeProductCopy` with `npm run db:seed:dcode`.
 
 ### Adding translations
 
@@ -631,11 +662,11 @@ npm run dev              # app now uses DB data
 
 5. **Locale validation throws** — The layout validates the locale param. Adding a locale requires updating `i18n/routing.ts` first.
 
-6. **Fallback product coverage** — `FALLBACK_PRODUCTS` covers TVs, WMs, RAC, CAC. Refrigerators come from `content/RefProducts/`. Both feed the sitemap, so all product URLs resolve without a DB.
+6. **Fallback product coverage** — `FALLBACK_PRODUCTS` covers TVs, WMs, RAC, CAC. Refrigerators come from `content/RefProducts/`; D'code comes from `content/DcodeProducts.ts`. These are fallbacks so all URLs resolve when DB is absent.
 
 7. **RTL flips layout** — Persian (fa) is RTL. Flex direction, carousel scroll, padding/margin semantics all reverse. Test both locales whenever touching layout or carousel components.
 
-8. **DB is primary, JSON is fallback** — `lib/serviceCenterSource.ts` and `lib/iranLocationSource.ts` query Postgres first. The JSON files are emergency fallbacks, not authoritative.
+8. **DB is primary, JSON/content is fallback** — Product API routes, `lib/dcode/source.ts`, `lib/serviceCenterSource.ts`, and `lib/iranLocationSource.ts` query Postgres first. Static content/JSON files are emergency fallbacks, not authoritative.
 
 9. **Media permissions** — The Next app runs as `reza` on the server. Media directory permissions must be `a+rX` (not `www-data`-only/`700`). A wrong permission causes `EACCES` and a 503 crash loop. `sync-media.sh` always applies this fix.
 
@@ -644,3 +675,5 @@ npm run dev              # app now uses DB data
 11. **Hreflang is HTML-only** — The next-intl HTTP Link-header hreflang was removed (produced malformed headers). Hreflang is emitted only as HTML `<link rel="alternate">` in page `<head>`.
 
 12. **`SITE_CONTENT_LAST_MODIFIED` in `lib/seo/site.ts`** — A fixed date used as sitemap `lastmod` baseline. Only bump it when site content meaningfully changes — not on every deploy — to keep the signal trustworthy for crawlers.
+
+13. **D'code nav is a plain link** — `components/header/navigationData.ts` keeps `dcode: []`; `hasSubMenu()` must continue treating that as no panel. Do not reintroduce an empty mega-menu on D'code hover.

@@ -78,14 +78,11 @@ async function seedIranLocations() {
   console.log('Iran locations seed complete.');
 }
 
-// Exit synchronously on success rather than awaiting teardown — see
-// seed-products.ts (pg-adapter teardown can crash post-commit). The orchestrator
-// scripts/seed-all.mjs keys success off the "complete" message, not the exit code.
 seedIranLocations()
-  .then(() => {
-    process.exit(0);
-  })
   .catch((error) => {
     console.error('Iran locations seed failed:', error);
     process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
   });
