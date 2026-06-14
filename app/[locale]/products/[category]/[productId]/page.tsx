@@ -34,7 +34,7 @@ import {
   toAbsoluteUrl,
 } from '@/lib/seo/site';
 import { createInternalApiUrl } from '@/lib/api/internalUrl';
-import { buildProductJsonLd } from '@/lib/seo/productSchema';
+import { buildProductJsonLd, buildVideoObjectJsonLd } from '@/lib/seo/productSchema';
 import { buildProductMetaDescription, buildProductMetaTitle } from '@/lib/seo/productMeta';
 import { buildProductFaqs, getProductFaqHeading } from '@/lib/seo/productFaq';
 import ProductFaqSection from '@/components/seo/ProductFaqSection';
@@ -534,6 +534,18 @@ export default async function ProductDetailPage({ params }: PageProps) {
     additionalImages: Array.isArray(product.gallery) ? product.gallery.map(toSrc) : [],
   });
 
+  // Self-hosted hero clip → VideoObject so the loop is eligible for Google video
+  // rich results (a third-party hotlink can't be claimed as first-party content).
+  const heroVideoUrl = product.heroVideoUrl ?? undefined;
+  const videoJsonLd = heroVideoUrl
+    ? buildVideoObjectJsonLd({
+        name: lang === 'fa' ? `ویدیو معرفی ${copy.name}` : `${copy.name} overview video`,
+        description: copy.tagline || copy.name,
+        contentUrl: heroVideoUrl,
+        thumbnailUrl: toSrc(product.posterImageUrl ?? product.imageUrl),
+      })
+    : null;
+
   return (
     <div
       className="pb-12 space-y-10 sm:space-y-12 lg:space-y-20 lg:pb-24"
@@ -541,6 +553,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
     >
       <JsonLd data={productPageSchema} />
       <JsonLd data={productJsonLd} />
+      {videoJsonLd && <JsonLd data={videoJsonLd} />}
       <BannerSection
         banner={banners[0]}
         breadcrumbItems={breadcrumbItems}
@@ -563,7 +576,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
       <HeroMedia
         image={product.imageUrl}
         posterImage={product.posterImageUrl ?? undefined}
-        heroVideo={product.heroVideoUrl ?? undefined}
+        heroVideo={heroVideoUrl}
         alt={copy.name}
       />
 
@@ -602,6 +615,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
           category: categorySlug,
           productName: copy.name,
           tvSizes: categorySlug === 'tvs' ? availableSizes : [],
+          tvOs: categorySlug === 'tvs' ? product.os : '',
         })}
         heading={getProductFaqHeading(resolvedLocale, copy.name)}
         locale={resolvedLocale}

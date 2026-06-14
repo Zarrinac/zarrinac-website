@@ -20,6 +20,9 @@ model Product {
   id                    String          @id
   slug                  String          @unique
   category              ProductCategory @default(TVS)
+  // Curated display order, seeded from the content array index so DB-backed
+  // listings match the content/fallback order deterministically on every host.
+  position              Int             @default(0)
   sku                   String?
   series                String
   seriesLabel           String?
@@ -45,6 +48,8 @@ model Product {
 
   copies ProductCopy[]
   tvSpec TvSpec?
+
+  @@index([category, position])
 }
 
 model TvSpec {

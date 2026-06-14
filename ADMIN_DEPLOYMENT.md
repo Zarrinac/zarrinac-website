@@ -8,7 +8,7 @@ Set these on the server before build/start:
 
 ```env
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DB?schema=public"
-NEXT_PUBLIC_SITE_URL="https://www.zarrinac.com"
+NEXT_PUBLIC_SITE_URL="https://zarrinac.com"
 NEXT_PUBLIC_CONTENT_SOURCE="remote"
 NEXT_PUBLIC_MEDIA_BASE_URL="/media"
 INTERNAL_API_BASE_URL="http://localhost:3000"
@@ -58,13 +58,13 @@ NODE_ENV=production npm run start
 
 After start:
 
-1. Open `https://www.zarrinac.com/admin`.
+1. Open `https://zarrinac.com/admin`.
 2. Confirm it redirects to `/admin/login`.
 3. Sign in with `ADMIN_USERNAME` and `ADMIN_PASSWORD`.
 4. Check `/admin/complaints` and `/admin/surveys`.
 5. Confirm public pages like `/fa` still load.
 
-If login returns `403 Forbidden`, check that `NEXT_PUBLIC_SITE_URL` exactly matches the browser origin, for example `https://www.zarrinac.com`. If the app is behind Nginx, also pass these headers to Next:
+If login returns `403 Forbidden`, check that `NEXT_PUBLIC_SITE_URL` exactly matches the browser origin, for example `https://zarrinac.com`. If the app is behind Nginx, also pass these headers to Next:
 
 ```nginx
 proxy_set_header Host $host;

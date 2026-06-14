@@ -112,7 +112,7 @@ export const TV_PRODUCTS: TvProduct[] = [
     ],
     image: u7kHero,
     banners: [{ id: 'u7k-banner', desktop: u7kHero, alt: 'Hisense U7K hero' }],
-    heroVideo: 'https://hisenseme.com/storage/13212/new-video-66ab022f82acb.mp4',
+    heroVideo: productAsset('tvs/U7K-Files/u7k-hero.mp4'),
     posterImage: u7kVideoPoster,
     featureCards: [
       {
@@ -422,7 +422,7 @@ export const TV_PRODUCTS: TvProduct[] = [
       'CineStage X Surround',
     ],
     image: q7qHero,
-    heroVideo: 'https://hisenseme.com/storage/20093/E7-PRO(Q7)_2K.mp4',
+    heroVideo: productAsset('tvs/q7q-Files/q7q-hero.mp4'),
     featureCards: [
       {
         title: 'Dolby Vision-Atoms',
@@ -703,7 +703,7 @@ export const TV_PRODUCTS: TvProduct[] = [
     extras: ['QLED Colour', '4K AI Upscaler', 'Game Mode Plus (VRR + ALLM)'],
     image: q6qHero,
     banners: [{ id: 'q6q-banner', desktop: q6qHero, alt: 'Hisense Q6Q hero' }],
-    heroVideo: 'https://hisenseme.com/storage/19829/E7-clean-1127.mp4',
+    heroVideo: productAsset('tvs/q6q-Files/q6q-hero.mp4'),
     featureCards: [
       {
         title: 'Smooth Motion',
@@ -1234,19 +1234,10 @@ export const TV_PRODUCTS: TvProduct[] = [
           { image: A4ANDepth, copyKey: 'depth', textPosition: 'left' },
         ],
       },
-      {
-        kind: 'overlay',
-        sections: [{ image: A4ANEasyFast, copyKey: 'easyFastSecure', textPosition: 'left' }],
-      },
-      {
-        kind: 'stacked',
-        textFirst: true,
-        sections: [{ image: A4ANConnect, copyKey: 'connect' }],
-      },
     ],
     specs: {
       en: [
-        'Smart Full HD TV (1920 x 1080, 2MP) with HDR support',
+        'Full HD TV (1920 x 1080, 2MP) with HDR support',
         '178° wide viewing angle',
         'Full HD panel with crisp detail',
         'TV program recording (PVR) support',
@@ -1256,7 +1247,7 @@ export const TV_PRODUCTS: TvProduct[] = [
         'Component, AV, USB 2.0 x2, HDMI x2',
       ],
       fa: [
-        'تلویزیون هوشمند Smart وضوح تصویر بالا و شفاف',
+        'تلویزیون وضوح تصویر بالا و شفاف',
         'زاویه دید 178 درجه ، تصویر HDR',
         'تصویر دو مگا پیکسل Full HD رزولوشن 1080 * 1920',
         'قابلیت ضبط برنامه های تلویزیونی PVR',
@@ -1269,10 +1260,9 @@ export const TV_PRODUCTS: TvProduct[] = [
     copy: {
       en: {
         name: 'Hisense A3Q Full HD',
-        tagline:
-          'Full HD clarity with VIDAA smarts, low-lag Game Mode, and immersive DTS Virtual:X audio.',
+        tagline: 'Full HD clarity with low-lag Game Mode and immersive DTS Virtual:X audio.',
         description:
-          'Hisense A3Q brings sharp Full HD with HDR support, Natural Colour Enhancer, Depth Enhancer, and frame-by-frame noise reduction. Enjoy Dolby Audio with DTS Virtual:X, low-latency Game Mode, AI Sports Mode, and easy casting with Share to TV on the fast and secure VIDAA Smart OS.',
+          'Hisense A3Q brings sharp Full HD with HDR support, Natural Colour Enhancer, Depth Enhancer, and frame-by-frame noise reduction. Enjoy Dolby Audio with DTS Virtual:X, low-latency Game Mode, and AI Sports Mode.',
         highlights: [
           'Full HD (1920 x 1080) panel with HDR and 178° wide viewing.',
           'Natural Colour Enhancer, Depth Enhancer, and advanced Noise Reduction.',
@@ -1282,7 +1272,7 @@ export const TV_PRODUCTS: TvProduct[] = [
         blocks: {
           featureIntro: {
             title: 'More colours, More enjoyment',
-            text: 'FHD Smart TV',
+            text: 'FHD TV',
           },
           details: {
             title: 'See the details crisp and clear',
@@ -1308,19 +1298,19 @@ export const TV_PRODUCTS: TvProduct[] = [
       },
       fa: {
         name: 'تلویزیون هایسنس A3Q',
-        tagline: 'وضوح فول اچ‌دی با VIDAA، حالت بازی کم‌تاخیر و صدای فراگیر DTS Virtual:X.',
+        tagline: 'وضوح فول اچ‌دی، حالت بازی کم‌تاخیر و صدای فراگیر DTS Virtual:X.',
         description:
-          'تلویزیون A3Q هایسنس با تصویر شفاف فول اچ‌دی و پشتیبانی HDR، Natural Colour Enhancer، Depth Enhancer و حذف نویز فریم‌به‌فریم، صدای Dolby Audio و DTS Virtual:X، حالت بازی کم‌تاخیر، AI Sports Mode و پخش بی‌سیم Share to TV روی سیستم‌عامل سریع و امن VIDAA ارائه می‌شود.',
+          'تلویزیون A3Q هایسنس با تصویر شفاف فول اچ‌دی و پشتیبانی HDR، Natural Colour Enhancer، Depth Enhancer و حذف نویز فریم‌به‌فریم، صدای Dolby Audio و DTS Virtual:X، حالت بازی کم‌تاخیر و AI Sports Mode ارائه می‌شود.',
         highlights: [
           'پنل Full HD (1920x1080) با زاویه دید 178 درجه و پشتیبانی HDR.',
           'Natural Colour Enhancer، Depth Enhancer و حذف نویز برای تصویر طبیعی و لایه‌دار.',
-          'Bluetooth به همراه HDMIx2، USB 2.0x2، AV/Component، خروجی اپتیکال و هدفون.',
+          'HDMIx2، USB 2.0x2، AV/Component، خروجی اپتیکال و هدفون.',
           'پشتیبانی از ضبط برنامه (PVR) و Time Shift با تیونر دیجیتال DVB-T/T2.',
         ],
         blocks: {
           featureIntro: {
             title: 'رنگ‌های بیشتر، لذت تماشای بیشتر',
-            text: 'تلویزیون هوشمند FHD',
+            text: 'تلویزیون FHD',
           },
           details: {
             title: 'جزئیات شفاف و دقیق را ببینید',
@@ -1349,18 +1339,6 @@ export const TV_PRODUCTS: TvProduct[] = [
           leaderboard: {
             title: 'به صدر جدول برسید',
             text: 'با خداحافظی با لگ‌های آزاردهنده، Game Mode هایسنس تأخیر ورودی را به 16 میلی‌ثانیه کاهش می‌دهد. دقیق حرکت کنید، در لحظه واکنش نشان دهید و پیروزی را از آن خود کنید—هر میلی‌ثانیه مهم است.',
-          },
-          easyFastSecure: {
-            title: 'آسان. سریع. امن. سرگرمی جهانی و محلی',
-            text: 'به آینده تلویزیون خوش آمدید! سیستم‌عامل پیشرفته ما محتوای بین‌المللی و محلی را یکپارچه و براساس سلیقه شما در دسترس قرار می‌دهد. از برنامه‌های محبوب، فیلم‌های پرفروش و سرگرمی‌های بی‌ پایان لذت ببرید—همه شخصی‌سازی‌شده و به‌سادگی قابل دسترسی. تجربه تماشای خود را ارتقا دهید و کنترل سرگرمی را به‌دست بگیرید.',
-          },
-          cast: {
-            title: 'کلیک کن، پخش کن، لذت ببر',
-            text: 'جابه‌جایی بین دستگاه‌ها دیگر قدیمی شده است. قابلیت Share to TV هایسنس محتوای موردعلاقه‌تان را مستقیم از دستگاه‌تان به تلویزیون می‌فرستد. آینه کنید یا اشتراک بگذارید—انتخاب با شماست و همه‌چیز بدون دردسر انجام می‌شود.',
-          },
-          connect: {
-            title: 'وصل شو، لذت ببر',
-            text: 'امکانات خود را گسترش دهید. با درگاه‌های HDMI، پورت‌های USB و اتصال Wi-Fi، تلویزیون می‌تواند به دستگاه‌های بیشتری متصل شده و محتوای خارجی را بدون مشکل پخش کند.',
           },
         },
       },

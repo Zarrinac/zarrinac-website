@@ -11,12 +11,12 @@
 // (the cron wrapper escalates to `claude -p` on a non-zero exit). Warnings are
 // advisory and don't change the exit code.
 //
-// Run: node ops/seo-audit.mjs [--base https://www.zarrinac.com]
+// Run: node ops/seo-audit.mjs [--base https://zarrinac.com]
 
 const argv = process.argv.slice(2);
 const BASE =
   (argv.includes('--base') ? argv[argv.indexOf('--base') + 1] : process.env.SEO_AUDIT_BASE) ||
-  'https://www.zarrinac.com';
+  'https://zarrinac.com';
 const SITEMAP = `${BASE}/sitemap.xml`;
 const CONCURRENCY = 8;
 const TIMEOUT_MS = 15000;

@@ -5,8 +5,8 @@ type RemotePattern = { protocol: 'http' | 'https'; hostname: string; pathname?: 
 
 // Base Next config wrapped with next-intl to inject locale support.
 const remotePatterns: RemotePattern[] = [
-  { protocol: 'http', hostname: 'www.zarrinac.com' },
-  { protocol: 'https', hostname: 'www.zarrinac.com' },
+  { protocol: 'http', hostname: 'zarrinac.com' },
+  { protocol: 'https', hostname: 'zarrinac.com' },
 ];
 
 const mediaBase = process.env.NEXT_PUBLIC_MEDIA_BASE_URL;
@@ -44,7 +44,7 @@ const securityHeaders = [
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
   // Stop browsers from MIME-sniffing away from the declared Content-Type.
   { key: 'X-Content-Type-Options', value: 'nosniff' },
-  // Force HTTPS for two years incl. subdomains (site is HTTPS-only on www).
+  // Force HTTPS for two years incl. subdomains.
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' },
   // Send origin only on cross-origin requests; full URL stays same-origin.
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },

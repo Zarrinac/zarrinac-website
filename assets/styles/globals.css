@@ -193,9 +193,7 @@ html[lang='fa'] body {
   opacity: 1;
 }
 
-/* D'code is a separate brand — its nav tab hovers/activates in D'code red instead
-   of the Hisense green. Locally overriding --brand-color re-tints the existing
-   hover color + underline rules for this one link. */
+/* D'code is a separate brand with a red nav accent. */
 .header-nav-link--dcode {
   --brand-color: #e30613;
 }
