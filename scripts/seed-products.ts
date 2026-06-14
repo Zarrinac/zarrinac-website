@@ -136,7 +136,7 @@ async function seed() {
 
   console.log(`Seeding ${normalized.length} products...`);
 
-  for (const product of normalized) {
+  for (const [index, product] of normalized.entries()) {
     const sizes = toStringArray(product.sizes);
     const connectivity = toStringArray(product.connectivity);
     const extras = toStringArray(product.extras);
@@ -157,6 +157,7 @@ async function seed() {
       id: product.id,
       slug: toSlug(product.id, product.slug),
       category: product.category,
+      position: index,
       sku: product.sku ?? null,
       series: product.series,
       seriesLabel: product.seriesLabel ?? null,
@@ -183,6 +184,7 @@ async function seed() {
     const updateData: Prisma.ProductUpdateInput = {
       slug: createData.slug,
       category: createData.category,
+      position: index,
       sku: createData.sku ?? null,
       series: createData.series,
       seriesLabel: createData.seriesLabel ?? null,
@@ -239,19 +241,24 @@ async function seed() {
     });
   }
 
+  // Prune: the content files are the source of truth, so remove any product row
+  // whose id is no longer present in content (e.g. the stale `hfh-96`). Copies and
+  // tvSpec cascade-delete with the product. This keeps the DB exactly in sync with
+  // content on every seed instead of accumulating orphans (upsert never deletes).
+  const seededIds = normalized.map((product) => product.id);
+  const pruned = await prisma.product.deleteMany({ where: { id: { notIn: seededIds } } });
+  if (pruned.count > 0) {
+    console.log(`Pruned ${pruned.count} stale product(s) not present in content.`);
+  }
+
   console.log('Seed complete.');
 }
 
-// Exit synchronously on success rather than awaiting Prisma/pg teardown: the
-// tsx + @prisma/adapter-pg + pg Pool teardown intermittently terminates the
-// process with a non-zero code AFTER the seed work is already committed, which
-// would break the `db:seed` && chain on success. The OS reclaims the short-lived
-// connection on exit. Real seed failures still reject seed() and exit 1.
 seed()
-  .then(() => {
-    process.exit(0);
-  })
   .catch((error) => {
     console.error('Seed failed:', error);
     process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
   });

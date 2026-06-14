@@ -19,7 +19,7 @@
 //        --webp-quality <=80>  --min-kb <only touch files above this=150>
 
 import sharp from 'sharp';
-import { readdir, stat, rename, copyFile, unlink } from 'node:fs/promises';
+import { readdir, stat, rename, copyFile, unlink, writeFile } from 'node:fs/promises';
 import { join, extname } from 'node:path';
 
 const args = process.argv.slice(2);
@@ -45,6 +45,24 @@ const MIN_BYTES = Number(val('--min-kb', 150)) * 1024;
 const MIN_SAVING = 0.05; // skip if it would save < 5%
 
 const exts = new Set(['.jpg', '.jpeg', '.png', '.webp']);
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Windows holds transient handles on files (OneDrive sync, AV, a dev server
+// serving the image), so rename-over-existing can fail with EPERM/EBUSY/UNKNOWN.
+// Retry with backoff before giving up.
+async function renameWithRetry(from, to, tries = 12, delayMs = 600) {
+  for (let i = 0; i < tries; i += 1) {
+    try {
+      await rename(from, to);
+      return;
+    } catch (e) {
+      const transient = e.code === 'EPERM' || e.code === 'EBUSY' || e.code === 'UNKNOWN';
+      if (!transient || i === tries - 1) throw e;
+      await sleep(delayMs);
+    }
+  }
+}
 
 async function* walk(dir) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
@@ -109,8 +127,14 @@ for await (const file of walk(MEDIA_DIR)) {
         if (BACKUP) await copyFile(file, `${file}.orig`);
         const tmp = `${file}.tmp`;
         try {
-          await sharp(buf).toFile(tmp);
-          await rename(tmp, file);
+          // Write the already-encoded optimized buffer directly. (Do NOT round-trip
+          // through sharp().toFile(tmp) — it infers format from the ".tmp" extension,
+          // which is unsupported and throws, leaving the original file untouched.)
+          await writeFile(tmp, buf);
+          // Retry the atomic replace: on Windows a transient handle on the
+          // destination (OneDrive sync, antivirus, a running dev server serving
+          // the image) makes rename fail with EPERM/EBUSY. Back off and retry.
+          await renameWithRetry(tmp, file);
         } catch (e) {
           await unlink(tmp).catch(() => {}); // don't leave a stray .tmp behind on failure
           throw e;

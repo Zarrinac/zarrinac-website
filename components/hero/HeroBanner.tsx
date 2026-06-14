@@ -21,6 +21,11 @@ const bannerAsset = (path: string) => mediaUrl(`/banner/${path}`);
 
 const BANNERS: Banner[] = [
   {
+    id: 'banner-wc2026',
+    desktop: bannerAsset('Fix-Banner-NEW-WC2026.webp'),
+    alt: 'Hisense FIFA World Cup 2026 campaign',
+  },
+  {
     id: 'banner-1',
     desktop: bannerAsset('Fix-Banner-02-Back.jpg'),
     alt: 'Hisense flagship lineup hero 1',

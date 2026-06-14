@@ -82,7 +82,7 @@ export const SUB_MENU_CONTENT: Record<NavKey, SubMenuItem[]> = {
       href: '/products/wms',
     },
   ],
-  // D'code is a plain nav link with no mega-menu — empty submenu suppresses the panel.
+  // D'code is a plain nav link with no mega-menu; empty submenu suppresses the panel.
   dcode: [],
   about: [
     {
@@ -161,3 +161,5 @@ export const SUB_MENU_CONTENT: Record<NavKey, SubMenuItem[]> = {
     },
   ],
 };
+
+export const hasSubMenu = (key: NavKey) => SUB_MENU_CONTENT[key].length > 0;

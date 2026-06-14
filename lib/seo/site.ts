@@ -1,7 +1,7 @@
 import type { Locale } from '@/i18n/routing';
 import { routing } from '@/i18n/routing';
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.zarrinac.com').replace(
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zarrinac.com').replace(
   /\/$/,
   '',
 );

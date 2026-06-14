@@ -1,6 +1,5 @@
 import type { Locale } from '@/i18n/routing';
 import { prisma } from '@/lib/db';
-import { useLocalContent } from '@/lib/contentSource';
 import {
   serviceCenters,
   type ServiceCenter,
@@ -232,7 +231,7 @@ export async function loadServiceCenterData(
   const serviceRepresentativeClient = getServiceRepresentativeClient();
   const normalizedFilters = normalizeServiceCenterFilters(filters);
 
-  if (!useLocalContent && serviceRepresentativeClient) {
+  if (serviceRepresentativeClient) {
     try {
       const allRows = await serviceRepresentativeClient.serviceRepresentative.findMany({
         orderBy: [{ sortOrder: 'asc' }],

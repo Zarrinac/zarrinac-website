@@ -1,5 +1,5 @@
 import type { Locale } from '@/i18n/routing';
-import { SITE_URL, getLocaleLanguage, toAbsoluteUrl } from './site';
+import { SITE_CONTENT_LAST_MODIFIED, SITE_URL, getLocaleLanguage, toAbsoluteUrl } from './site';
 
 // Shared schema.org Product builder so TV/RAC/WMS/CAC and refrigerator detail
 // pages emit consistent Product + Brand structured data.
@@ -87,3 +87,39 @@ export const buildProductJsonLd = ({
     ...offers,
   };
 };
+
+type VideoObjectJsonLdInput = {
+  /** Video title — typically the product name + a hero descriptor. */
+  name: string;
+  /** Short description of what the clip shows. */
+  description: string;
+  /** Hero video src (relative or absolute) — becomes `contentUrl`. */
+  contentUrl: string;
+  /** Poster/thumbnail src (relative or absolute). Required by Google. */
+  thumbnailUrl: string;
+  /**
+   * ISO 8601 publish date. Defaults to the stable site-content baseline so the
+   * value doesn't churn on every build (Google requires `uploadDate` for video
+   * rich results).
+   */
+  uploadDate?: string;
+};
+
+// VideoObject for self-hosted product hero clips. Emitting this (with a
+// first-party `contentUrl`) makes the hero eligible for Google video rich
+// results — something a third-party hotlink can't reliably claim.
+export const buildVideoObjectJsonLd = ({
+  name,
+  description,
+  contentUrl,
+  thumbnailUrl,
+  uploadDate = SITE_CONTENT_LAST_MODIFIED.toISOString(),
+}: VideoObjectJsonLdInput) => ({
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name,
+  description,
+  thumbnailUrl: [toAbsoluteUrl(thumbnailUrl)],
+  contentUrl: toAbsoluteUrl(contentUrl),
+  uploadDate,
+});

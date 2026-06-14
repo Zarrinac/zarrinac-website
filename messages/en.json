@@ -32,9 +32,9 @@
         "tvAudio": "TV & Audio",
         "airConditioner": "Air-Conditioner",
         "homeAppliances": "Home Appliances",
-        "dcode": "D'code",
         "about": "About Hisense",
-        "support": "Support"
+        "support": "Support",
+        "dcode": "D'code"
       }
     },
     "searchPlaceholder": "Search Hisense"

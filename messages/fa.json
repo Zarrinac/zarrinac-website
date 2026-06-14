@@ -41,9 +41,9 @@
         "tvAudio": "تلویزیون و صوتی",
         "airConditioner": "تهویه مطبوع",
         "homeAppliances": "لوازم خانگی",
-        "dcode": "D'code",
         "about": "درباره ما",
-        "support": "پشتیبانی"
+        "support": "پشتیبانی",
+        "dcode": "D'code"
       }
     },
     "searchPlaceholder": "جستجوی هایسنس"

@@ -12,7 +12,7 @@ import ThemeToggle from '@/components/theme/ThemeToggle';
 import Logo from '@/public/icons/hisense-logo-full.svg';
 import type { NavKey, SubMenuItem } from './navigationData';
 import { buildSubmenuProductLinks } from './submenuProductLinks';
-import { canonicalizeHref } from './navigationData';
+import { canonicalizeHref, hasSubMenu } from './navigationData';
 
 type LabeledNavItem = {
   key: NavKey;
@@ -68,6 +68,9 @@ export default function DesktopNavigation({
   const orderedPrimaryNav = direction === 'rtl' ? [...navItems].reverse() : navItems;
   const orderedSecondaryNav =
     direction === 'rtl' ? [...secondaryNavItems].reverse() : secondaryNavItems;
+  const activateMenu = (key: NavKey) => {
+    onMenuKeyChange(hasSubMenu(key) ? key : null);
+  };
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -116,7 +119,7 @@ export default function DesktopNavigation({
     <div
       ref={navContainerRef}
       className={`sticky top-0 z-50 w-full transform-gpu transition-[transform,opacity] duration-500 ease-in-out ${
-        isHidden ? 'translate-y-[-105%] opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
+        isHidden ? '-translate-y-[105%] opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
       }`}
       onMouseLeave={handleMouseLeave}
       dir={direction}
@@ -140,10 +143,10 @@ export default function DesktopNavigation({
                 key={item.key}
                 href={toLocalePath(item.href)}
                 className={`header-nav-link${item.key === 'dcode' ? ' header-nav-link--dcode' : ''}`}
-                onMouseEnter={() => onMenuKeyChange(item.key)}
-                onFocus={() => onMenuKeyChange(item.key)}
-                aria-haspopup="true"
-                aria-expanded={activeMenuKey === item.key}
+                onMouseEnter={() => activateMenu(item.key)}
+                onFocus={() => activateMenu(item.key)}
+                aria-haspopup={hasSubMenu(item.key) ? 'true' : undefined}
+                aria-expanded={hasSubMenu(item.key) ? activeMenuKey === item.key : undefined}
               >
                 {item.label}
               </Link>
@@ -158,10 +161,10 @@ export default function DesktopNavigation({
                 key={item.key}
                 href={toLocalePath(item.href)}
                 className="header-nav-link"
-                onMouseEnter={() => onMenuKeyChange(item.key)}
-                onFocus={() => onMenuKeyChange(item.key)}
-                aria-haspopup="true"
-                aria-expanded={activeMenuKey === item.key}
+                onMouseEnter={() => activateMenu(item.key)}
+                onFocus={() => activateMenu(item.key)}
+                aria-haspopup={hasSubMenu(item.key) ? 'true' : undefined}
+                aria-expanded={hasSubMenu(item.key) ? activeMenuKey === item.key : undefined}
               >
                 {item.label}
               </Link>
