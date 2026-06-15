@@ -9,6 +9,7 @@ import SectionGroupsRenderer, {
   type NormalizedSectionGroup,
 } from '@/components/tv/product-detail/SectionGroupsRenderer';
 import SpecsSection from '@/components/tv/product-detail/SpecsSection';
+import SpecsJumpButton from '@/components/tv/product-detail/SpecsJumpButton';
 import JsonLd from '@/components/seo/JsonLd';
 import type { BreadcrumbItem } from '@/components/tv/product-detail/Breadcrumbs';
 import type {
@@ -32,6 +33,7 @@ import {
 import { buildProductJsonLd } from '@/lib/seo/productSchema';
 import { buildProductMetaDescription, buildProductMetaTitle } from '@/lib/seo/productMeta';
 import { buildProductFaqs, getProductFaqHeading } from '@/lib/seo/productFaq';
+import { buildFeatureCardSectionLinks } from '@/lib/products/featureCardSectionLinks';
 import ProductFaqSection from '@/components/seo/ProductFaqSection';
 
 // Builds the refrigerator detail page from bundled content.
@@ -360,7 +362,12 @@ export default async function RefrigeratorProductPage({ params }: PageProps) {
   const specDetails: string[] = resolveSpecs(product.specs, lang);
   const seriesDisplay = getSeriesDisplay(product);
   const featureCards = product.featureCards ?? [];
-  const compactFeatureTitles = new Set<string>();
+  // Link each feature card to the content section it best describes, so clicking
+  // a card smooth-scrolls there.
+  const featureCardLinks = buildFeatureCardSectionLinks(
+    featureCards,
+    sectionGroups.flatMap((group) => group.sections),
+  );
   const productMeta = product as unknown as { availableColors?: unknown; topBanner?: unknown };
   const normalizedColors = normalizeAvailableColors(productMeta.availableColors);
   const availableColors =
@@ -433,6 +440,8 @@ export default async function RefrigeratorProductPage({ params }: PageProps) {
         }
       />
 
+      {specDetails.length > 0 && <SpecsJumpButton targetId="product-specs" lang={lang} />}
+
       <FeatureIntro title={featureIntroTitle} text={featureIntroText} />
 
       {topBanner && (
@@ -451,7 +460,7 @@ export default async function RefrigeratorProductPage({ params }: PageProps) {
         </div>
       )}
 
-      <FeatureCardsGrid featureCards={featureCards} compactFeatureTitles={compactFeatureTitles} />
+      <FeatureCardsGrid featureCards={featureCards} linkTargets={featureCardLinks} />
 
       {masterMomentTitle && (
         <div className="w-full mx-auto max-w-360">
@@ -466,9 +475,14 @@ export default async function RefrigeratorProductPage({ params }: PageProps) {
         </div>
       )}
 
-      <SectionGroupsRenderer sectionGroups={sectionGroups} lang={lang} overlayTone="dark" />
+      <SectionGroupsRenderer
+        sectionGroups={sectionGroups}
+        lang={lang}
+        overlayTone="dark"
+        sectionIdPrefix="feature-section"
+      />
 
-      <SpecsSection items={specDetails} lang={lang} />
+      <SpecsSection items={specDetails} lang={lang} id="product-specs" />
 
       <ProductFaqSection
         faqs={buildProductFaqs({

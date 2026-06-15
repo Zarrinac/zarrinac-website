@@ -9,12 +9,17 @@ type OverlayContentSectionsProps = {
   sections: ContentSectionData[];
   isRTL?: boolean;
   tone?: 'light' | 'dark';
+  // Optional stable scroll anchor: section `idx` becomes `${prefix}-${startIndex + idx}`.
+  sectionIdPrefix?: string;
+  startIndex?: number;
 };
 
 export default function OverlayContentSections({
   sections,
   isRTL = false,
   tone = 'light',
+  sectionIdPrefix,
+  startIndex = 0,
 }: OverlayContentSectionsProps) {
   const refs = useRef<(HTMLDivElement | null)[]>([]);
   const [visible, setVisible] = useState<boolean[]>(() => sections.map(() => false));
@@ -67,11 +72,12 @@ export default function OverlayContentSections({
         return (
           <div
             key={`${section.title}-${idx}`}
+            id={sectionIdPrefix ? `${sectionIdPrefix}-${startIndex + idx}` : undefined}
             data-index={idx}
             ref={(el) => {
               refs.current[idx] = el;
             }}
-            className="overflow-hidden"
+            className="overflow-hidden scroll-mt-28"
           >
             <div className="flex flex-col">
               <div

@@ -30,10 +30,9 @@ const MobileHeader = ({
       includeStructuredData={false}
     />
     <div className="space-y-1.5">
-      {/* Mobile-visible H1 (BannerSection holds the desktop H1, hidden on mobile). */}
-      <h1 className="text-xl font-black leading-tight text-(--default-black-font) sm:text-2xl">
+      <p className="text-xl font-black leading-tight text-(--default-black-font) sm:text-2xl">
         {seriesDisplay || copyName}
-      </h1>
+      </p>
       {availableSizes.length > 0 && (
         <ul className="flex flex-wrap items-center gap-2.5 text-xs text-(--text-muted-color)">
           {availableSizes.map((size, idx) => (

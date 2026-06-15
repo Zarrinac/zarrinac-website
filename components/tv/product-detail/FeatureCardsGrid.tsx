@@ -1,50 +1,73 @@
+'use client';
+
 import type { TvFeatureCard } from '@/types/tv';
 import FeatureCardImage from '@/components/tv/FeatureCardImage';
+import { smoothScrollToId } from '@/lib/scrollToElement';
 
-// Grid of product feature badges, swapping images for dark mode when available.
+// Grid of product feature badges. Every card uses one consistent dark "glass"
+// tile in both light and dark themes, so logos of any colour (white, teal,
+// colourful, or inverted black line icons) read uniformly. See FeatureCardImage
+// for the per-logo colour handling.
+//
+// When `linkTargets[i]` is set, card `i` becomes a button that smooth-scrolls to
+// the matching content section (mapping built by buildFeatureCardSectionLinks).
+// Cards without a target stay as plain, non-interactive tiles.
 
 type FeatureCardsGridProps = {
   featureCards: TvFeatureCard[];
-  compactFeatureTitles: Set<string>;
+  linkTargets?: (string | null)[];
 };
 
-const FeatureCardsGrid = ({ featureCards, compactFeatureTitles }: FeatureCardsGridProps) => {
+// Shared tile background: deep slate glass with a soft teal corner sheen.
+const TILE_BG =
+  '[background:radial-gradient(120%_120%_at_15%_10%,rgba(0,179,172,0.16),transparent_46%),linear-gradient(150deg,#1e293b_0%,#0f172a_55%,#0b1220_100%)]';
+
+const BASE_TILE =
+  'flex flex-col items-center justify-center gap-3 rounded-xl border border-white/10 p-4 text-center shadow-[0_8px_22px_rgba(2,6,23,0.30)] transition duration-300';
+
+const INTERACTIVE_TILE =
+  'cursor-pointer hover:-translate-y-1 hover:border-(--brand-color) hover:shadow-[0_16px_34px_rgba(2,6,23,0.5)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--brand-color)';
+
+const FeatureCardsGrid = ({ featureCards, linkTargets }: FeatureCardsGridProps) => {
   if (featureCards.length === 0) return null;
 
   return (
     <div className="w-full mx-auto max-w-360">
       <div className="grid w-full grid-cols-2 gap-3 mx-auto sm:grid-cols-3 md:gap-4 md:grid-cols-5">
-        {featureCards.map((block) => {
-          const isInline = block.layout === 'inline';
-          const cardLayoutClass = isInline
-            ? 'flex-row items-center gap-2.5 px-3 py-3 md:gap-3 md:px-4'
-            : 'flex-col gap-2 items-center justify-between px-2 py-2.5 md:px-3';
-          const titleClass = isInline
-            ? 'text-[11px] text-left leading-snug md:text-sm'
-            : 'mb-1 text-[11px] text-center leading-snug md:text-sm md:mb-2';
+        {featureCards.map((block, idx) => {
+          const target = linkTargets?.[idx] ?? null;
+          const inner = (
+            <>
+              <div className="flex items-center justify-center w-full h-16">
+                <FeatureCardImage
+                  title={block.title}
+                  image={block.image}
+                  imageBlack={block.imageBlack}
+                  className="max-h-12 w-auto max-w-[80%] object-contain"
+                />
+              </div>
+              <h4 className="text-[11px] font-medium leading-snug text-slate-100/90 md:text-sm">
+                {block.title}
+              </h4>
+            </>
+          );
+
+          if (target) {
+            return (
+              <button
+                key={block.title}
+                type="button"
+                onClick={() => smoothScrollToId(target)}
+                className={`group ${BASE_TILE} ${INTERACTIVE_TILE} ${TILE_BG}`}
+              >
+                {inner}
+              </button>
+            );
+          }
 
           return (
-            <div
-              key={block.title}
-              className={`flex ${cardLayoutClass} rounded-xl border border-(--border-color) bg-(--surface-color) shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-(--brand-color) [background:radial-gradient(circle_at_18%_18%,rgba(15,118,178,0.38),transparent_42%),radial-gradient(circle_at_82%_6%,rgba(59,130,246,0.32),transparent_36%),linear-gradient(150deg,rgba(15,23,42,0.6),rgba(15,23,42,0.3)),var(--surface-color)] dark:[background:linear-gradient(150deg,rgba(15,23,42,0.85),rgba(15,23,42,0.55))]`}
-              dir={isInline ? 'ltr' : undefined}
-            >
-              <div className="rounded-2xl bg-(--surface-color-2) flex items-center justify-center">
-                {(() => {
-                  const isCompact = compactFeatureTitles.has(block.title);
-                  const imageClasses = `${isCompact ? 'h-12 mt-4' : 'h-14 mt-2'} w-auto object-contain`;
-
-                  return (
-                    <FeatureCardImage
-                      title={block.title}
-                      image={block.image}
-                      imageBlack={block.imageBlack}
-                      className={imageClasses}
-                    />
-                  );
-                })()}
-              </div>
-              <h4 className={titleClass}>{block.title}</h4>
+            <div key={block.title} className={`group ${BASE_TILE} ${TILE_BG}`}>
+              {inner}
             </div>
           );
         })}
