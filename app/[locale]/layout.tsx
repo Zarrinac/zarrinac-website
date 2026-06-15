@@ -9,6 +9,7 @@ import {
 } from 'next-intl/server';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ScrollToTopButton from '@/components/ScrollToTopButton';
 import StructuredData from '@/components/seo/StructuredData';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { routing, type Locale } from '@/i18n/routing';
@@ -113,9 +114,9 @@ export async function generateMetadata(
       type: 'website',
       images: [
         {
-          url: `${SITE_URL}/banner/Fix-Banner-07.jpg`,
-          width: 1200,
-          height: 630,
+          url: `${SITE_URL}/banner/Fix-Banner-07.webp`,
+          width: 1920,
+          height: 650,
           alt: t('title'),
         },
       ],
@@ -124,7 +125,7 @@ export async function generateMetadata(
       card: 'summary_large_image',
       title: t('title'),
       description: t('description'),
-      images: [`${SITE_URL}/banner/Fix-Banner-07.jpg`],
+      images: [`${SITE_URL}/banner/Fix-Banner-07.webp`],
     },
   };
 }
@@ -152,6 +153,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           <main>{children}</main>
           <Footer />
         </div>
+        <ScrollToTopButton />
       </NextIntlClientProvider>
     </ThemeProvider>
   );

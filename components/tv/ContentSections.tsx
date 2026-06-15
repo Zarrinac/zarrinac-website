@@ -16,12 +16,17 @@ type ContentSectionsProps = {
   sections: ContentSectionData[];
   isRTL?: boolean;
   isImageLeft?: boolean;
+  // Optional stable scroll anchor: section `idx` becomes `${prefix}-${startIndex + idx}`.
+  sectionIdPrefix?: string;
+  startIndex?: number;
 };
 
 export default function ContentSections({
   sections,
   isRTL = false,
   isImageLeft = false,
+  sectionIdPrefix,
+  startIndex = 0,
 }: ContentSectionsProps) {
   const refs = useRef<(HTMLDivElement | null)[]>([]);
   const [visible, setVisible] = useState<boolean[]>(() => sections.map(() => false));
@@ -65,11 +70,12 @@ export default function ContentSections({
         return (
           <div
             key={`${section.title}-${idx}`}
+            id={sectionIdPrefix ? `${sectionIdPrefix}-${startIndex + idx}` : undefined}
             data-index={idx}
             ref={(el) => {
               refs.current[idx] = el;
             }}
-            className={`flex flex-col items-center gap-6 ${
+            className={`flex scroll-mt-28 flex-col items-center gap-6 ${
               isImageRight || isImageLeft ? 'md:flex-row' : 'md:flex-row-reverse'
             }`}
           >

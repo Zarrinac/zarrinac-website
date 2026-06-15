@@ -77,11 +77,31 @@ const HOME_SEO_CONTENT: Record<
 // Locale-aware homepage renders the hero carousel and localized category spotlights.
 
 const SPOTLIGHT_SOURCES = [
-  { id: 'tv', href: '/products/tvs', image: bannerAsset('Fix-Banner-02-Back.jpg') },
-  { id: 'refrigerator', href: '/refrigerator', image: bannerAsset('Fix-Banner-03-Back.webp') },
-  { id: 'washingMachine', href: '/products/wms', image: bannerAsset('Fix-Banner-04-Back.jpg') },
-  { id: 'rac', href: '/products/rac', image: bannerAsset('Fix-Banner-05-Back.jpg') },
-] as const satisfies ReadonlyArray<Pick<SpotlightCard, 'id' | 'href' | 'image'>>;
+  {
+    id: 'tv',
+    href: '/products/tvs',
+    image: bannerAsset('Fix-Banner-02-Back.webp'),
+    mobileImage: bannerAsset('Fix-Banner-02-Back-mobile.webp'),
+  },
+  {
+    id: 'refrigerator',
+    href: '/refrigerator',
+    image: bannerAsset('Fix-Banner-03-Back.webp'),
+    mobileImage: bannerAsset('Fix-Banner-03-Back-mobile.webp'),
+  },
+  {
+    id: 'washingMachine',
+    href: '/products/wms',
+    image: bannerAsset('Fix-Banner-04-Back.webp'),
+    mobileImage: bannerAsset('Fix-Banner-04-Back-mobile.webp'),
+  },
+  {
+    id: 'rac',
+    href: '/products/rac',
+    image: bannerAsset('Fix-Banner-05-Back.webp'),
+    mobileImage: bannerAsset('Fix-Banner-05-Back-mobile.webp'),
+  },
+] as const satisfies ReadonlyArray<Pick<SpotlightCard, 'id' | 'href' | 'image' | 'mobileImage'>>;
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();

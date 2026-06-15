@@ -13,6 +13,7 @@ import ComparisonSections, {
   type ComparisonSection,
 } from '@/components/tv/product-detail/ComparisonSections';
 import SpecsSection from '@/components/tv/product-detail/SpecsSection';
+import SpecsJumpButton from '@/components/tv/product-detail/SpecsJumpButton';
 import JsonLd from '@/components/seo/JsonLd';
 import type { BreadcrumbItem } from '@/components/tv/product-detail/Breadcrumbs';
 import type {
@@ -37,6 +38,7 @@ import { createInternalApiUrl } from '@/lib/api/internalUrl';
 import { buildProductJsonLd, buildVideoObjectJsonLd } from '@/lib/seo/productSchema';
 import { buildProductMetaDescription, buildProductMetaTitle } from '@/lib/seo/productMeta';
 import { buildProductFaqs, getProductFaqHeading } from '@/lib/seo/productFaq';
+import { buildFeatureCardSectionLinks } from '@/lib/products/featureCardSectionLinks';
 import ProductFaqSection from '@/components/seo/ProductFaqSection';
 
 // Builds product detail pages from the API (DB-first) with bundled content as fallback via the API layer.
@@ -481,13 +483,15 @@ export default async function ProductDetailPage({ params }: PageProps) {
   const experienceSection = buildExperienceSection(product, blocks);
   const comparisonSections = buildComparisonSections(product, blocks);
   const specDetails: string[] = resolveSpecs(product.specs, lang);
-  const featureCards = product.featureCards ?? [];
-  const compactFeatureTitles =
-    categorySlug === 'wms'
-      ? new Set(['Quick Wash', 'Allergy Steam'])
-      : categorySlug === 'rac'
-        ? new Set<string>()
-        : new Set(['Dolby Vision-Atoms', 'Filmmaker', 'IMAX']);
+  // CAC feature cards reuse section photos (no dedicated logos), so the badge
+  // grid is redundant for them — skip it.
+  const featureCards = categorySlug === 'cac' ? [] : (product.featureCards ?? []);
+  // Link each feature card to the content section it best describes, so clicking
+  // a card smooth-scrolls there.
+  const featureCardLinks = buildFeatureCardSectionLinks(
+    featureCards,
+    sectionGroups.flatMap((group) => group.sections),
+  );
   const availableSizes = getAvailableSizes(product);
   const seriesDisplay = getSeriesDisplay(product);
   const categoryCopy = await getCategoryCopy(categorySlug);
@@ -571,6 +575,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
         availableSizes={availableSizes}
       />
 
+      {specDetails.length > 0 && <SpecsJumpButton targetId="product-specs" lang={lang} />}
+
       <FeatureIntro title={featureIntroTitle} text={featureIntroText} />
 
       <HeroMedia
@@ -593,9 +599,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </div>
       )}
 
-      <FeatureCardsGrid featureCards={featureCards} compactFeatureTitles={compactFeatureTitles} />
+      <FeatureCardsGrid featureCards={featureCards} linkTargets={featureCardLinks} />
 
-      <SectionGroupsRenderer sectionGroups={sectionGroups} lang={lang} />
+      <SectionGroupsRenderer
+        sectionGroups={sectionGroups}
+        lang={lang}
+        sectionIdPrefix="feature-section"
+      />
 
       <ComparisonSections
         sections={comparisonSections}
@@ -607,7 +617,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
         <ContentSections sections={[experienceSection]} isRTL={lang === 'fa'} isImageLeft={true} />
       )}
 
-      <SpecsSection items={specDetails} lang={lang} />
+      <SpecsSection items={specDetails} lang={lang} id="product-specs" />
 
       <ProductFaqSection
         faqs={buildProductFaqs({

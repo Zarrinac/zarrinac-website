@@ -1190,8 +1190,8 @@
     "semantic_hash": ""
   },
   "app/[locale]/layout.tsx": {
-    "mtime": 1781525576.6704667,
-    "ast_hash": "15788ea7c8111f0e299a100be1ff43c6",
+    "mtime": 1781434548.7787504,
+    "ast_hash": "616ed63d347614e97b762102e060749e",
     "semantic_hash": ""
   },
   "app/[locale]/not-found.tsx": {
@@ -1200,8 +1200,8 @@
     "semantic_hash": ""
   },
   "app/[locale]/page.tsx": {
-    "mtime": 1781523929.239273,
-    "ast_hash": "511dbeb418b35e163290e2c974d2a73a",
+    "mtime": 1780832608.3354886,
+    "ast_hash": "6c9f72d44a3ecfebae089731436a0122",
     "semantic_hash": ""
   },
   "app/[locale]/portal/page.tsx": {
@@ -1210,8 +1210,8 @@
     "semantic_hash": ""
   },
   "app/[locale]/products/[category]/[productId]/page.tsx": {
-    "mtime": 1781525576.6704667,
-    "ast_hash": "0143620b53da8d0c329615665c95e757",
+    "mtime": 1781434548.8442461,
+    "ast_hash": "e0bb2997159a408f5c3ad11193171b25",
     "semantic_hash": ""
   },
   "app/[locale]/products/[category]/page.tsx": {
@@ -1225,8 +1225,8 @@
     "semantic_hash": ""
   },
   "app/[locale]/refrigerator/[productId]/page.tsx": {
-    "mtime": 1781522457.0421798,
-    "ast_hash": "d14721095acd50031bcb23accf2fb9a9",
+    "mtime": 1780912434.3974714,
+    "ast_hash": "fc97fd93219b4b892978382131247e4a",
     "semantic_hash": ""
   },
   "app/[locale]/refrigerator/page.tsx": {
@@ -1475,13 +1475,13 @@
     "semantic_hash": ""
   },
   "components/hero/HeroBanner.tsx": {
-    "mtime": 1781525576.6665716,
-    "ast_hash": "ec3e8cb6648a130e5ea48d31955ce588",
+    "mtime": 1781434549.012319,
+    "ast_hash": "c7c475dcf68c6071f175bbedc2b5d5d4",
     "semantic_hash": ""
   },
   "components/home/CategorySpotlights.tsx": {
-    "mtime": 1781523929.272214,
-    "ast_hash": "3699fe2eb81aaa7d9f38e06c2fdfd31a",
+    "mtime": 1780819395.2537465,
+    "ast_hash": "bc480cbd432fba46d738d6c24744428a",
     "semantic_hash": ""
   },
   "components/refrigerator/RefrigeratorHero.tsx": {
@@ -1565,23 +1565,23 @@
     "semantic_hash": ""
   },
   "components/tv/ContentSections.tsx": {
-    "mtime": 1781522457.0421798,
-    "ast_hash": "ab07bee8ccdbfe60ca5702863cbe84b0",
+    "mtime": 1780819395.2779725,
+    "ast_hash": "c2c66c68af29aab5d865f0d949828782",
     "semantic_hash": ""
   },
   "components/tv/FeatureCardImage.tsx": {
-    "mtime": 1781522457.0421798,
-    "ast_hash": "2bc74086f61b6411414957910dced60d",
+    "mtime": 1781348454.8043585,
+    "ast_hash": "50046439f8b91322fc5376ae8ba0b9f9",
     "semantic_hash": ""
   },
   "components/tv/OverlayContentSections.tsx": {
-    "mtime": 1781522457.0421798,
-    "ast_hash": "e1cafcc05e5805c999864cb3ed36e0b8",
+    "mtime": 1780819395.2779725,
+    "ast_hash": "6e11817a884c4f6cab9376343c66cbe6",
     "semantic_hash": ""
   },
   "components/tv/StackedContentSections.tsx": {
-    "mtime": 1781522457.0421798,
-    "ast_hash": "27b3236ce0977ea1f8c9cac6e676cab1",
+    "mtime": 1780819395.2779725,
+    "ast_hash": "7bfff505e44955528086972bc42a50ec",
     "semantic_hash": ""
   },
   "components/tv/TvHeroCarousel.tsx": {
@@ -1610,8 +1610,8 @@
     "semantic_hash": ""
   },
   "components/tv/product-detail/FeatureCardsGrid.tsx": {
-    "mtime": 1781522457.0421798,
-    "ast_hash": "3e04cabc3000388201709e72198c2f97",
+    "mtime": 1781348471.5327053,
+    "ast_hash": "e34d0914d1f616a62d78bb8711e0bd6f",
     "semantic_hash": ""
   },
   "components/tv/product-detail/FeatureIntro.tsx": {
@@ -1625,18 +1625,18 @@
     "semantic_hash": ""
   },
   "components/tv/product-detail/MobileHeader.tsx": {
-    "mtime": 1781526031.569701,
-    "ast_hash": "c99345d9e9c407a57755be39bc2e1267",
+    "mtime": 1780822391.5900147,
+    "ast_hash": "24b1f91654757450b1e72c58b28e10cb",
     "semantic_hash": ""
   },
   "components/tv/product-detail/SectionGroupsRenderer.tsx": {
-    "mtime": 1781522457.0421798,
-    "ast_hash": "eebbfc6887e37e6aad3109016692701e",
+    "mtime": 1780819395.284935,
+    "ast_hash": "8b76c8044953af3524e4f97af4b890aa",
     "semantic_hash": ""
   },
   "components/tv/product-detail/SpecsSection.tsx": {
-    "mtime": 1781510624.5499845,
-    "ast_hash": "5afff93248696df649387f59e8905085",
+    "mtime": 1780819395.284935,
+    "ast_hash": "f1b9ec9a868f2a030a0a2fe98642f9f6",
     "semantic_hash": ""
   },
   "content/CacProducts.ts": {
@@ -1830,8 +1830,8 @@
     "semantic_hash": ""
   },
   "lib/seo/localBusiness.ts": {
-    "mtime": 1781522675.148278,
-    "ast_hash": "3a4c94a7ab9dae5bdb7cbb9523c1af2e",
+    "mtime": 1781433183.6359732,
+    "ast_hash": "e70bc56099b9de683867e4131ff18a8f",
     "semantic_hash": ""
   },
   "lib/seo/productFaq.ts": {
@@ -2322,31 +2322,6 @@
   ".agents/skills/hisense-sync/references/boundaries.md": {
     "mtime": 1781435943.9240997,
     "ast_hash": "2e67262a8bff06e8faa77c1e6a88ca2d",
-    "semantic_hash": ""
-  },
-  "components/ScrollToTopButton.tsx": {
-    "mtime": 1781522457.0421798,
-    "ast_hash": "473088d28158341b10da483b5962bca4",
-    "semantic_hash": ""
-  },
-  "components/tv/product-detail/SpecsJumpButton.tsx": {
-    "mtime": 1781522457.0531182,
-    "ast_hash": "0875fc5b954540e7491679336d224490",
-    "semantic_hash": ""
-  },
-  "content/monoFeatureLogos.generated.ts": {
-    "mtime": 1781522457.0531182,
-    "ast_hash": "ea1c291ff86e55c081cee32d6e300eaf",
-    "semantic_hash": ""
-  },
-  "lib/products/featureCardSectionLinks.ts": {
-    "mtime": 1781522457.0746784,
-    "ast_hash": "ff2c163cb2775485a27765b2d2127c8f",
-    "semantic_hash": ""
-  },
-  "lib/scrollToElement.ts": {
-    "mtime": 1781522457.0746784,
-    "ast_hash": "31399745ef2cccaac84fc1782c60fbaf",
     "semantic_hash": ""
   }
 }

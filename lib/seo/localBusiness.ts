@@ -29,7 +29,7 @@ export const buildLocalBusinessJsonLd = (locale: Locale) => {
     name: content.name,
     description: content.description,
     url: SITE_URL,
-    image: `${SITE_URL}/banner/Fix-Banner-07.jpg`,
+    image: `${SITE_URL}/banner/Fix-Banner-07.webp`,
     logo: `${SITE_URL}/icons/hisense-logo-full.svg`,
     telephone: '+98-21-72133',
     email: 'info@zarrinac.com',

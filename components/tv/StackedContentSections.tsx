@@ -18,6 +18,9 @@ type StackedContentSectionsProps = {
   className?: string;
   cardClassName?: string;
   imageClassName?: string;
+  // Optional stable scroll anchor: section `idx` becomes `${prefix}-${startIndex + idx}`.
+  sectionIdPrefix?: string;
+  startIndex?: number;
 };
 
 export default function StackedContentSections({
@@ -27,6 +30,8 @@ export default function StackedContentSections({
   className,
   cardClassName,
   imageClassName,
+  sectionIdPrefix,
+  startIndex = 0,
 }: StackedContentSectionsProps) {
   const refs = useRef<(HTMLDivElement | null)[]>([]);
   const [visible, setVisible] = useState<boolean[]>(() => sections.map(() => false));
@@ -63,8 +68,8 @@ export default function StackedContentSections({
     ? `w-full mx-auto space-y-8 sm:space-y-10 md:space-y-12 max-w-360 ${className}`
     : 'w-full mx-auto space-y-8 sm:space-y-10 md:space-y-12 max-w-360';
   const resolvedCardClassName = cardClassName
-    ? `overflow-hidden rounded-3xl ${cardClassName}`
-    : 'overflow-hidden rounded-3xl';
+    ? `overflow-hidden rounded-3xl scroll-mt-28 ${cardClassName}`
+    : 'overflow-hidden rounded-3xl scroll-mt-28';
   const resolvedImageClassName = imageClassName
     ? `object-cover rounded-3xl ${imageClassName}`
     : 'object-cover rounded-3xl';
@@ -115,6 +120,7 @@ export default function StackedContentSections({
         return (
           <div
             key={`${section.title}-${idx}`}
+            id={sectionIdPrefix ? `${sectionIdPrefix}-${startIndex + idx}` : undefined}
             data-index={idx}
             ref={(el) => {
               refs.current[idx] = el;

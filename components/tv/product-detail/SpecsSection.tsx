@@ -2,10 +2,15 @@
 type SpecsSectionProps = {
   items: string[];
   lang: 'fa' | 'en';
+  id?: string;
 };
 
-const SpecsSection = ({ items, lang }: SpecsSectionProps) => (
-  <div className="w-full mx-auto space-y-8 sm:space-y-10 md:space-y-12 max-w-360">
+const SpecsSection = ({ items, lang, id }: SpecsSectionProps) => (
+  <div
+    id={id}
+    // scroll-mt offsets the sticky desktop header when jumped to via anchor.
+    className="w-full mx-auto space-y-8 scroll-mt-24 sm:space-y-10 md:space-y-12 max-w-360"
+  >
     <div className="space-y-4 rounded-3xl border border-(--border-color) bg-(--surface-color) p-4 shadow-sm sm:p-6 md:p-8">
       <h2 className="text-xl font-bold text-center sm:text-2xl md:text-3xl">
         {lang === 'fa' ? 'مشخصات فنی' : 'Specifications'}

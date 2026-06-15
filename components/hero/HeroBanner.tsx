@@ -23,31 +23,37 @@ const BANNERS: Banner[] = [
   {
     id: 'banner-wc2026',
     desktop: bannerAsset('Fix-Banner-NEW-WC2026.webp'),
+    mobile: bannerAsset('Fix-Banner-NEW-WC2026-mobile.webp'),
     alt: 'Hisense FIFA World Cup 2026 campaign',
   },
   {
     id: 'banner-1',
-    desktop: bannerAsset('Fix-Banner-02-Back.jpg'),
+    desktop: bannerAsset('Fix-Banner-02-Back.webp'),
+    mobile: bannerAsset('Fix-Banner-02-Back-mobile.webp'),
     alt: 'Hisense flagship lineup hero 1',
   },
   {
     id: 'banner-2',
-    desktop: bannerAsset('Fix-Banner-03-Back.jpg'),
+    desktop: bannerAsset('Fix-Banner-03-Back.webp'),
+    mobile: bannerAsset('Fix-Banner-03-Back-mobile.webp'),
     alt: 'Hisense flagship lineup hero 2',
   },
   {
     id: 'banner-3',
-    desktop: bannerAsset('Fix-Banner-04-Back.jpg'),
+    desktop: bannerAsset('Fix-Banner-04-Back.webp'),
+    mobile: bannerAsset('Fix-Banner-04-Back-mobile.webp'),
     alt: 'Hisense flagship lineup hero 3',
   },
   {
     id: 'banner-4',
-    desktop: bannerAsset('Fix-Banner-05-Back.jpg'),
+    desktop: bannerAsset('Fix-Banner-05-Back.webp'),
+    mobile: bannerAsset('Fix-Banner-05-Back-mobile.webp'),
     alt: 'Hisense flagship lineup hero 4',
   },
   {
     id: 'banner-5',
-    desktop: bannerAsset('Fix-Banner-06-Back.jpg'),
+    desktop: bannerAsset('Fix-Banner-06-Back.webp'),
+    mobile: bannerAsset('Fix-Banner-06-Back-mobile.webp'),
     alt: 'Hisense flagship lineup hero 5',
   },
 ];
@@ -105,14 +111,10 @@ export default function HeroBanner() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const preloadSources = useMemo(() => {
-    return BANNERS.reduce<ImageSource[]>((sources, banner) => {
-      sources.push(banner.desktop);
-      if (banner.mobile) {
-        sources.push(banner.mobile);
-      }
-      return sources;
-    }, []);
-  }, []);
+    // Preload only the variant that will actually render so mobile devices
+    // don't download the heavier desktop images (and vice versa).
+    return BANNERS.map((banner) => (isMobile && banner.mobile ? banner.mobile : banner.desktop));
+  }, [isMobile]);
   const bannersLoaded = useImagePreloader(preloadSources);
 
   useEffect(() => {
