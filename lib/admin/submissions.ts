@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/db';
+import { SITE_ID } from '@/lib/siteId';
 
 const SUBMISSION_LIST_LIMIT = 25;
 
@@ -135,8 +136,9 @@ export async function getAdminComplaintsData(): Promise<AdminComplaintsData> {
 
   try {
     const [complaintCount, complaints] = await Promise.all([
-      prisma.complaintSubmission.count(),
+      prisma.complaintSubmission.count({ where: { site: SITE_ID } }),
       prisma.complaintSubmission.findMany({
+        where: { site: SITE_ID },
         orderBy: { createdAt: 'desc' },
         take: SUBMISSION_LIST_LIMIT,
         select: complaintSelect,
@@ -175,8 +177,9 @@ export async function getAdminSurveysData(): Promise<AdminSurveysData> {
 
   try {
     const [surveyCount, surveys] = await Promise.all([
-      prisma.surveySubmission.count(),
+      prisma.surveySubmission.count({ where: { site: SITE_ID } }),
       prisma.surveySubmission.findMany({
+        where: { site: SITE_ID },
         orderBy: { createdAt: 'desc' },
         take: SUBMISSION_LIST_LIMIT,
         select: surveySelect,
@@ -219,14 +222,16 @@ export async function getAdminSubmissionsData(): Promise<AdminSubmissionsData> {
 
   try {
     const [complaintCount, surveyCount, complaints, surveys] = await Promise.all([
-      prisma.complaintSubmission.count(),
-      prisma.surveySubmission.count(),
+      prisma.complaintSubmission.count({ where: { site: SITE_ID } }),
+      prisma.surveySubmission.count({ where: { site: SITE_ID } }),
       prisma.complaintSubmission.findMany({
+        where: { site: SITE_ID },
         orderBy: { createdAt: 'desc' },
         take: SUBMISSION_LIST_LIMIT,
         select: complaintSelect,
       }),
       prisma.surveySubmission.findMany({
+        where: { site: SITE_ID },
         orderBy: { createdAt: 'desc' },
         take: SUBMISSION_LIST_LIMIT,
         select: surveySelect,

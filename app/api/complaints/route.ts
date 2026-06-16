@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { complaintSubmissionSchema } from '@/lib/complaints/schema';
 import { getIranLocationDisplayName } from '@/lib/iranLocationSource';
+import { SITE_ID } from '@/lib/siteId';
 
 function parseDateOnly(value: string | null) {
   if (!value) {
@@ -48,6 +49,7 @@ export async function POST(request: Request) {
     const complaint = await prisma.complaintSubmission.create({
       data: {
         ...complaintData,
+        site: SITE_ID,
         referenceCode: createReferenceCode(),
         purchaseDate: parseDateOnly(purchaseDate),
         city: locationLabel,

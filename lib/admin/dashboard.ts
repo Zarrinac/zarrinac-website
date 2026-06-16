@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/db';
+import { SITE_ID } from '@/lib/siteId';
 import type { AdminMetricKey } from '@/lib/admin/i18n';
 
 export type AdminMetric = {
@@ -49,8 +50,8 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       productCategoryCounts,
     ] = await Promise.all([
       prisma.product.count(),
-      prisma.complaintSubmission.count(),
-      prisma.surveySubmission.count(),
+      prisma.complaintSubmission.count({ where: { site: SITE_ID } }),
+      prisma.surveySubmission.count({ where: { site: SITE_ID } }),
       prisma.serviceRepresentative.count(),
       prisma.product.groupBy({
         by: ['category'],
