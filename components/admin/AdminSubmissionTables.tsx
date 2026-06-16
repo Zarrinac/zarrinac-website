@@ -193,7 +193,7 @@ export function ComplaintTable({
                 {formatAdminDateTime(complaint.createdAt, locale)}
               </td>
             </tr>
-            <tr>
+            <tr className="admin-detail-row">
               <td colSpan={8} className="px-5 pb-5">
                 <SubmissionDetails
                   type="complaint"
@@ -335,7 +335,7 @@ export function SurveyTable({
                 {formatAdminDateTime(survey.createdAt, locale)}
               </td>
             </tr>
-            <tr>
+            <tr className="admin-detail-row">
               <td colSpan={8} className="px-5 pb-5">
                 <SubmissionDetails
                   type="survey"
