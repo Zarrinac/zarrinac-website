@@ -153,7 +153,7 @@ Always use the `mediaUrl(path)` helper from `lib/mediaUrl.ts`. It switches betwe
 | Variable                               | Required | Purpose                                                                 |
 | -------------------------------------- | -------- | ----------------------------------------------------------------------- |
 | `DATABASE_URL`                         | Optional | PostgreSQL connection for Prisma; app runs on static fallback if absent |
-| `NEXT_PUBLIC_SITE_URL`                 | Yes      | Canonical/OG base URL (e.g., `https://zarrinac.com`)                  |
+| `NEXT_PUBLIC_SITE_URL`                 | Yes      | Canonical/OG base URL (e.g., `https://zarrinac.com`)                    |
 | `ADMIN_USERNAME`                       | Yes      | Admin login credential                                                  |
 | `ADMIN_PASSWORD`                       | Yes      | Admin login credential                                                  |
 | `ADMIN_SESSION_SECRET`                 | Yes      | HMAC-SHA256 signing key for session tokens                              |
@@ -180,23 +180,23 @@ Copy `.env.example` → `.env.local` to get started.
 
 Workflow: **develop locally (Windows) → push branch → PR → merge to `main` → server pulls `main` → deploy.** The server only ever sits on `main` and only pulls — never edit code directly on the server.
 
-**Server:** Ubuntu, `nexzarrin`, app at `/var/www/hisense-ir/app`, served by PM2 (`hisense-ir`, `ecosystem.config.cjs`) behind Apache.
+**Server:** Ubuntu, `zarrin-ng-site` (`172.17.0.19`), app at `/var/www/zarrinac/app`, served by PM2 (`zarrinac`, `ecosystem.config.cjs`) behind Apache. DB: shared `zarrin` on `nexzarrin`; set `NEXT_PUBLIC_SITE_ID=zarrinac`.
 
-| Script (server)                     | Purpose                                                                                                                               |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `/var/www/hisense-ir/deploy.sh`     | `git pull origin main` → `npm ci --omit=dev` → `npm run db:deploy` → `npm run build` → `pm2 reload ecosystem.config.cjs --update-env` |
-| `/usr/local/bin/hisense-monitor.sh` | Cron: pipes `df`/`free`/`pm2 jlist` to `Codex -p` for anomaly flagging → `/var/log/hisense-monitor.log`                               |
-| `/usr/local/bin/weekly-backup.sh`   | Cron: lean backup — `pg_dumpall` + `/etc` + app secrets (`.env`, `ecosystem.config.cjs`) to `/backup`, keeps last 4 weeks             |
-| `.husky/pre-commit`                 | `lint-staged` (lint + format)                                                                                                         |
-| `.husky/pre-push`                   | `git diff origin/main...HEAD \| Codex -p` review; non-zero exit blocks push                                                           |
+| Script (server)                      | Purpose                                                                                                                                                                           |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/var/www/zarrinac/deploy.sh`        | `git pull origin main` → `node ops/preflight.mjs` → `npm ci` → `npm run db:deploy` → `npm run build` → `pm2 reload ecosystem.config.cjs --update-env`; SEO audit disabled for now |
+| `/usr/local/bin/zarrinac-monitor.sh` | Cron: pipes `df`/`free`/`pm2 jlist` to `Codex -p` for anomaly flagging → `/var/log/zarrinac-monitor.log`                                                                          |
+| `/usr/local/bin/weekly-backup.sh`    | Cron: lean backup — `pg_dumpall` + `/etc` + app secrets (`.env`, `ecosystem.config.cjs`) to `/backup`, keeps last 4 weeks                                                         |
+| `.husky/pre-commit`                  | `lint-staged` (lint + format)                                                                                                                                                     |
+| `.husky/pre-push`                    | `git diff origin/main...HEAD \| Codex -p` review; non-zero exit blocks push                                                                                                       |
 
 Deploy gotcha: server runs `git restore public/sitemap-0.xml` before pull (legacy generated file causes conflicts) — the native `app/sitemap.ts` route is the source of truth now.
 
 ## DB & Media Workflow
 
 - **Schema/data changes:** make them locally against the local Postgres (`npm run db:migrate`, `npm run db:seed`), verify, then promote. Migrations ship in `prisma/` and apply on the server via `npm run db:deploy` inside `deploy.sh`.
-- **DB data promotion (current manual flow):** `pg_dump -Fc` local `zarrin` DB → `pscp` to server → on server: `pm2 stop` → `dropdb`/`createdb -O reza_sf zarrin` → `pg_restore --no-owner --no-privileges` → restart.
-- **Media promotion:** use `ops/upload-media.ps1` (local) → `ops/sync-media.sh` (server). Manual: `pscp -r` local media to server `~/`, then `rsync -av --delete /home/reza/media/ /var/www/hisense-ir/media/`, `chown -R www-data:www-data`, **and `chmod -R a+rX`**. The `chmod` is mandatory — the Next app runs as `reza` and reads media off disk; a `www-data`-only/`700` dir causes `EACCES` and a 503 crash-loop.
+- **DB data promotion:** normal Zarrinac app deploys do **not** drop/restore production. Zarrinac connects from `zarrin-ng-site` to the shared `zarrin` DB on `nexzarrin` with `NEXT_PUBLIC_SITE_ID=zarrinac`; use `ops/shared-db-runbook.md` for the one-time submission merge, shared DB cutover, and failover procedures.
+- **Media promotion:** use `ops/upload-media.ps1` (local) → `ops/sync-media.sh` (server). Manual: `pscp -r` local media to server `~/`, then `rsync -av --delete /home/reza/media/ /var/www/zarrinac/media/`, `chown -R www-data:www-data`, **and `chmod -R a+rX`**. The `chmod` is mandatory — the Next app runs as `reza` and reads media off disk; a `www-data`-only/`700` dir causes `EACCES` and a 503 crash-loop.
 - Local DB name and server DB name are both `zarrin`, owner `reza_sf`.
 
 ## graphify

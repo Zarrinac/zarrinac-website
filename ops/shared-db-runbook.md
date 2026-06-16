@@ -115,9 +115,12 @@ Seed D'code into prod `zarrin` from the zarrinac repo on the server:
 In zarrinac's prod env (`/var/www/.../.env` or `ecosystem.config.cjs`):
 
 ```
-DATABASE_URL="postgresql://reza_sf:***@172.17.0.10:5432/zarrin?sslmode=require"
+DATABASE_URL="postgresql://reza_sf:***@172.17.0.10:5432/zarrin?schema=public&sslmode=no-verify"
 NEXT_PUBLIC_SITE_ID="zarrinac"
 ```
+
+Use `sslmode=no-verify` while `nexzarrin` serves a self-signed Postgres TLS certificate. Move to
+`verify-full` after installing a trusted certificate on the DB host and CA trust on zarrin-ng-site.
 
 `pm2 reload` zarrinac. Verify both sites read/write the shared DB, admin panels
 stay separated, `/dcode` works, complaint + survey submission works on both.

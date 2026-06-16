@@ -151,9 +151,10 @@ ops/                    Server operational scripts (version-controlled source of
   deploy.sh             Pull → install → migrate → build → PM2 reload
   sync-media.sh         Rsync media to live dir + fix owner/perms
   upload-media.ps1      Windows-side: scp media + trigger sync over SSH
+  preflight.mjs         Server deploy guard for Zarrinac env + nexzarrin DB target
   optimize-media.mjs    Pre-upload image optimization
   seo-audit.mjs         Deterministic SEO checker (title/desc/canonical/h1/JSON-LD)
-  cron/                 hisense-monitor.sh, weekly-backup.sh, seo-audit.sh
+  cron/                 zarrinac-monitor.sh, weekly-backup.sh, seo-audit.sh
 prisma/                 Prisma schema + migration history
 scripts/                DB seed scripts
 seo/                    keywords.txt + keywords helper
@@ -531,7 +532,7 @@ Security headers (CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy,
 
 ### Server
 
-Ubuntu host `nexzarrin`, app at `/var/www/hisense-ir/app`, served by **PM2** (process `hisense-ir`, config `ecosystem.config.cjs`) behind **Apache**. DB: local Postgres `zarrin` (owner `reza_sf`).
+Ubuntu host `zarrin-ng-site` (`172.17.0.19`), app at `/var/www/zarrinac/app`, served by **PM2** (process `zarrinac`, config `ecosystem.config.cjs`) behind **Apache**. DB: shared Postgres `zarrin` on `nexzarrin`; set `NEXT_PUBLIC_SITE_ID=zarrinac`.
 
 ### Deploy workflow
 
@@ -545,15 +546,16 @@ develop locally (Windows)
   → on server: run deploy.sh
 ```
 
-`ops/deploy.sh` (copied to `/var/www/hisense-ir/deploy.sh` on the server):
+`ops/deploy.sh` (copied to `/var/www/zarrinac/deploy.sh` on the server):
 
 1. `git restore public/sitemap-0.xml` (removes legacy generated file that caused conflicts)
 2. `git pull origin main`
-3. `npm ci --omit=dev`
-4. `npm run db:deploy` (applies Prisma migrations)
-5. `npm run build`
-6. `pm2 reload ecosystem.config.cjs --update-env`
-7. Runs `seo-audit.sh` post-deploy
+3. `node ops/preflight.mjs` (validates Zarrinac env identity + nexzarrin DB target)
+4. `npm ci`
+5. `npm run db:deploy` (applies Prisma migrations to shared `zarrin` on `nexzarrin`)
+6. `npm run build`
+7. `pm2 reload ecosystem.config.cjs --update-env`
+8. Skips SEO audit while `/usr/local/bin/seo-audit.sh` is non-executable
 
 ### Husky git hooks
 
@@ -562,15 +564,15 @@ develop locally (Windows)
 
 ### Media workflow
 
-Media lives outside git (`C:\Users\r.saberifard\Documents\IT-Hisense\zarrin\media` locally, `/var/www/hisense-ir/media` on the server). The local media folder is mirrored from the upstream Hisense media set plus the retained `media/dcode` directory.
+Media lives outside git (`C:\Users\r.saberifard\Documents\IT-Hisense\zarrin\media` locally, `/var/www/zarrinac/media` on the server). The local media folder is mirrored from the upstream Hisense media set plus the retained `media/dcode` directory.
 
 **Local → server:**
 
 1. Run `node ops/optimize-media.mjs --apply` to compress images first.
-2. Run `pwsh ops/upload-media.ps1` — uses OpenSSH key auth (`~/.ssh/nexzarrin_ed25519`) to `scp` upload then trigger `sudo sync-media.sh` on the server.
+2. Run `pwsh ops/upload-media.ps1` — uses OpenSSH key auth (`~/.ssh/zarrin_ng_site_ed25519` by default, override with `ZARRINAC_SSH_KEY`) to `scp` upload then trigger `sudo sync-media.sh` on the server.
 3. `ops/sync-media.sh` rsync-mirrors staging → live dir and applies `chmod -R a+rX` (mandatory — the Next app runs as `reza`, so `www-data`-only permissions cause `EACCES` and a 503 crash loop).
 
-Key auth setup: the public half of `nexzarrin_ed25519` must be in `~/.ssh/authorized_keys` on the server for `reza`.
+Key auth setup: the public half of the selected SSH key must be in `~/.ssh/authorized_keys` on the server for `reza`.
 
 ### Backup
 
@@ -584,30 +586,32 @@ Stores to `/backup`, keeps the last 4 weeks, deletes older runs.
 
 ### Monitor
 
-`ops/cron/hisense-monitor.sh` runs hourly. Pipes `df`, `free`, and `pm2 jlist` output to `claude -p` for anomaly detection. Logs to `/var/log/hisense-monitor.log`.
+`ops/cron/zarrinac-monitor.sh` runs hourly. Pipes `df`, `free`, and `pm2 jlist` output to `claude -p` for anomaly detection. Logs to `/var/log/zarrinac-monitor.log`.
+
+SEO audit is disabled on `zarrin-ng-site` for now: `/usr/local/bin/seo-audit.sh` is
+non-executable and there is no cron entry.
 
 ### Ops scripts location
 
 Scripts under `ops/` are the source of truth. After a deploy pulls changes, manually copy affected scripts to their live locations (see `ops/README.md` for the exact copy commands). `deploy.sh` is intentionally not a symlink — bash reads a script as it runs, so `git pull` overwriting the executing file is unsafe.
 
-### DB promotion (local → server)
+### DB promotion / shared DB
+
+The current production model uses the shared `zarrin` PostgreSQL database on `nexzarrin`.
+Zarrinac runs on `zarrin-ng-site` and connects to that DB with:
 
 ```bash
-# Local:
-pg_dump -Fc zarrin > zarrin.dump
-scp -i ~/.ssh/nexzarrin_ed25519 zarrin.dump reza@172.17.0.10:/home/reza/
-
-# Server (shared Postgres lives on nexzarrin):
-pm2 stop hisense-ir
-# NOTE: the OS user is `reza` but the Postgres ROLE is `reza_sf`. Bare `dropdb`/`createdb`
-# default to a `reza` role that does not exist -> "FATAL: role reza does not exist".
-# Always pass `-h localhost -U reza_sf` (TCP + password auth, same as the app).
-dropdb -h localhost -U reza_sf --force zarrin        # --force terminates open conns (PG16; DB is shared)
-createdb -h localhost -U reza_sf -O reza_sf zarrin   # reza_sf now has CREATEDB (granted 2026-06-16)
-# Restore AS reza_sf so it OWNS the tables (app then has full access). Do NOT restore as postgres.
-pg_restore -h localhost -U reza_sf --no-owner --no-privileges -d zarrin /home/reza/zarrin.dump
-pm2 start hisense-ir
+DATABASE_URL="postgresql://reza_sf:***@172.17.0.10:5432/zarrin?schema=public&sslmode=no-verify"
+NEXT_PUBLIC_SITE_ID="zarrinac"
 ```
+
+`sslmode=no-verify` is intentional for the internal `zarrin-ng-site` → `nexzarrin` link because
+the current Postgres TLS certificate is self-signed. It still encrypts the connection; switch to
+`verify-full` after installing a trusted CA/certificate pair.
+
+Do not drop/restore the shared production DB as part of a normal Zarrinac app deploy. Use
+`ops/shared-db-runbook.md` for the one-time submission merge, shared DB cutover, and failover
+procedures.
 
 **Role/privilege gotchas (hit during the 2026-06-16 promotion on nexzarrin):**
 

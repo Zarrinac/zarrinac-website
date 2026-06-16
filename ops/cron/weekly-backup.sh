@@ -15,7 +15,7 @@ set -euo pipefail
 DATE="$(date +%F)"
 HOST="$(hostname -s)"
 BACKUP_DIR="/backup"
-APP_DIR="/var/www/hisense-ir/app"
+APP_DIR="${ZARRINAC_APP_DIR:-/var/www/zarrinac/app}"
 mkdir -p "$BACKUP_DIR"
 
 PG_GZ="${BACKUP_DIR}/${HOST}-postgres-${DATE}.sql.gz"
@@ -41,7 +41,8 @@ sudo tar -czpf "$CONFIG_TAR" --xattrs --acls --ignore-failed-read \
 
 # SAFETY: never let the backup silently miss the secrets. tar stores paths without
 # the leading slash, so check for the de-slashed path.
-if ! sudo tar -tzf "$CONFIG_TAR" | grep -q "var/www/hisense-ir/app/\.env$"; then
+ENV_PATH_IN_TAR="${APP_DIR#/}/.env"
+if ! sudo tar -tzf "$CONFIG_TAR" | grep -Fxq "$ENV_PATH_IN_TAR"; then
   echo "FATAL: .env not found inside $CONFIG_TAR — backup is incomplete!" >&2
   exit 1
 fi
