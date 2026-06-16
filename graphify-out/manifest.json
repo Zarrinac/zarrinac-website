@@ -1879,24 +1879,19 @@
     "ast_hash": "5c78550e142331a1f327769da8d5577b",
     "semantic_hash": ""
   },
-  "ops/cron/hisense-monitor.sh": {
-    "mtime": 1780822516.8641024,
-    "ast_hash": "7c5caf7ee36c176512d70eba7de43a2a",
-    "semantic_hash": ""
-  },
   "ops/cron/seo-audit.sh": {
-    "mtime": 1781433183.6517,
-    "ast_hash": "3694e4538e9b8e211030f7df95261245",
+    "mtime": 1781626856.6579368,
+    "ast_hash": "a1a2640cb2dc86e46653fa004d92f8c9",
     "semantic_hash": ""
   },
   "ops/cron/weekly-backup.sh": {
-    "mtime": 1780917960.8371968,
-    "ast_hash": "012459f9599e88d653ff677ca7b9bf66",
+    "mtime": 1781614153.1142297,
+    "ast_hash": "8e632ca558e538bf493169df580672e6",
     "semantic_hash": ""
   },
   "ops/deploy.sh": {
-    "mtime": 1781527794.7546918,
-    "ast_hash": "c89dc0031a84a1d37e2bcc25074f2ab4",
+    "mtime": 1781625167.46444,
+    "ast_hash": "825ea0da185a507a103494e49e52ebea",
     "semantic_hash": ""
   },
   "ops/optimize-media.mjs": {
@@ -1905,18 +1900,18 @@
     "semantic_hash": ""
   },
   "ops/seo-audit.mjs": {
-    "mtime": 1781527794.759694,
-    "ast_hash": "7cc147160059a22219d0d1ade8dcefd9",
+    "mtime": 1781627561.1407142,
+    "ast_hash": "fa5d22b781819aa73810dbdb56225190",
     "semantic_hash": ""
   },
   "ops/sync-media.sh": {
-    "mtime": 1780835006.7028503,
-    "ast_hash": "a380bae6d63cd58a7f7a31eb886b93a8",
+    "mtime": 1781614153.1142297,
+    "ast_hash": "7a79aea4d4aa397b0f784e58ef993b69",
     "semantic_hash": ""
   },
   "ops/upload-media.ps1": {
-    "mtime": 1780916193.393787,
-    "ast_hash": "22c1f140d43c5b6d4d2c26338721e650",
+    "mtime": 1781614614.0929787,
+    "ast_hash": "0e2baa7e15cae28fe2ad561344fd983d",
     "semantic_hash": ""
   },
   "package.json": {
@@ -2150,18 +2145,18 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1781433183.6201744,
-    "ast_hash": "447c9698ded38767217d27739dbde332",
+    "mtime": 1781627844.176934,
+    "ast_hash": "70d55b48cb1b39eb1f0f7f77b2f73e9d",
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1781612721.8512895,
-    "ast_hash": "5498faf6443af30e9acbfcdc68efd3cc",
+    "mtime": 1781628207.5971723,
+    "ast_hash": "b6f95e7e90f56ef470d40d70defc275a",
     "semantic_hash": ""
   },
   "DOCS.md": {
-    "mtime": 1781612711.1020918,
-    "ast_hash": "f09d50687dcdf3374b6770cc50cc9951",
+    "mtime": 1781627657.2221951,
+    "ast_hash": "bc507ff336569fd6070f9bc30677e969",
     "semantic_hash": ""
   },
   "GUIDE.md": {
@@ -2175,8 +2170,8 @@
     "semantic_hash": ""
   },
   "ops/README.md": {
-    "mtime": 1780982238.2607708,
-    "ast_hash": "800ef4c61150ffdd8289cee0c37e9476",
+    "mtime": 1781627846.3781257,
+    "ast_hash": "8b0e7126d4fef906f9bb1f4f1d56cf7e",
     "semantic_hash": ""
   },
   "scripts/_tmp_sbs650.txt": {
@@ -2380,8 +2375,18 @@
     "semantic_hash": ""
   },
   "ops/shared-db-runbook.md": {
-    "mtime": 1781605835.7732747,
-    "ast_hash": "c908bbfc6c48dd58d544209712640218",
+    "mtime": 1781627846.4210668,
+    "ast_hash": "16bedb892aaed54a01fa984955a28854",
+    "semantic_hash": ""
+  },
+  "ops/cron/zarrinac-monitor.sh": {
+    "mtime": 1781626856.6579368,
+    "ast_hash": "2c4e72e172f7f76498a02217d0dc9155",
+    "semantic_hash": ""
+  },
+  "ops/preflight.mjs": {
+    "mtime": 1781627846.403558,
+    "ast_hash": "28b0f23d3461d3a8fe3a27f9d93d9cda",
     "semantic_hash": ""
   }
 }

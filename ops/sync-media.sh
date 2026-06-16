@@ -8,13 +8,13 @@
 # (Apache) can read it.
 #
 # Install (root-owned so a NOPASSWD sudoers rule for it is safe):
-#   sudo cp /var/www/hisense-ir/app/ops/sync-media.sh /usr/local/bin/sync-media.sh
+#   sudo cp /var/www/zarrinac/app/ops/sync-media.sh /usr/local/bin/sync-media.sh
 #   sudo chown root:root /usr/local/bin/sync-media.sh && sudo chmod 755 /usr/local/bin/sync-media.sh
 # Run (needs root):  sudo /usr/local/bin/sync-media.sh
 set -euo pipefail
 
 STAGING="${MEDIA_STAGING:-/home/reza/media/}"
-LIVE="${MEDIA_LIVE:-/var/www/hisense-ir/media/}"
+LIVE="${MEDIA_LIVE:-/var/www/zarrinac/media/}"
 
 if [ ! -d "$STAGING" ]; then
   echo "ERROR: staging dir '$STAGING' not found — upload your media there first (pscp)." >&2

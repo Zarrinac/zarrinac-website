@@ -4,15 +4,14 @@
 # escalates the report to `claude -p` for prioritized fixes (keeps token use low).
 #
 # Fires daily (cron) and after each deploy (kicked off by deploy.sh).
-# Live copy: /usr/local/bin/seo-audit.sh  ·  log: /var/log/hisense-seo-audit.log
-# Node/claude paths are nvm-specific to this host — update if the node version changes.
+# Live copy: /usr/local/bin/seo-audit.sh  ·  log: /var/log/zarrinac-seo-audit.log
 export HOME=/home/reza
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-NODE_BIN="/home/reza/.nvm/versions/node/v22.19.0/bin/node"
-CLAUDE_BIN="/home/reza/.nvm/versions/node/v22.19.0/bin/claude"
-APP_DIR="/var/www/hisense-ir/app"
-LOG="/var/log/hisense-seo-audit.log"
+NODE_BIN="${NODE_BIN:-$(command -v node)}"
+CLAUDE_BIN="${CLAUDE_BIN:-$(command -v claude || true)}"
+APP_DIR="${ZARRINAC_APP_DIR:-/var/www/zarrinac/app}"
+LOG="${ZARRINAC_SEO_AUDIT_LOG:-/var/log/zarrinac-seo-audit.log}"
 TS="$(date '+%F %T')"
 
 # The checker exits 1 when an ERROR-level issue is found, 0 otherwise.
