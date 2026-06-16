@@ -155,7 +155,7 @@ export const adminValueLabels: Record<AdminLocale, Record<string, Record<string,
     },
     site: {
       hisense: 'هایسنس',
-      zarrinac: 'زرین‌اک',
+      zarrinac: 'زرین',
     },
   },
 };
