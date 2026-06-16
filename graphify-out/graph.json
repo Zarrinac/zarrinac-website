@@ -12742,7 +12742,7 @@
       "source_file": "messages/en.json",
       "source_location": "L215",
       "id": "messages_en_heroslides_ux",
-      "community": 64,
+      "community": 81,
       "norm_label": "ux"
     },
     {
@@ -12751,7 +12751,7 @@
       "source_file": "messages/en.json",
       "source_location": "L216",
       "id": "messages_en_ux_eyebrow",
-      "community": 64,
+      "community": 81,
       "norm_label": "eyebrow"
     },
     {
@@ -12760,7 +12760,7 @@
       "source_file": "messages/en.json",
       "source_location": "L217",
       "id": "messages_en_ux_title",
-      "community": 64,
+      "community": 81,
       "norm_label": "title"
     },
     {
@@ -12769,7 +12769,7 @@
       "source_file": "messages/en.json",
       "source_location": "L218",
       "id": "messages_en_ux_subtitle",
-      "community": 64,
+      "community": 81,
       "norm_label": "subtitle"
     },
     {
@@ -12778,7 +12778,7 @@
       "source_file": "messages/en.json",
       "source_location": "L220",
       "id": "messages_en_heroslides_u8",
-      "community": 81,
+      "community": 64,
       "norm_label": "u8"
     },
     {
@@ -12787,7 +12787,7 @@
       "source_file": "messages/en.json",
       "source_location": "L221",
       "id": "messages_en_u8_eyebrow",
-      "community": 81,
+      "community": 64,
       "norm_label": "eyebrow"
     },
     {
@@ -12796,7 +12796,7 @@
       "source_file": "messages/en.json",
       "source_location": "L222",
       "id": "messages_en_u8_title",
-      "community": 81,
+      "community": 64,
       "norm_label": "title"
     },
     {
@@ -12805,7 +12805,7 @@
       "source_file": "messages/en.json",
       "source_location": "L223",
       "id": "messages_en_u8_subtitle",
-      "community": 81,
+      "community": 64,
       "norm_label": "subtitle"
     },
     {
@@ -12895,7 +12895,7 @@
       "source_file": "messages/en.json",
       "source_location": "L237",
       "id": "messages_en_series_ux",
-      "community": 37,
+      "community": 81,
       "norm_label": "ux"
     },
     {
@@ -12904,7 +12904,7 @@
       "source_file": "messages/en.json",
       "source_location": "L238",
       "id": "messages_en_ux_badge",
-      "community": 37,
+      "community": 81,
       "norm_label": "badge"
     },
     {
@@ -12913,7 +12913,7 @@
       "source_file": "messages/en.json",
       "source_location": "L240",
       "id": "messages_en_ux_blurb",
-      "community": 37,
+      "community": 81,
       "norm_label": "blurb"
     },
     {
@@ -12922,7 +12922,7 @@
       "source_file": "messages/en.json",
       "source_location": "L242",
       "id": "messages_en_series_u8",
-      "community": 81,
+      "community": 37,
       "norm_label": "u8"
     },
     {
@@ -12931,7 +12931,7 @@
       "source_file": "messages/en.json",
       "source_location": "L243",
       "id": "messages_en_u8_badge",
-      "community": 81,
+      "community": 37,
       "norm_label": "badge"
     },
     {
@@ -12940,7 +12940,7 @@
       "source_file": "messages/en.json",
       "source_location": "L245",
       "id": "messages_en_u8_blurb",
-      "community": 81,
+      "community": 37,
       "norm_label": "blurb"
     },
     {
@@ -15523,7 +15523,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L327",
       "id": "messages_fa_routes_portal",
-      "community": 66,
+      "community": 187,
       "norm_label": "portal"
     },
     {
@@ -15532,7 +15532,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L328",
       "id": "messages_fa_portal_eyebrow",
-      "community": 66,
+      "community": 187,
       "norm_label": "eyebrow"
     },
     {
@@ -15541,7 +15541,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L329",
       "id": "messages_fa_portal_title",
-      "community": 66,
+      "community": 187,
       "norm_label": "title"
     },
     {
@@ -15550,7 +15550,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L330",
       "id": "messages_fa_portal_description",
-      "community": 66,
+      "community": 187,
       "norm_label": "description"
     },
     {
@@ -15595,7 +15595,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L337",
       "id": "messages_fa_routes_requestrepresentation",
-      "community": 187,
+      "community": 66,
       "norm_label": "requestrepresentation"
     },
     {
@@ -15604,7 +15604,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L338",
       "id": "messages_fa_requestrepresentation_eyebrow",
-      "community": 187,
+      "community": 66,
       "norm_label": "eyebrow"
     },
     {
@@ -15613,7 +15613,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L339",
       "id": "messages_fa_requestrepresentation_title",
-      "community": 187,
+      "community": 66,
       "norm_label": "title"
     },
     {
@@ -15622,7 +15622,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L340",
       "id": "messages_fa_requestrepresentation_description",
-      "community": 187,
+      "community": 66,
       "norm_label": "description"
     },
     {
@@ -19685,7 +19685,7 @@
       "label": "DB & Media Workflow",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L213",
+      "source_location": "L215",
       "id": "claude_db_media_workflow",
       "community": 102,
       "norm_label": "db & media workflow"
@@ -19694,7 +19694,7 @@
       "label": "graphify",
       "file_type": "document",
       "source_file": "CLAUDE.md",
-      "source_location": "L220",
+      "source_location": "L222",
       "id": "claude_graphify",
       "community": 102,
       "norm_label": "graphify"
@@ -59788,5 +59788,5 @@
       "source_file": "public/icons/Zarrin-Logo-Black.png"
     }
   ],
-  "built_at_commit": "83b85bab44f7b522d68a4e717c214e80f83354de"
+  "built_at_commit": "defd05f68462dc88d3a4d1b68a40d6523f040011"
 }

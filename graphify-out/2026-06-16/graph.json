@@ -12742,7 +12742,7 @@
       "source_file": "messages/en.json",
       "source_location": "L215",
       "id": "messages_en_heroslides_ux",
-      "community": 81,
+      "community": 64,
       "norm_label": "ux"
     },
     {
@@ -12751,7 +12751,7 @@
       "source_file": "messages/en.json",
       "source_location": "L216",
       "id": "messages_en_ux_eyebrow",
-      "community": 81,
+      "community": 64,
       "norm_label": "eyebrow"
     },
     {
@@ -12760,7 +12760,7 @@
       "source_file": "messages/en.json",
       "source_location": "L217",
       "id": "messages_en_ux_title",
-      "community": 81,
+      "community": 64,
       "norm_label": "title"
     },
     {
@@ -12769,7 +12769,7 @@
       "source_file": "messages/en.json",
       "source_location": "L218",
       "id": "messages_en_ux_subtitle",
-      "community": 81,
+      "community": 64,
       "norm_label": "subtitle"
     },
     {
@@ -12778,7 +12778,7 @@
       "source_file": "messages/en.json",
       "source_location": "L220",
       "id": "messages_en_heroslides_u8",
-      "community": 64,
+      "community": 81,
       "norm_label": "u8"
     },
     {
@@ -12787,7 +12787,7 @@
       "source_file": "messages/en.json",
       "source_location": "L221",
       "id": "messages_en_u8_eyebrow",
-      "community": 64,
+      "community": 81,
       "norm_label": "eyebrow"
     },
     {
@@ -12796,7 +12796,7 @@
       "source_file": "messages/en.json",
       "source_location": "L222",
       "id": "messages_en_u8_title",
-      "community": 64,
+      "community": 81,
       "norm_label": "title"
     },
     {
@@ -12805,7 +12805,7 @@
       "source_file": "messages/en.json",
       "source_location": "L223",
       "id": "messages_en_u8_subtitle",
-      "community": 64,
+      "community": 81,
       "norm_label": "subtitle"
     },
     {
@@ -12895,7 +12895,7 @@
       "source_file": "messages/en.json",
       "source_location": "L237",
       "id": "messages_en_series_ux",
-      "community": 81,
+      "community": 37,
       "norm_label": "ux"
     },
     {
@@ -12904,7 +12904,7 @@
       "source_file": "messages/en.json",
       "source_location": "L238",
       "id": "messages_en_ux_badge",
-      "community": 81,
+      "community": 37,
       "norm_label": "badge"
     },
     {
@@ -12913,7 +12913,7 @@
       "source_file": "messages/en.json",
       "source_location": "L240",
       "id": "messages_en_ux_blurb",
-      "community": 81,
+      "community": 37,
       "norm_label": "blurb"
     },
     {
@@ -12922,7 +12922,7 @@
       "source_file": "messages/en.json",
       "source_location": "L242",
       "id": "messages_en_series_u8",
-      "community": 37,
+      "community": 81,
       "norm_label": "u8"
     },
     {
@@ -12931,7 +12931,7 @@
       "source_file": "messages/en.json",
       "source_location": "L243",
       "id": "messages_en_u8_badge",
-      "community": 37,
+      "community": 81,
       "norm_label": "badge"
     },
     {
@@ -12940,7 +12940,7 @@
       "source_file": "messages/en.json",
       "source_location": "L245",
       "id": "messages_en_u8_blurb",
-      "community": 37,
+      "community": 81,
       "norm_label": "blurb"
     },
     {
@@ -13336,7 +13336,7 @@
       "source_file": "messages/en.json",
       "source_location": "L327",
       "id": "messages_en_routes_portal",
-      "community": 170,
+      "community": 63,
       "norm_label": "portal"
     },
     {
@@ -13345,7 +13345,7 @@
       "source_file": "messages/en.json",
       "source_location": "L328",
       "id": "messages_en_portal_eyebrow",
-      "community": 170,
+      "community": 63,
       "norm_label": "eyebrow"
     },
     {
@@ -13354,7 +13354,7 @@
       "source_file": "messages/en.json",
       "source_location": "L329",
       "id": "messages_en_portal_title",
-      "community": 170,
+      "community": 63,
       "norm_label": "title"
     },
     {
@@ -13363,7 +13363,7 @@
       "source_file": "messages/en.json",
       "source_location": "L330",
       "id": "messages_en_portal_description",
-      "community": 170,
+      "community": 63,
       "norm_label": "description"
     },
     {
@@ -13408,7 +13408,7 @@
       "source_file": "messages/en.json",
       "source_location": "L337",
       "id": "messages_en_routes_requestrepresentation",
-      "community": 63,
+      "community": 170,
       "norm_label": "requestrepresentation"
     },
     {
@@ -13417,7 +13417,7 @@
       "source_file": "messages/en.json",
       "source_location": "L338",
       "id": "messages_en_requestrepresentation_eyebrow",
-      "community": 63,
+      "community": 170,
       "norm_label": "eyebrow"
     },
     {
@@ -13426,7 +13426,7 @@
       "source_file": "messages/en.json",
       "source_location": "L339",
       "id": "messages_en_requestrepresentation_title",
-      "community": 63,
+      "community": 170,
       "norm_label": "title"
     },
     {
@@ -13435,7 +13435,7 @@
       "source_file": "messages/en.json",
       "source_location": "L340",
       "id": "messages_en_requestrepresentation_description",
-      "community": 63,
+      "community": 170,
       "norm_label": "description"
     },
     {
@@ -15523,7 +15523,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L327",
       "id": "messages_fa_routes_portal",
-      "community": 187,
+      "community": 66,
       "norm_label": "portal"
     },
     {
@@ -15532,7 +15532,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L328",
       "id": "messages_fa_portal_eyebrow",
-      "community": 187,
+      "community": 66,
       "norm_label": "eyebrow"
     },
     {
@@ -15541,7 +15541,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L329",
       "id": "messages_fa_portal_title",
-      "community": 187,
+      "community": 66,
       "norm_label": "title"
     },
     {
@@ -15550,7 +15550,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L330",
       "id": "messages_fa_portal_description",
-      "community": 187,
+      "community": 66,
       "norm_label": "description"
     },
     {
@@ -15595,7 +15595,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L337",
       "id": "messages_fa_routes_requestrepresentation",
-      "community": 66,
+      "community": 187,
       "norm_label": "requestrepresentation"
     },
     {
@@ -15604,7 +15604,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L338",
       "id": "messages_fa_requestrepresentation_eyebrow",
-      "community": 66,
+      "community": 187,
       "norm_label": "eyebrow"
     },
     {
@@ -15613,7 +15613,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L339",
       "id": "messages_fa_requestrepresentation_title",
-      "community": 66,
+      "community": 187,
       "norm_label": "title"
     },
     {
@@ -15622,7 +15622,7 @@
       "source_file": "messages/fa.json",
       "source_location": "L340",
       "id": "messages_fa_requestrepresentation_description",
-      "community": 66,
+      "community": 187,
       "norm_label": "description"
     },
     {
@@ -20189,7 +20189,7 @@
       "label": "Ops scripts location",
       "file_type": "document",
       "source_file": "DOCS.md",
-      "source_location": "L591",
+      "source_location": "L594",
       "id": "docs_ops_scripts_location",
       "community": 156,
       "norm_label": "ops scripts location"
@@ -20198,7 +20198,7 @@
       "label": "DB promotion / shared DB",
       "file_type": "document",
       "source_file": "DOCS.md",
-      "source_location": "L595",
+      "source_location": "L598",
       "id": "docs_db_promotion_shared_db",
       "community": 156,
       "norm_label": "db promotion / shared db"
@@ -20207,7 +20207,7 @@
       "label": "Security Notes",
       "file_type": "document",
       "source_file": "DOCS.md",
-      "source_location": "L622",
+      "source_location": "L625",
       "id": "docs_security_notes",
       "community": 148,
       "norm_label": "security notes"
@@ -20216,7 +20216,7 @@
       "label": "Content Management Tips",
       "file_type": "document",
       "source_file": "DOCS.md",
-      "source_location": "L633",
+      "source_location": "L636",
       "id": "docs_content_management_tips",
       "community": 163,
       "norm_label": "content management tips"
@@ -20225,7 +20225,7 @@
       "label": "Adding fallback product content",
       "file_type": "document",
       "source_file": "DOCS.md",
-      "source_location": "L635",
+      "source_location": "L638",
       "id": "docs_adding_fallback_product_content",
       "community": 163,
       "norm_label": "adding fallback product content"
@@ -20234,7 +20234,7 @@
       "label": "Adding a product (with DB)",
       "file_type": "document",
       "source_file": "DOCS.md",
-      "source_location": "L639",
+      "source_location": "L642",
       "id": "docs_adding_a_product_with_db",
       "community": 163,
       "norm_label": "adding a product (with db)"
@@ -20243,7 +20243,7 @@
       "label": "Adding translations",
       "file_type": "document",
       "source_file": "DOCS.md",
-      "source_location": "L643",
+      "source_location": "L646",
       "id": "docs_adding_translations",
       "community": 163,
       "norm_label": "adding translations"
@@ -20252,7 +20252,7 @@
       "label": "Updating navigation",
       "file_type": "document",
       "source_file": "DOCS.md",
-      "source_location": "L647",
+      "source_location": "L650",
       "id": "docs_updating_navigation",
       "community": 163,
       "norm_label": "updating navigation"
@@ -20261,7 +20261,7 @@
       "label": "Adding SEO copy for a category",
       "file_type": "document",
       "source_file": "DOCS.md",
-      "source_location": "L651",
+      "source_location": "L654",
       "id": "docs_adding_seo_copy_for_a_category",
       "community": 163,
       "norm_label": "adding seo copy for a category"
@@ -20270,7 +20270,7 @@
       "label": "Connecting a DB for the first time",
       "file_type": "document",
       "source_file": "DOCS.md",
-      "source_location": "L655",
+      "source_location": "L658",
       "id": "docs_connecting_a_db_for_the_first_time",
       "community": 163,
       "norm_label": "connecting a db for the first time"
@@ -20279,7 +20279,7 @@
       "label": "Known Gotchas",
       "file_type": "document",
       "source_file": "DOCS.md",
-      "source_location": "L666",
+      "source_location": "L669",
       "id": "docs_known_gotchas",
       "community": 148,
       "norm_label": "known gotchas"
@@ -20486,7 +20486,7 @@
       "label": "Media sync (local PC \u2192 server)",
       "file_type": "document",
       "source_file": "ops/README.md",
-      "source_location": "L85",
+      "source_location": "L88",
       "id": "ops_readme_media_sync_local_pc_server",
       "community": 162,
       "norm_label": "media sync (local pc \u2192 server)"
@@ -20495,7 +20495,7 @@
       "label": "Notes",
       "file_type": "document",
       "source_file": "ops/README.md",
-      "source_location": "L119",
+      "source_location": "L122",
       "id": "ops_readme_notes",
       "community": 162,
       "norm_label": "notes"
@@ -20504,7 +20504,7 @@
       "label": "TODO (deferred)",
       "file_type": "document",
       "source_file": "ops/README.md",
-      "source_location": "L127",
+      "source_location": "L130",
       "id": "ops_readme_todo_deferred",
       "community": 162,
       "norm_label": "todo (deferred)"
@@ -52692,9 +52692,9 @@
       "source_file": "ops/preflight.mjs",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ops_preflight",
-      "target": "ops_preflight_allowed_ssl_modes",
-      "confidence_score": 1.0
+      "target": "ops_preflight_allowed_ssl_modes"
     },
     {
       "relation": "contains",

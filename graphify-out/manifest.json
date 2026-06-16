@@ -2145,13 +2145,13 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1781627657.2241979,
-    "ast_hash": "13d6367a82765ba3c0525939dc7c9d71",
+    "mtime": 1781627844.176934,
+    "ast_hash": "70d55b48cb1b39eb1f0f7f77b2f73e9d",
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1781612805.7581131,
-    "ast_hash": "07a3488de2f17685a95017400bf1cb38",
+    "mtime": 1781628207.5971723,
+    "ast_hash": "b6f95e7e90f56ef470d40d70defc275a",
     "semantic_hash": ""
   },
   "DOCS.md": {
@@ -2170,8 +2170,8 @@
     "semantic_hash": ""
   },
   "ops/README.md": {
-    "mtime": 1781627657.2201965,
-    "ast_hash": "88de2a1e0ca55bc9458706c34e2d36cf",
+    "mtime": 1781627846.3781257,
+    "ast_hash": "8b0e7126d4fef906f9bb1f4f1d56cf7e",
     "semantic_hash": ""
   },
   "scripts/_tmp_sbs650.txt": {
@@ -2375,8 +2375,8 @@
     "semantic_hash": ""
   },
   "ops/shared-db-runbook.md": {
-    "mtime": 1781626290.3352208,
-    "ast_hash": "8d3b02a74cc07690ecc64e9bd1c4af6a",
+    "mtime": 1781627846.4210668,
+    "ast_hash": "16bedb892aaed54a01fa984955a28854",
     "semantic_hash": ""
   },
   "ops/cron/zarrinac-monitor.sh": {
@@ -2385,8 +2385,8 @@
     "semantic_hash": ""
   },
   "ops/preflight.mjs": {
-    "mtime": 1781626290.331221,
-    "ast_hash": "c0fb91aef5fafcc6b593d8ebb1408e64",
+    "mtime": 1781627846.403558,
+    "ast_hash": "28b0f23d3461d3a8fe3a27f9d93d9cda",
     "semantic_hash": ""
   }
 }

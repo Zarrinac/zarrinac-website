@@ -2,7 +2,7 @@
 
 ## Corpus Check
 
-- 250 files · ~1,247,362 words
+- 250 files · ~1,247,583 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -13,7 +13,7 @@
 
 ## Graph Freshness
 
-- Built from commit: `83b85bab`
+- Built from commit: `defd05f6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -478,7 +478,7 @@ Nodes (9): addError(), ALLOWED_DB_HOSTS, ALLOWED_SSL_MODES, checkFile(), env, er
 ### Community 37 - "Iranlocations"
 
 Cohesion: 0.18
-Nodes (11): u7, u7, ux, series, badge, blurb, eyebrow, subtitle (+3 more)
+Nodes (11): u7, u7, u8, series, badge, blurb, eyebrow, subtitle (+3 more)
 
 ### Community 38 - "Not Found"
 
@@ -613,7 +613,7 @@ Nodes (8): description, eyebrow, description, eyebrow, title, Routes, about, por
 ### Community 64 - "En"
 
 Cohesion: 0.22
-Nodes (9): rgb, ux, eyebrow, subtitle, title, heroSlides, eyebrow, subtitle (+1 more)
+Nodes (9): rgb, u8, eyebrow, subtitle, title, heroSlides, eyebrow, subtitle (+1 more)
 
 ### Community 65 - "En"
 
@@ -623,7 +623,7 @@ Nodes (8): content, links, UnderConstruction, description, eyebrow, status, supp
 ### Community 66 - "Fa"
 
 Cohesion: 0.25
-Nodes (8): description, eyebrow, description, eyebrow, title, Routes, about, portal
+Nodes (8): description, eyebrow, description, eyebrow, title, Routes, about, requestRepresentation
 
 ### Community 67 - "Fa"
 
@@ -698,7 +698,7 @@ Nodes (29): active, bases:Create new base, canvas:Create new canvas, command-pal
 ### Community 81 - "Footer"
 
 Cohesion: 0.29
-Nodes (7): u8, u8, badge, blurb, eyebrow, subtitle, title
+Nodes (7): ux, ux, badge, blurb, eyebrow, subtitle, title
 
 ### Community 82 - "En"
 
@@ -1138,7 +1138,7 @@ Nodes (4): Complaint form, Complaint & Survey Forms, Shared form conventions, Su
 ### Community 187 - "Community 187"
 
 Cohesion: 0.50
-Nodes (4): description, eyebrow, title, requestRepresentation
+Nodes (4): description, eyebrow, title, portal
 
 ### Community 194 - "Community 194"
 
