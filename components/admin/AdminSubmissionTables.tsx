@@ -147,7 +147,7 @@ export function ComplaintTable({
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full min-w-256 border-collapse text-sm">
+      <table className="w-full min-w-5xl border-collapse text-sm">
         <thead>
           <tr className="border-b border-[#e4ebef] bg-[#f8fafb] text-[#52636f]">
             <th className="px-5 py-3 text-start font-semibold">{fields.referenceCode}</th>
@@ -290,7 +290,7 @@ export function SurveyTable({
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full min-w-256 border-collapse text-sm">
+      <table className="w-full min-w-5xl border-collapse text-sm">
         <thead>
           <tr className="border-b border-[#e4ebef] bg-[#f8fafb] text-[#52636f]">
             <th className="px-5 py-3 text-start font-semibold">{fields.referenceCode}</th>
