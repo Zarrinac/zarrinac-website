@@ -1,5 +1,4 @@
 import { prisma } from '@/lib/db';
-import { SITE_ID } from '@/lib/siteId';
 
 const SUBMISSION_LIST_LIMIT = 25;
 
@@ -21,6 +20,8 @@ export type AdminComplaintSubmission = {
   address: string | null;
   description: string;
   status: string;
+  site: string;
+  readAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -46,6 +47,8 @@ export type AdminSurveySubmission = {
   overallFeedback: string;
   improvementSuggestions: string | null;
   status: string;
+  site: string;
+  readAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -91,6 +94,8 @@ const complaintSelect = {
   address: true,
   description: true,
   status: true,
+  site: true,
+  readAt: true,
   createdAt: true,
   updatedAt: true,
 } as const;
@@ -116,6 +121,8 @@ const surveySelect = {
   overallFeedback: true,
   improvementSuggestions: true,
   status: true,
+  site: true,
+  readAt: true,
   createdAt: true,
   updatedAt: true,
 } as const;
@@ -136,9 +143,8 @@ export async function getAdminComplaintsData(): Promise<AdminComplaintsData> {
 
   try {
     const [complaintCount, complaints] = await Promise.all([
-      prisma.complaintSubmission.count({ where: { site: SITE_ID } }),
+      prisma.complaintSubmission.count(),
       prisma.complaintSubmission.findMany({
-        where: { site: SITE_ID },
         orderBy: { createdAt: 'desc' },
         take: SUBMISSION_LIST_LIMIT,
         select: complaintSelect,
@@ -177,9 +183,8 @@ export async function getAdminSurveysData(): Promise<AdminSurveysData> {
 
   try {
     const [surveyCount, surveys] = await Promise.all([
-      prisma.surveySubmission.count({ where: { site: SITE_ID } }),
+      prisma.surveySubmission.count(),
       prisma.surveySubmission.findMany({
-        where: { site: SITE_ID },
         orderBy: { createdAt: 'desc' },
         take: SUBMISSION_LIST_LIMIT,
         select: surveySelect,
@@ -222,16 +227,14 @@ export async function getAdminSubmissionsData(): Promise<AdminSubmissionsData> {
 
   try {
     const [complaintCount, surveyCount, complaints, surveys] = await Promise.all([
-      prisma.complaintSubmission.count({ where: { site: SITE_ID } }),
-      prisma.surveySubmission.count({ where: { site: SITE_ID } }),
+      prisma.complaintSubmission.count(),
+      prisma.surveySubmission.count(),
       prisma.complaintSubmission.findMany({
-        where: { site: SITE_ID },
         orderBy: { createdAt: 'desc' },
         take: SUBMISSION_LIST_LIMIT,
         select: complaintSelect,
       }),
       prisma.surveySubmission.findMany({
-        where: { site: SITE_ID },
         orderBy: { createdAt: 'desc' },
         take: SUBMISSION_LIST_LIMIT,
         select: surveySelect,
@@ -257,5 +260,59 @@ export async function getAdminSubmissionsData(): Promise<AdminSubmissionsData> {
       complaints: [],
       surveys: [],
     };
+  }
+}
+
+export type AdminUnreadCounts = {
+  complaints: number;
+  surveys: number;
+};
+
+export type SubmissionKind = 'complaint' | 'survey';
+
+// Counts of not-yet-opened submissions, used for the red badges on the admin nav.
+// Not filtered by site — both brands' support is handled by the same team.
+export async function getAdminUnreadCounts(): Promise<AdminUnreadCounts> {
+  if (!prisma) {
+    return { complaints: 0, surveys: 0 };
+  }
+
+  try {
+    const [complaints, surveys] = await Promise.all([
+      prisma.complaintSubmission.count({ where: { readAt: null } }),
+      prisma.surveySubmission.count({ where: { readAt: null } }),
+    ]);
+
+    return { complaints, surveys };
+  } catch (error) {
+    console.error('[admin] Unable to load unread submission counts.', error);
+    return { complaints: 0, surveys: 0 };
+  }
+}
+
+// Stamps `readAt` once (idempotent — the `readAt: null` guard preserves the first
+// time it was opened). Returns false only on a real DB error.
+export async function markSubmissionRead(type: SubmissionKind, id: string): Promise<boolean> {
+  if (!prisma) {
+    return false;
+  }
+
+  try {
+    if (type === 'complaint') {
+      await prisma.complaintSubmission.updateMany({
+        where: { id, readAt: null },
+        data: { readAt: new Date() },
+      });
+    } else {
+      await prisma.surveySubmission.updateMany({
+        where: { id, readAt: null },
+        data: { readAt: new Date() },
+      });
+    }
+
+    return true;
+  } catch (error) {
+    console.error('[admin] Unable to mark submission read.', error);
+    return false;
   }
 }
