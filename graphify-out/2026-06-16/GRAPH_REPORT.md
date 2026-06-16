@@ -1,19 +1,19 @@
-# Graph Report - zarrinac-website (2026-06-15)
+# Graph Report - zarrinac-website (2026-06-16)
 
 ## Corpus Check
 
-- 242 files · ~1,243,332 words
+- 242 files · ~1,243,687 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
 
-- 2338 nodes · 3510 edges · 202 communities (174 shown, 28 thin omitted)
+- 2339 nodes · 3511 edges · 200 communities (173 shown, 27 thin omitted)
 - Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 133 edges (avg confidence: 0.81)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
 
-- Built from commit: `6cbbca62`
+- Built from commit: `5e7121f7`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -182,10 +182,8 @@
 - [[_COMMUNITY_Community 162|Community 162]]
 - [[_COMMUNITY_Community 163|Community 163]]
 - [[_COMMUNITY_Community 164|Community 164]]
-- [[_COMMUNITY_Community 165|Community 165]]
 - [[_COMMUNITY_Community 166|Community 166]]
 - [[_COMMUNITY_Community 168|Community 168]]
-- [[_COMMUNITY_Community 169|Community 169]]
 - [[_COMMUNITY_Community 170|Community 170]]
 - [[_COMMUNITY_Community 171|Community 171]]
 - [[_COMMUNITY_Community 172|Community 172]]
@@ -232,15 +230,15 @@
 ## Surprising Connections (you probably didn't know these)
 
 - `generateMetadata()` --calls--> `getLanguageAlternates()` [INFERRED]
-  app/[locale]/request-representation/page.tsx → lib/seo/site.ts
+  app/[locale]/portal/page.tsx → lib/seo/site.ts
+- `aboutAsset()` --calls--> `mediaUrl()` [EXTRACTED]
+  app/[locale]/about/page.tsx → lib/mediaUrl.ts
 - `generateMetadata()` --calls--> `getLanguageAlternates()` [EXTRACTED]
   app/[locale]/complaint/page.tsx → lib/seo/site.ts
+- `generateMetadata()` --calls--> `getLanguageAlternates()` [EXTRACTED]
+  app/[locale]/contact-us/page.tsx → lib/seo/site.ts
 - `generateMetadata()` --calls--> `getLanguageAlternates()` [INFERRED]
   app/[locale]/dcode/tvs/[productId]/page.tsx → lib/seo/site.ts
-- `DcodeTvDetailPage()` --calls--> `createBreadcrumbItems()` [INFERRED]
-  app/[locale]/dcode/tvs/[productId]/page.tsx → lib/seo/site.ts
-- `generateMetadata()` --calls--> `getLanguageAlternates()` [EXTRACTED]
-  app/[locale]/faq/page.tsx → lib/seo/site.ts
 
 ## Import Cycles
 
@@ -280,7 +278,7 @@
 - **Hisense wordmark logo variants (teal 'Hisense' SVG lettering)** — icons_hisense_logo, icons_hisense_logo_full [INFERRED 0.85]
 - **Zarrin (manufacturer/partner) logo variants — black and white** — icons_zarrin_logo_black, icons_zarrin_logo_white [INFERRED 0.85]
 
-## Communities (202 total, 28 thin omitted)
+## Communities (200 total, 27 thin omitted)
 
 ### Community 0 - "Admin Dashboard UI"
 
@@ -294,13 +292,13 @@ Nodes (76): A3QHero, A4ANAudio, A4ANCast, A4ANConnect, A4ANCrispClear, A4ANDepth
 
 ### Community 2 - "Product Listing & API Fetch"
 
-Cohesion: 0.22
-Nodes (11): ProductWithMedia, toPublicMediaPath(), ApiBanner, ApiComparisonSection, ApiCopy, ApiCopyBlock, ApiExperienceSection, ApiFeatureCard (+3 more)
+Cohesion: 0.23
+Nodes (11): ProductWithMedia, ApiBanner, ApiComparisonSection, ApiCopy, ApiCopyBlock, ApiExperienceSection, ApiFeatureCard, ApiLocale (+3 more)
 
 ### Community 3 - "Root Layout & Header"
 
 Cohesion: 0.06
-Nodes (38): RootLayoutProps, Header(), LabeledNavItem, CAC_PRODUCTS, RAC_PRODUCTS, TV_PRODUCTS, WM_PRODUCTS, Footer (+30 more)
+Nodes (39): RootLayoutProps, Header(), LabeledNavItem, CAC_PRODUCTS, RAC_PRODUCTS, REF_PRODUCTS, TV_PRODUCTS, WM_PRODUCTS (+31 more)
 
 ### Community 4 - "Refrigerator Catalog"
 
@@ -314,18 +312,18 @@ Nodes (43): AdminAuthConfig, AdminSessionPayload, base64UrlDecode(), base64UrlEn
 
 ### Community 6 - "About/Footer Content (EN)"
 
-Cohesion: 0.10
-Nodes (21): links, about, becomeDealer, cac, complaint, contact, dealerList, dealerPortal (+13 more)
+Cohesion: 0.04
+Nodes (47): title, tagline, title, address, email, holidays, hours, phone (+39 more)
 
 ### Community 7 - "About/Footer Content (FA)"
 
-Cohesion: 0.10
-Nodes (21): links, about, becomeDealer, cac, complaint, contact, dealerList, dealerPortal (+13 more)
+Cohesion: 0.04
+Nodes (47): title, tagline, title, address, email, holidays, hours, phone (+39 more)
 
 ### Community 8 - "Survey Form"
 
 Cohesion: 0.08
-Nodes (30): ChoiceFieldCopy, FieldCopy, FormFieldProps, inputClassName(), OptionMap, RadioGroupFieldProps, SurveyForm(), SurveyFormCopy (+22 more)
+Nodes (29): ChoiceFieldCopy, FieldCopy, FormFieldProps, inputClassName(), OptionMap, RadioGroupFieldProps, SurveyForm(), SurveyFormProps (+21 more)
 
 ### Community 9 - "Dev Dependencies & Tooling"
 
@@ -334,18 +332,18 @@ Nodes (35): devDependencies, autoprefixer, baseline-browser-mapping, dotenv, esl
 
 ### Community 10 - "Locale Routing & Redirects"
 
-Cohesion: 0.09
-Nodes (13): LanguageSwitcherProps, LegacyFindServiceCenterPageProps, { Link, redirect, usePathname, useRouter }, Locale, Pathname, routing, LegacyPortalPageProps, LegacyRequestRepresentationPageProps (+5 more)
+Cohesion: 0.08
+Nodes (20): LanguageSwitcherProps, LegacyFindServiceCenterPageProps, { Link, redirect, usePathname, useRouter }, Locale, Pathname, routing, LegacyPortalPageProps, bannerAsset() (+12 more)
 
 ### Community 11 - "Service Center Data Source"
 
-Cohesion: 0.17
-Nodes (18): useLocalContent content-source flag, applyFilters(), emptyToUndefined(), filterLocalServiceCenters(), getServiceCenterLocations(), getServiceRepresentativeClient(), isServiceKind(), loadServiceCenterData() (+10 more)
+Cohesion: 0.18
+Nodes (17): applyFilters(), emptyToUndefined(), filterLocalServiceCenters(), getServiceCenterLocations(), getServiceRepresentativeClient(), isServiceKind(), loadServiceCenterData(), NormalizedServiceCenterFilters (+9 more)
 
 ### Community 12 - "Legacy Route Redirect Shims"
 
-Cohesion: 0.10
-Nodes (16): ProductsCategoryPage, PageParams, PageProps, CATEGORY_SEO_CONTENT, CategorySeoSection, permanentRedirect legacy route shim, createInternalApiUrl, LegacyPortalPage (+8 more)
+Cohesion: 0.17
+Nodes (8): permanentRedirect legacy route shim, LegacyFindServiceCenterPage, PageParams, PageProps, LegacyRequestRepresentationPage, PageParams, PageProps, TvHisenseProductRedirect
 
 ### Community 13 - "Internal API URL & Section Builders"
 
@@ -354,8 +352,8 @@ Nodes (27): Blocks, buildBreadcrumbItems(), buildDefaultSectionGroups(), buildSe
 
 ### Community 14 - "Product Detail Page"
 
-Cohesion: 0.10
-Nodes (28): Blocks, buildBreadcrumbItems(), buildDefaultSectionGroups(), buildSectionGroups(), COPY_BLOCK_KEYS, COPY_BLOCK_KEYS_SET, CopyBlocksInput, filterBlocks() (+20 more)
+Cohesion: 0.09
+Nodes (29): Blocks, buildBreadcrumbItems(), buildDefaultSectionGroups(), buildSectionGroups(), COPY_BLOCK_KEYS, COPY_BLOCK_KEYS_SET, CopyBlocksInput, filterBlocks() (+21 more)
 
 ### Community 15 - "RAC Air-Conditioner Catalog"
 
@@ -364,8 +362,8 @@ Nodes (26): btuFromModel(), buildRacProduct(), hfhProducts, hihModels, hihProduc
 
 ### Community 16 - "Support & Contact Pages"
 
-Cohesion: 0.11
-Nodes (19): IconType, PORTAL_CONTENT, PortalContent, PortalPage(), generateMetadata(), IconType, REPRESENTATION_CONTENT, RepresentationContent (+11 more)
+Cohesion: 0.13
+Nodes (13): productPaths(), sitemap(), STATIC_PATHS, categoryToSlug(), ProductJsonLdInput, ProductOfferAvailability, VideoObjectJsonLdInput, SITE_CONTENT_LAST_MODIFIED (+5 more)
 
 ### Community 17 - "Washing Machine Catalog"
 
@@ -374,8 +372,8 @@ Nodes (23): quickWashLogo, selfDiagnosticLogo, wm8010CopyEn, wm8010CopyFa, wm801
 
 ### Community 18 - "Complaint Page Content"
 
-Cohesion: 0.08
-Nodes (30): COMPLAINT_CONTENT, ComplaintPage(), ComplaintPageContent, generateMetadata(), ComplaintForm, ContactItem, FAQ_CONTENT, FaqItem (+22 more)
+Cohesion: 0.07
+Nodes (32): ComplaintFormCopy, COMPLAINT_CONTENT, ComplaintPage(), ComplaintPageContent, generateMetadata(), ComplaintForm, ContactItem, FAQ_CONTENT (+24 more)
 
 ### Community 19 - "Runtime Dependencies"
 
@@ -384,8 +382,8 @@ Nodes (22): dependencies, embla-carousel-autoplay, embla-carousel-react, @emotio
 
 ### Community 20 - "TV Detail Components & Media"
 
-Cohesion: 0.17
-Nodes (14): HeroMedia(), HeroMediaProps, toSrc(), StackedContentSectionsProps, StackedSectionData, types/svg.d.ts, ImageSource, Locale (+6 more)
+Cohesion: 0.14
+Nodes (15): HeroMedia(), HeroMediaProps, toSrc(), RefrigeratorHeroProps, StackedContentSectionsProps, StackedSectionData, types/svg.d.ts, ImageSource (+7 more)
 
 ### Community 21 - "Content Product Loading & Seeding"
 
@@ -394,8 +392,8 @@ Nodes (21): 20251209070715_init/migration.sql, 20260105115839_add_product_catego
 
 ### Community 22 - "Header UI Strings (EN)"
 
-Cohesion: 0.17
-Nodes (12): Header, brand, navigation, searchPlaceholder, tagline, about, airConditioner, dcode (+4 more)
+Cohesion: 0.10
+Nodes (20): close, language, menu, search, theme, Header, actions, brand (+12 more)
 
 ### Community 23 - "Header UI Strings (FA)"
 
@@ -404,23 +402,23 @@ Nodes (12): Header, brand, navigation, searchPlaceholder, tagline, about, airCon
 
 ### Community 24 - "Complaint Form"
 
-Cohesion: 0.15
-Nodes (15): autocompleteDropdownSx, ComplaintForm(), ComplaintFormCopy, ComplaintFormProps, createCityOptions(), createSearchOptions(), FieldCopy, filterSearchOptions() (+7 more)
+Cohesion: 0.05
+Nodes (54): autocompleteDropdownSx, ComplaintForm(), ComplaintFormProps, createCityOptions(), createSearchOptions(), FieldCopy, filterSearchOptions(), FormFieldProps (+46 more)
 
 ### Community 25 - "Refrigerator Page & SEO"
 
-Cohesion: 0.16
-Nodes (13): buildProductListJsonLd(), fetchProducts(), HERO_SLIDES, PageParams, PageProps, ProductsCategoryPage(), CATEGORY_SEO_CONTENT, CategorySeoContent (+5 more)
+Cohesion: 0.21
+Nodes (12): createInternalApiUrl(), getInternalApiBaseUrl(), buildProductListJsonLd(), fetchProducts(), generateMetadata(), HERO_SLIDES, PageParams, PageProps (+4 more)
 
 ### Community 26 - "Media Asset Helpers & Hero"
 
-Cohesion: 0.12
-Nodes (17): aboutAsset(), bannerAsset(), logoAsset(), productAsset(), logoAsset(), productAsset(), productAsset(), productAsset() (+9 more)
+Cohesion: 0.13
+Nodes (15): bannerAsset(), logoAsset(), productAsset(), logoAsset(), productAsset(), productAsset(), productAsset(), useLocalContent content-source flag (+7 more)
 
 ### Community 27 - "Complaint Zod Schema"
 
-Cohesion: 0.12
-Nodes (20): CONTACT_CONTENT, ContactAction, ContactChannel, ContactContent, ContactGroup, ContactUsPage(), HERO_IMAGE, IconType (+12 more)
+Cohesion: 0.14
+Nodes (10): CONTACT_CONTENT, ContactAction, ContactChannel, ContactContent, ContactGroup, generateMetadata(), HERO_IMAGE, IconType (+2 more)
 
 ### Community 28 - "CAC Air-Conditioner Catalog"
 
@@ -435,7 +433,7 @@ Nodes (15): eyebrow, items, title, categories, rac, tv, cta, description (+7 mor
 ### Community 30 - "Fa"
 
 Cohesion: 0.15
-Nodes (15): eyebrow, items, title, categories, rac, tv, cta, description (+7 more)
+Nodes (15): eyebrow, items, title, categories, tv, washingMachine, washingMachine, cta (+7 more)
 
 ### Community 31 - "Package"
 
@@ -444,8 +442,8 @@ Nodes (16): scripts, build, db:deploy, db:migrate, db:seed, db:seed:dcode, db:se
 
 ### Community 32 - "Bannersection"
 
-Cohesion: 0.17
-Nodes (8): BannerSection, BannerSectionProps, BreadcrumbItem, Breadcrumbs(), BreadcrumbsProps, MobileHeader, MobileHeaderProps, RefrigeratorHeroProps
+Cohesion: 0.21
+Nodes (7): BannerSection, BannerSectionProps, BreadcrumbItem, Breadcrumbs(), BreadcrumbsProps, MobileHeader, MobileHeaderProps
 
 ### Community 33 - "Sectiongroupsrenderer"
 
@@ -460,17 +458,17 @@ Nodes (15): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModu
 ### Community 35 - "Types"
 
 Cohesion: 0.20
-Nodes (13): ABOUT_CONTENT_MAP, getAboutContent(), ABOUT_IMAGES, AboutPage(), AboutPageProps, generateMetadata(), getImageAsset(), OG_LOCALE_MAP (+5 more)
+Nodes (13): ABOUT_CONTENT_MAP, getAboutContent(), ABOUT_IMAGES, aboutAsset(), AboutPage(), AboutPageProps, generateMetadata(), getImageAsset() (+5 more)
 
 ### Community 36 - "Types"
 
-Cohesion: 0.15
-Nodes (13): choiceField(), ChoiceValue, complaintCategoryValues, ComplaintFormValues, ComplaintParsedValues, complaintSchema, ComplaintSubmissionValues, complaintTopicValues (+5 more)
+Cohesion: 0.16
+Nodes (17): ContactUsPage(), FindServiceCenterPage(), FindServiceCenterPageProps, firstSearchValue(), generateMetadata(), IconType, PORTAL_CONTENT, PortalContent (+9 more)
 
 ### Community 37 - "Iranlocations"
 
-Cohesion: 0.14
-Nodes (14): title, tagline, title, Footer, about, branding, products, social (+6 more)
+Cohesion: 0.18
+Nodes (11): u8, u7, u8, series, badge, blurb, badge, blurb (+3 more)
 
 ### Community 38 - "Not Found"
 
@@ -479,33 +477,33 @@ Nodes (13): AboutContact, AboutContactItem, AboutCSR, AboutCSRHighlight, AboutHe
 
 ### Community 39 - "Categoryspotlights"
 
-Cohesion: 0.11
-Nodes (20): generateMetadata(), CategorySpotlights, generateMetadata(), generateMetadata(), HeroBanner, bannerAsset(), generateMetadata(), HOME_SEO_CONTENT (+12 more)
+Cohesion: 0.13
+Nodes (16): CategorySpotlights, generateMetadata(), HeroBanner, bannerAsset(), generateMetadata(), HOME_SEO_CONTENT, HomePage(), HomepageLocale (+8 more)
 
 ### Community 40 - "Contentsource"
 
-Cohesion: 0.18
-Nodes (10): iranLocations (location utils + Persian transliteration), IranProvince, iranLocations.json (provinces/cities fallback data), getIranLocationClient(), IranCityDisplayRow, IranCityQueryRow, IranProvinceQueryRow, loadIranProvinces() (+2 more)
+Cohesion: 0.20
+Nodes (8): ProductsCategoryPage, PageParams, PageProps, CATEGORY_SEO_CONTENT, CategorySeoSection, createInternalApiUrl, products API route, TvHeroCarousel
 
 ### Community 41 - "Admin_Deployment"
 
-Cohesion: 0.11
-Nodes (17): Admin Deployment Checklist, Admin Smoke Test, First Deployment / New Server, Normal Redeploy, Notes, Required Environment Variables, graphify, CLAUDE.md (project guide) (+9 more)
+Cohesion: 0.31
+Nodes (6): graphify, CLAUDE.md (project guide), DB-to-Fallback Data Chain, graphify Knowledge Graph, Internationalization (next-intl, fa/en), Styling & Theming (Tailwind v4, CSS vars)
 
 ### Community 42 - "Keywords"
 
-Cohesion: 0.25
-Nodes (7): Zarrin Namaye Caspian (Hisense Iran distributor), Sbs-650 Refrigerator Spec Notes, getSeoKeywords(), KEYWORD_FILE_PATH, loadKeywords(), SeoKeywordsByLocale, SeoLocale
+Cohesion: 0.18
+Nodes (10): Persian/English SEO Keyword Strategy, SEO & Structured Data, Zarrin Namaye Caspian (Hisense Iran distributor), Google Site Verification HTML, Sbs-650 Refrigerator Spec Notes, getSeoKeywords(), KEYWORD_FILE_PATH, loadKeywords() (+2 more)
 
 ### Community 43 - "Pagebreadcrumbs"
 
-Cohesion: 0.18
-Nodes (10): FaqItem, FeatureItem, generateMetadata(), HeroAction, HeroCardItem, HisenseRepairPage(), IconType, REPAIR_CONTENT (+2 more)
+Cohesion: 0.17
+Nodes (11): FaqItem, FeatureItem, generateMetadata(), HeroAction, HeroCardItem, HisenseRepairPage(), IconType, REPAIR_CONTENT (+3 more)
 
 ### Community 44 - "En"
 
-Cohesion: 0.26
-Nodes (12): ENDING_A_CLUSTER_CONSONANTS, getCityById(), getLocationDisplayName(), getProvinceById(), IranCity, isLatinConsonantSound(), isLatinVowelSound(), LocalizedLabel (+4 more)
+Cohesion: 0.20
+Nodes (10): landing, description, explore, exploreTvs, metaDescription, metaTitle, productsHeading, tagline (+2 more)
 
 ### Community 45 - "Fa"
 
@@ -514,8 +512,8 @@ Nodes (26): buildDefaultSectionGroups(), ContentProduct, DbProduct, fallbackCopy
 
 ### Community 46 - "Page Group"
 
-Cohesion: 0.20
-Nodes (11): DownloadItem, DOWNLOADS, generateMetadata(), getDownloadItems(), getSchemaText(), Highlight, IconType, TermSection (+3 more)
+Cohesion: 0.14
+Nodes (13): RouteHeroProps, SeoBreadcrumbItem, DownloadItem, DOWNLOADS, generateMetadata(), getDownloadItems(), getSchemaText(), Highlight (+5 more)
 
 ### Community 47 - "Featurecardsgrid"
 
@@ -524,18 +522,18 @@ Nodes (12): CONTACT_ITEMS, Footer(), FOOTER_SECTIONS, FooterLinkSection, SOCIAL_
 
 ### Community 48 - "Migration"
 
-Cohesion: 0.14
-Nodes (14): title, tagline, title, Footer, about, branding, products, social (+6 more)
+Cohesion: 0.20
+Nodes (10): landing, description, explore, exploreTvs, metaDescription, metaTitle, productsHeading, tagline (+2 more)
 
 ### Community 49 - "Page Group"
 
-Cohesion: 0.06
-Nodes (36): DCODE_PRODUCTS, iconHdr10, iconShareToTv, iconVoiceControl, r6d55Image, r6d55ImageB, r6d65Image, r6d65ImageB (+28 more)
+Cohesion: 0.05
+Nodes (38): DCODE_PRODUCTS, iconHdr10, iconShareToTv, iconVoiceControl, r6d55Image, r6d55ImageB, r6d65Image, r6d65ImageB (+30 more)
 
 ### Community 50 - "En"
 
-Cohesion: 0.20
-Nodes (9): subtitle, title, HomePage, hero, LanguageSwitcher, label, options, en (+1 more)
+Cohesion: 0.17
+Nodes (11): DcodePage, tvs, subtitle, title, HomePage, hero, metaDescription, metaTitle (+3 more)
 
 ### Community 51 - "En"
 
@@ -544,13 +542,13 @@ Nodes (10): backHome, contact, home, viewProducts, NotFound, actions, descriptio
 
 ### Community 52 - "En"
 
-Cohesion: 0.05
-Nodes (46): details, quote, support, cta, rgb, u7, u8, ux (+38 more)
+Cohesion: 0.14
+Nodes (14): details, quote, support, cta, description, eyebrow, title, eyebrow (+6 more)
 
 ### Community 53 - "Fa"
 
-Cohesion: 0.20
-Nodes (9): subtitle, title, HomePage, hero, LanguageSwitcher, label, options, en (+1 more)
+Cohesion: 0.33
+Nodes (5): DcodePage, subtitle, title, HomePage, hero
 
 ### Community 54 - "Fa"
 
@@ -564,8 +562,8 @@ Nodes (46): details, quote, support, cta, rgb, u7, u8, ux (+38 more)
 
 ### Community 56 - "Migration"
 
-Cohesion: 0.22
-Nodes (7): 20260421093736_add_iran_locations/migration.sql, lib/iranLocations, iranProvinces, adapter, envFiles, pool, prisma
+Cohesion: 0.12
+Nodes (13): 20260421093736_add_iran_locations/migration.sql, 20260428102000_add_service_representatives/migration.sql, content/service-centers/serviceCenters, lib/iranLocations, iranProvinces, adapter, envFiles, pool (+5 more)
 
 ### Community 57 - "Migration"
 
@@ -589,8 +587,8 @@ Nodes (6): animateScrollTo(), smoothScrollToId(), smoothScrollToTop(), FeatureCa
 
 ### Community 61 - "Sitemap"
 
-Cohesion: 0.32
-Nodes (5): productPaths(), sitemap(), STATIC_PATHS, REF_PRODUCTS, categoryToSlug()
+Cohesion: 0.22
+Nodes (8): Admin Deployment Checklist, Admin Smoke Test, First Deployment / New Server, Normal Redeploy, Notes, Required Environment Variables, Admin Auth & Session Security, Deployment Workflow
 
 ### Community 62 - "Underconstruction"
 
@@ -604,8 +602,8 @@ Nodes (8): description, eyebrow, description, eyebrow, title, Routes, about, cac
 
 ### Community 64 - "En"
 
-Cohesion: 0.25
-Nodes (8): close, language, menu, search, theme, actions, dark, light
+Cohesion: 0.22
+Nodes (9): rgb, u7, eyebrow, subtitle, title, heroSlides, eyebrow, subtitle (+1 more)
 
 ### Community 65 - "En"
 
@@ -619,8 +617,8 @@ Nodes (4): description, eyebrow, title, requestRepresentation
 
 ### Community 67 - "Fa"
 
-Cohesion: 0.07
-Nodes (27): DcodePage, detail, landing, tvs, dimensionsWithoutStand, dimensionsWithStand, gallery, keyFeatures (+19 more)
+Cohesion: 0.20
+Nodes (10): detail, dimensionsWithoutStand, dimensionsWithStand, gallery, keyFeatures, model, netWeight, selectSize (+2 more)
 
 ### Community 68 - "Fa"
 
@@ -650,7 +648,7 @@ Nodes (31): audio-recorder, backlink, bases, bookmarks, canvas, command-palette,
 ### Community 73 - "Fa"
 
 Cohesion: 0.11
-Nodes (26): generateMetadata(), PageParams, PageProps, resolveLocale(), DCODE_BRAND, DcodeLogoProps, DCODE_THEME_STYLE, DcodeLandingPage() (+18 more)
+Nodes (24): generateMetadata(), PageParams, PageProps, resolveLocale(), DCODE_BRAND, DcodeLogoProps, DCODE_THEME_STYLE, DcodeLandingPage() (+16 more)
 
 ### Community 74 - "En"
 
@@ -689,8 +687,8 @@ Nodes (29): active, bases:Create new base, canvas:Create new canvas, command-pal
 
 ### Community 81 - "Footer"
 
-Cohesion: 0.22
-Nodes (6): 20260428102000_add_service_representatives/migration.sql, content/service-centers/serviceCenters, adapter, envFiles, pool, prisma
+Cohesion: 0.29
+Nodes (7): ux, ux, badge, blurb, eyebrow, subtitle, title
 
 ### Community 82 - "En"
 
@@ -709,8 +707,8 @@ Nodes (6): refrigerator, cta, description, eyebrow, title, refrigerator
 
 ### Community 85 - "Fa"
 
-Cohesion: 0.47
-Nodes (6): washingMachine, washingMachine, cta, description, eyebrow, title
+Cohesion: 0.33
+Nodes (6): tvs, metaDescription, metaTitle, tagline, title, viewProduct
 
 ### Community 86 - "Postcss.Config"
 
@@ -785,7 +783,7 @@ Nodes (4): PRODUCT_CATEGORY mapping, Product media path mapper, Product normaliz
 ### Community 102 - "En"
 
 Cohesion: 0.08
-Nodes (24): Admin Auth, API Routes, Architecture, Code Conventions, Commands, Components, Data Sources, Database (+16 more)
+Nodes (25): Admin Auth, API Routes, Architecture, Code Conventions, Commands, Components, D'code Brand (`/dcode`), Data Sources (+17 more)
 
 ### Community 103 - "En"
 
@@ -869,8 +867,8 @@ Nodes (4): description, eyebrow, title, hisenseRepair
 
 ### Community 119 - "Fa"
 
-Cohesion: 0.36
-Nodes (6): createReferenceCode(), parseDateOnly(), POST(), complaintSubmissionSchema, globalForPrisma, getIranLocationDisplayName()
+Cohesion: 0.47
+Nodes (6): rac, cta, description, eyebrow, title, rac
 
 ### Community 120 - "Fa"
 
@@ -920,7 +918,7 @@ Nodes (3): SurveyForm, TvHeroCarousel, TvProductShowcase
 ### Community 144 - "Community 144"
 
 Cohesion: 0.19
-Nodes (11): DB-first product fetch with fallback chain, Product Detail GET route, FALLBACK_PRODUCTS, normalizeDbProducts(), DataSource, DEFAULT_HEADERS, GET(), loadProducts() (+3 more)
+Nodes (13): DB-first product fetch with fallback chain, categoryFromSlug(), PRODUCT_CATEGORY, ProductCategory, ProductCategorySlug, Product Detail GET route, normalizeDbProducts(), DataSource (+5 more)
 
 ### Community 145 - "Community 145"
 
@@ -949,13 +947,13 @@ Nodes (10): Content & translations, Data flow (products), Everyday commands, His
 
 ### Community 150 - "Community 150"
 
-Cohesion: 0.25
-Nodes (9): DataSource, DEFAULT_HEADERS, GET(), loadProduct(), PRODUCT_CATEGORY, ProductCategory, ProductCategorySlug, mapProductMedia() (+1 more)
+Cohesion: 0.24
+Nodes (8): DataSource, DEFAULT_HEADERS, GET(), loadProduct(), globalForPrisma, mapProductMedia(), toPublicMediaPath(), findFallbackProduct()
 
 ### Community 151 - "Community 151"
 
-Cohesion: 0.07
-Nodes (27): DcodePage, detail, landing, tvs, dimensionsWithoutStand, dimensionsWithStand, gallery, keyFeatures (+19 more)
+Cohesion: 0.20
+Nodes (10): detail, dimensionsWithoutStand, dimensionsWithStand, gallery, keyFeatures, model, netWeight, selectSize (+2 more)
 
 ### Community 152 - "Community 152"
 
@@ -965,17 +963,17 @@ Nodes (4): MONO_FEATURE_LOGOS, FeatureCardImage(), FeatureCardImageProps, monoKe
 ### Community 153 - "Community 153"
 
 Cohesion: 0.33
-Nodes (6): legal, cookies, notice, privacy, sitemap, terms
+Nodes (5): buildProductFaqs(), getProductFaqHeading(), ProductFaq, ProductFaqCategory, ProductFaqInput
 
 ### Community 154 - "Community 154"
 
-Cohesion: 0.33
-Nodes (6): address, email, holidays, hours, phone, contact
+Cohesion: 0.40
+Nodes (5): LanguageSwitcher, label, options, en, fa
 
 ### Community 155 - "Community 155"
 
-Cohesion: 0.33
-Nodes (6): legal, cookies, notice, privacy, sitemap, terms
+Cohesion: 0.40
+Nodes (5): Metadata, description, keywords, title, metadata
 
 ### Community 156 - "Community 156"
 
@@ -1019,13 +1017,8 @@ Nodes (8): Adding a product (no DB), Adding a product (with DB), Adding fallback
 
 ### Community 164 - "Community 164"
 
-Cohesion: 0.33
-Nodes (6): address, email, holidays, hours, phone, contact
-
-### Community 165 - "Community 165"
-
 Cohesion: 0.40
-Nodes (3): buildFeatureCardSectionLinks(), LinkableSection, STOP_WORDS
+Nodes (5): LanguageSwitcher, label, options, en, fa
 
 ### Community 166 - "Community 166"
 
@@ -1135,9 +1128,9 @@ Nodes (3): Admin portal pages, Public pages, Routing & Pages
 
 ## Knowledge Gaps
 
-- **1301 isolated node(s):** `file-explorer`, `global-search`, `switcher`, `graph`, `backlink` (+1296 more)
+- **1302 isolated node(s):** `file-explorer`, `global-search`, `switcher`, `graph`, `backlink` (+1297 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **28 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 
@@ -1151,9 +1144,9 @@ _Questions this graph is uniquely positioned to answer:_
   _Edge tagged AMBIGUOUS (relation: references) - confidence is low._
 - **What is the exact relationship between `SearchOverlay.tsx` and `Analytics.tsx`?**
   _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
-- **Why does `Locale` connect `Locale Routing & Redirects` to `Root Layout & Header`, `Survey Form`, `Service Center Data Source`, `Internal API URL & Section Builders`, `Product Detail Page`, `Support & Contact Pages`, `Complaint Page Content`, `Complaint Form`, `Refrigerator Page & SEO`, `Complaint Zod Schema`, `Types`, `Categoryspotlights`, `Contentsource`, `Pagebreadcrumbs`, `En`, `Page Group`, `Migration`, `Layout`, `Fa`?**
+- **Why does `Locale` connect `Locale Routing & Redirects` to `Root Layout & Header`, `Survey Form`, `Service Center Data Source`, `Internal API URL & Section Builders`, `Product Detail Page`, `Support & Contact Pages`, `Complaint Page Content`, `Complaint Form`, `Community 153`, `Refrigerator Page & SEO`, `Complaint Zod Schema`, `Types`, `Types`, `Categoryspotlights`, `Pagebreadcrumbs`, `Page Group`, `Migration`, `Layout`, `Fa`?**
   _High betweenness centrality (0.057) - this node is a cross-community bridge._
-- **Why does `mediaUrl()` connect `Media Asset Helpers & Hero` to `TV Product Catalog`, `Types`, `Refrigerator Catalog`, `Categoryspotlights`, `Fa`, `Page Group`, `RAC Air-Conditioner Catalog`, `Washing Machine Catalog`, `Page Group`, `Refrigerator Page & SEO`, `Complaint Zod Schema`, `CAC Air-Conditioner Catalog`?**
-  _High betweenness centrality (0.022) - this node is a cross-community bridge._
-- **Why does `devDependencies` connect `Dev Dependencies & Tooling` to `Migration`, `Package`, `Husky.Sh`?**
-  _High betweenness centrality (0.017) - this node is a cross-community bridge._
+- **Why does `mediaUrl()` connect `Media Asset Helpers & Hero` to `TV Product Catalog`, `Types`, `Refrigerator Catalog`, `Categoryspotlights`, `Fa`, `Locale Routing & Redirects`, `Page Group`, `RAC Air-Conditioner Catalog`, `Washing Machine Catalog`, `Page Group`, `Refrigerator Page & SEO`, `Complaint Zod Schema`, `CAC Air-Conditioner Catalog`?**
+  _High betweenness centrality (0.023) - this node is a cross-community bridge._
+- **Why does `dependencies` connect `Runtime Dependencies` to `Migration`?**
+  _High betweenness centrality (0.012) - this node is a cross-community bridge._
