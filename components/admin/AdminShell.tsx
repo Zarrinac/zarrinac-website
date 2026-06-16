@@ -18,6 +18,7 @@ type AdminShellProps = {
   children: ReactNode;
   locale: AdminLocale;
   dictionary: ReturnType<typeof getAdminDictionary>;
+  unread: { complaints: number; surveys: number };
 };
 
 const navItems = [
@@ -53,8 +54,10 @@ const navItems = [
   },
 ] as const;
 
-export default function AdminShell({ children, locale, dictionary }: AdminShellProps) {
+export default function AdminShell({ children, locale, dictionary, unread }: AdminShellProps) {
   const pathname = usePathname();
+  const unreadFor = (labelKey: string) =>
+    labelKey === 'complaints' ? unread.complaints : labelKey === 'surveys' ? unread.surveys : 0;
   const direction = getAdminDirection(locale);
   const inactiveLocale = locale === 'fa' ? 'en' : 'fa';
 
@@ -65,11 +68,11 @@ export default function AdminShell({ children, locale, dictionary }: AdminShellP
   return (
     <div
       dir={direction}
-      className="min-h-screen bg-[#f3f6f8] text-[#172026]"
+      className="admin-root min-h-screen bg-[#f3f6f8] text-[#172026]"
       style={{ fontFamily: getAdminFontFamily(locale) }}
     >
       <div className="grid min-h-screen lg:grid-cols-[17.5rem_1fr]">
-        <aside className="border-b border-[#dbe3e8] bg-white px-4 py-4 lg:border-r lg:border-b-0 lg:px-5 lg:py-6">
+        <aside className="admin-no-print border-b border-[#dbe3e8] bg-white px-4 py-4 lg:border-r lg:border-b-0 lg:px-5 lg:py-6">
           <div className="flex items-center justify-between gap-4 lg:block">
             <Link href="/admin" className="block">
               <span className="block text-sm font-semibold tracking-[0.18em] text-[#00a8a3]">
@@ -96,6 +99,7 @@ export default function AdminShell({ children, locale, dictionary }: AdminShellP
                 item.href === '/admin'
                   ? pathname === item.href
                   : pathname === item.href || pathname.startsWith(`${item.href}/`);
+              const badgeCount = unreadFor(item.labelKey);
 
               return (
                 <Link
@@ -111,6 +115,14 @@ export default function AdminShell({ children, locale, dictionary }: AdminShellP
                 >
                   <Icon fontSize="small" />
                   {dictionary.shell.nav[item.labelKey]}
+                  {badgeCount > 0 ? (
+                    <span
+                      aria-label={`${badgeCount}`}
+                      className="ms-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#e5484d] px-1.5 text-xs font-bold text-white"
+                    >
+                      {badgeCount.toLocaleString(locale)}
+                    </span>
+                  ) : null}
                 </Link>
               );
             })}
@@ -118,7 +130,7 @@ export default function AdminShell({ children, locale, dictionary }: AdminShellP
         </aside>
 
         <div className="min-w-0">
-          <header className="border-b border-[#dbe3e8] bg-white px-4 py-4 sm:px-6 lg:px-8">
+          <header className="admin-no-print border-b border-[#dbe3e8] bg-white px-4 py-4 sm:px-6 lg:px-8">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#667782]">

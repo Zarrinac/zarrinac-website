@@ -196,6 +196,7 @@ model ComplaintSubmission {
   description            String
   site                   String    @default("hisense")
   status                 String    @default("NEW")
+  readAt                 DateTime?
   createdAt              DateTime  @default(now())
   updatedAt              DateTime  @updatedAt
 }
@@ -222,6 +223,7 @@ model SurveySubmission {
   improvementSuggestions String?
   site                   String    @default("hisense")
   status                 String    @default("NEW")
+  readAt                 DateTime?
   createdAt              DateTime  @default(now())
   updatedAt              DateTime  @updatedAt
 }

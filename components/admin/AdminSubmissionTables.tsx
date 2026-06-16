@@ -9,6 +9,8 @@ import {
   formatAdminNumber,
   getAdminValueLabel,
 } from '@/lib/admin/i18n';
+import AdminPrintButton from '@/components/admin/AdminPrintButton';
+import SubmissionDetails from '@/components/admin/SubmissionDetails';
 
 type Dictionary = ReturnType<typeof getAdminDictionary>;
 
@@ -29,6 +31,42 @@ function StatusBadge({ status, locale }: { status: string; locale: AdminLocale }
   return (
     <span className="inline-flex rounded-md bg-[#e5fbf8] px-2.5 py-1 text-xs font-semibold text-[#007f7b]">
       {getAdminValueLabel(locale, 'status', status)}
+    </span>
+  );
+}
+
+function SiteBadge({ site, locale }: { site: string; locale: AdminLocale }) {
+  const isZarrinac = site === 'zarrinac';
+  return (
+    <span
+      className={[
+        'inline-flex rounded-md px-2.5 py-1 text-xs font-semibold',
+        isZarrinac ? 'bg-[#fdeef0] text-[#b4232c]' : 'bg-[#eaf2ff] text-[#1f5fbf]',
+      ].join(' ')}
+    >
+      {getAdminValueLabel(locale, 'site', site)}
+    </span>
+  );
+}
+
+function ReferenceCell({
+  referenceCode,
+  isUnread,
+  newLabel,
+}: {
+  referenceCode: string;
+  isUnread: boolean;
+  newLabel: string;
+}) {
+  return (
+    <span className="inline-flex items-center gap-2">
+      {isUnread ? (
+        <span className="inline-flex items-center gap-1 rounded-full bg-[#fdecec] px-2 py-0.5 text-[10px] font-bold text-[#e5484d]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#e5484d]" />
+          {newLabel}
+        </span>
+      ) : null}
+      {referenceCode}
     </span>
   );
 }
@@ -78,9 +116,14 @@ export function SubmissionSection({
               : recentCopy(dictionary, visibleCount, locale)}
           </p>
         </div>
-        <span className="rounded-md border border-[#d4dde3] bg-[#f8fafb] px-3 py-2 text-sm font-semibold text-[#172026]">
-          {formatAdminNumber(count, locale)}
-        </span>
+        <div className="flex items-center gap-2">
+          {visibleCount > 0 ? (
+            <AdminPrintButton mode="table" label={dictionary.submissions.printTable} />
+          ) : null}
+          <span className="rounded-md border border-[#d4dde3] bg-[#f8fafb] px-3 py-2 text-sm font-semibold text-[#172026]">
+            {formatAdminNumber(count, locale)}
+          </span>
+        </div>
       </div>
       {visibleCount > 0 ? (
         children
@@ -104,11 +147,12 @@ export function ComplaintTable({
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full min-w-232 border-collapse text-sm">
+      <table className="w-full min-w-256 border-collapse text-sm">
         <thead>
           <tr className="border-b border-[#e4ebef] bg-[#f8fafb] text-[#52636f]">
             <th className="px-5 py-3 text-start font-semibold">{fields.referenceCode}</th>
             <th className="px-5 py-3 text-start font-semibold">{fields.status}</th>
+            <th className="px-5 py-3 text-start font-semibold">{fields.source}</th>
             <th className="px-5 py-3 text-start font-semibold">{fields.fullName}</th>
             <th className="px-5 py-3 text-start font-semibold">{fields.phone}</th>
             <th className="px-5 py-3 text-start font-semibold">{fields.productCategory}</th>
@@ -117,11 +161,24 @@ export function ComplaintTable({
           </tr>
         </thead>
         {complaints.map((complaint) => (
-          <tbody key={complaint.id} className="border-b border-[#eef2f4] last:border-0">
+          <tbody
+            key={complaint.id}
+            data-submission-id={complaint.id}
+            className="admin-submission border-b border-[#eef2f4] last:border-0"
+          >
             <tr className="align-top">
-              <td className="px-5 py-4 font-semibold text-[#172026]">{complaint.referenceCode}</td>
+              <td className="px-5 py-4 font-semibold text-[#172026]">
+                <ReferenceCell
+                  referenceCode={complaint.referenceCode}
+                  isUnread={complaint.readAt === null}
+                  newLabel={dictionary.submissions.newBadge}
+                />
+              </td>
               <td className="px-5 py-4">
                 <StatusBadge status={complaint.status} locale={locale} />
+              </td>
+              <td className="px-5 py-4">
+                <SiteBadge site={complaint.site} locale={locale} />
               </td>
               <td className="px-5 py-4 text-[#172026]">{complaint.fullName}</td>
               <td className="px-5 py-4 text-[#52636f]">{complaint.phone}</td>
@@ -137,14 +194,23 @@ export function ComplaintTable({
               </td>
             </tr>
             <tr>
-              <td colSpan={7} className="px-5 pb-5">
-                <details>
-                  <summary className="cursor-pointer text-sm font-semibold text-[#008f8a]">
-                    {dictionary.submissions.openDetails}
-                  </summary>
+              <td colSpan={8} className="px-5 pb-5">
+                <SubmissionDetails
+                  type="complaint"
+                  id={complaint.id}
+                  isRead={complaint.readAt !== null}
+                  summaryLabel={dictionary.submissions.openDetails}
+                >
+                  <div className="admin-no-print mt-3 flex justify-end">
+                    <AdminPrintButton mode="single" label={dictionary.submissions.print} />
+                  </div>
                   <DetailGrid
                     fields={[
                       { label: fields.referenceCode, value: complaint.referenceCode },
+                      {
+                        label: fields.source,
+                        value: getAdminValueLabel(locale, 'site', complaint.site),
+                      },
                       {
                         label: fields.status,
                         value: getAdminValueLabel(locale, 'status', complaint.status),
@@ -201,7 +267,7 @@ export function ComplaintTable({
                       },
                     ]}
                   />
-                </details>
+                </SubmissionDetails>
               </td>
             </tr>
           </tbody>
@@ -224,11 +290,12 @@ export function SurveyTable({
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full min-w-232 border-collapse text-sm">
+      <table className="w-full min-w-256 border-collapse text-sm">
         <thead>
           <tr className="border-b border-[#e4ebef] bg-[#f8fafb] text-[#52636f]">
             <th className="px-5 py-3 text-start font-semibold">{fields.referenceCode}</th>
             <th className="px-5 py-3 text-start font-semibold">{fields.status}</th>
+            <th className="px-5 py-3 text-start font-semibold">{fields.source}</th>
             <th className="px-5 py-3 text-start font-semibold">{fields.fullName}</th>
             <th className="px-5 py-3 text-start font-semibold">{fields.mobile}</th>
             <th className="px-5 py-3 text-start font-semibold">{fields.serviceChannel}</th>
@@ -237,11 +304,24 @@ export function SurveyTable({
           </tr>
         </thead>
         {surveys.map((survey) => (
-          <tbody key={survey.id} className="border-b border-[#eef2f4] last:border-0">
+          <tbody
+            key={survey.id}
+            data-submission-id={survey.id}
+            className="admin-submission border-b border-[#eef2f4] last:border-0"
+          >
             <tr className="align-top">
-              <td className="px-5 py-4 font-semibold text-[#172026]">{survey.referenceCode}</td>
+              <td className="px-5 py-4 font-semibold text-[#172026]">
+                <ReferenceCell
+                  referenceCode={survey.referenceCode}
+                  isUnread={survey.readAt === null}
+                  newLabel={dictionary.submissions.newBadge}
+                />
+              </td>
               <td className="px-5 py-4">
                 <StatusBadge status={survey.status} locale={locale} />
+              </td>
+              <td className="px-5 py-4">
+                <SiteBadge site={survey.site} locale={locale} />
               </td>
               <td className="px-5 py-4 text-[#172026]">{survey.fullName}</td>
               <td className="px-5 py-4 text-[#52636f]">{survey.mobile}</td>
@@ -256,14 +336,23 @@ export function SurveyTable({
               </td>
             </tr>
             <tr>
-              <td colSpan={7} className="px-5 pb-5">
-                <details>
-                  <summary className="cursor-pointer text-sm font-semibold text-[#008f8a]">
-                    {dictionary.submissions.openDetails}
-                  </summary>
+              <td colSpan={8} className="px-5 pb-5">
+                <SubmissionDetails
+                  type="survey"
+                  id={survey.id}
+                  isRead={survey.readAt !== null}
+                  summaryLabel={dictionary.submissions.openDetails}
+                >
+                  <div className="admin-no-print mt-3 flex justify-end">
+                    <AdminPrintButton mode="single" label={dictionary.submissions.print} />
+                  </div>
                   <DetailGrid
                     fields={[
                       { label: fields.referenceCode, value: survey.referenceCode },
+                      {
+                        label: fields.source,
+                        value: getAdminValueLabel(locale, 'site', survey.site),
+                      },
                       {
                         label: fields.status,
                         value: getAdminValueLabel(locale, 'status', survey.status),
@@ -338,7 +427,7 @@ export function SurveyTable({
                       },
                     ]}
                   />
-                </details>
+                </SubmissionDetails>
               </td>
             </tr>
           </tbody>

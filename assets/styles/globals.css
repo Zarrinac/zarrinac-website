@@ -266,3 +266,36 @@ html[lang='fa'] body {
     padding: 0 3rem; /* 48px */
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Admin print / save-as-PDF support.
+   - .admin-no-print: chrome (nav, header, buttons) hidden when printing.
+   - mode="table" prints the whole page; mode="single" toggles
+     body.admin-printing-single so only the targeted submission's <tbody>
+     (.admin-print-target) stays visible.
+--------------------------------------------------------------------------- */
+@media print {
+  .admin-no-print {
+    display: none !important;
+  }
+
+  .admin-root {
+    background: #fff !important;
+  }
+
+  .admin-submission details > summary {
+    display: none !important;
+  }
+
+  body.admin-printing-single .admin-submission {
+    display: none !important;
+  }
+
+  body.admin-printing-single .admin-submission.admin-print-target {
+    display: table-row-group !important;
+  }
+
+  body.admin-printing-single section:not(:has(.admin-print-target)) {
+    display: none !important;
+  }
+}
