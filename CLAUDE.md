@@ -1,7 +1,9 @@
 # Hisense Iran Website — Claude Code Guide
 
-Marketing + admin site for Hisense Iran (zarrinac.com).
+Marketing + admin site for Hisense Iran (zarrinac.com). Also hosts the separate **D'code** TV brand under `/dcode`.
 Stack: Next.js 16 App Router · React 19 · TypeScript 6 · PostgreSQL + Prisma 7 · next-intl · Tailwind CSS v4 · MUI 9 · Zod · React Hook Form · Playwright.
+
+> This codebase is a replica of the Hisense (`hisense.ir`) site, rebranded to zarrinac.com and extended with the D'code brand section. The package is named `zarrinac` and the **dev server runs on port 3001** (not 3000) so it can run alongside the Hisense site locally.
 
 ## Primary Objective: SEO
 
@@ -19,21 +21,22 @@ Stack: Next.js 16 App Router · React 19 · TypeScript 6 · PostgreSQL + Prisma 
 
 ## Commands
 
-| Command                           | Purpose                                   |
-| --------------------------------- | ----------------------------------------- |
-| `npm run dev`                     | Dev server at http://localhost:3000       |
-| `npm run build`                   | Production build (runs sitemap postbuild) |
-| `npm run start`                   | Serve production build                    |
-| `npm run lint`                    | ESLint check                              |
-| `npm run format`                  | Prettier format                           |
-| `npm run db:migrate`              | Apply Prisma migrations (dev)             |
-| `npm run db:deploy`               | Apply migrations (production)             |
-| `npm run db:seed`                 | Seed all data                             |
-| `npm run db:seed:products`        | Seed products only                        |
-| `npm run db:seed:locations`       | Seed Iran provinces/cities                |
-| `npm run db:seed:downloads`       | Seed download assets                      |
-| `npm run db:seed:representatives` | Seed service representatives              |
-| `npx playwright test`             | Run E2E tests                             |
+| Command                           | Purpose                                                 |
+| --------------------------------- | ------------------------------------------------------- |
+| `npm run dev`                     | Dev server at **http://localhost:3001**                 |
+| `npm run build`                   | Production build (runs sitemap postbuild)               |
+| `npm run start`                   | Serve production build                                  |
+| `npm run lint`                    | ESLint check                                            |
+| `npm run format`                  | Prettier format                                         |
+| `npm run db:migrate`              | Apply Prisma migrations (dev)                           |
+| `npm run db:deploy`               | Apply migrations (production)                           |
+| `npm run db:seed`                 | Seed all data (via `scripts/seed-all.mjs` orchestrator) |
+| `npm run db:seed:products`        | Seed products only                                      |
+| `npm run db:seed:dcode`           | Seed D'code catalog only                                |
+| `npm run db:seed:locations`       | Seed Iran provinces/cities                              |
+| `npm run db:seed:downloads`       | Seed download assets                                    |
+| `npm run db:seed:representatives` | Seed service representatives                            |
+| `npx playwright test`             | Run E2E tests                                           |
 
 ## Architecture
 
@@ -43,34 +46,47 @@ Stack: Next.js 16 App Router · React 19 · TypeScript 6 · PostgreSQL + Prisma 
 - Root `app/page.tsx` redirects to `/fa`
 - Admin portal: `app/admin/` — protected by custom JWT session (no next-auth)
 - API: `app/api/` — standard Next.js route handlers with DB→fallback chain
+- D'code brand pages: `app/[locale]/dcode/` (landing), `app/[locale]/dcode/tvs/` (list), `app/[locale]/dcode/tvs/[productId]/` (detail) — see the D'code Brand section below
 
 ### Data Sources
 
 The app runs without a database. If `DATABASE_URL` is absent, API routes fall back to bundled static data.
 
-| Data            | Primary                                   | Fallback                                                                                            |
-| --------------- | ----------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Products        | DB (`Product` + `ProductCopy` + `TvSpec`) | `FALLBACK_PRODUCTS` in `lib/api/products/` (TV/WM/RAC/CAC); refrigerators via `content/RefProducts` |
-| Locations       | DB (`IranProvince` + `IranCity`)          | `lib/iranLocations.json`                                                                            |
-| Service Centers | DB (`ServiceRepresentative`)              | `lib/iranLocations.json` static data                                                                |
-| Downloads       | DB (`DownloadAsset`)                      | none                                                                                                |
+| Data            | Primary                                                   | Fallback                                                                                            |
+| --------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Products        | DB (`Product` + `ProductCopy` + `TvSpec`)                 | `FALLBACK_PRODUCTS` in `lib/api/products/` (TV/WM/RAC/CAC); refrigerators via `content/RefProducts` |
+| D'code TVs      | DB (`DcodeProduct` + `DcodeVariant` + `DcodeProductCopy`) | `DCODE_PRODUCTS` in `content/DcodeProducts.ts` (via `lib/dcode/source.ts`)                          |
+| Locations       | DB (`IranProvince` + `IranCity`)                          | `lib/iranLocations.json`                                                                            |
+| Service Centers | DB (`ServiceRepresentative`)                              | `lib/iranLocations.json` static data                                                                |
+| Downloads       | DB (`DownloadAsset`)                                      | none                                                                                                |
 
 Content source is toggled by `NEXT_PUBLIC_CONTENT_SOURCE` (`"local"` or `"remote"`).
 
+### D'code Brand (`/dcode`)
+
+D'code is a **separate TV brand** from Hisense, kept deliberately independent so the two can evolve apart. Today it ships a single LED line (R6D) in three sizes (55"/65"/75").
+
+- **Routes:** `app/[locale]/dcode/` (brand landing), `.../dcode/tvs/` (product list), `.../dcode/tvs/[productId]/` (detail). All ISR (`revalidate = 3600`) with their own `generateMetadata` + JSON-LD. Translations namespace: `DcodePage`.
+- **Data:** `lib/dcode/source.ts` — DB-first (`prisma.dcodeProduct`) with fallback to `content/DcodeProducts.ts` when DB is absent/empty (mirrors the products DB→fallback chain). `getDcodeProducts()` / `getDcodeProductById()`.
+- **Types:** `types/dcode.ts` (`DcodeProduct`, `DcodeVariant`, `DcodeProductCopy`, `DcodeFeatureCard`, `DcodeCategory = 'led'`). Independent of the Hisense `TvProduct` type.
+- **Prisma models:** `DcodeProduct` / `DcodeVariant` / `DcodeProductCopy` + `DcodeCategory` enum (`LED`). Seed via `scripts/seed-dcode.ts` (`npm run db:seed:dcode`).
+- **Brand identity:** `lib/dcode/brand.ts` (`DCODE_BRAND` — own black `#0B0B0B` + red `#E30613` palette, distinct from the Hisense theme) and `components/dcode/dcodeTheme.ts` (`DCODE_THEME_STYLE`, `DCODE_BLEED_CLASS`). D'code pages theme off these tokens, **not** the global CSS vars. Logo/components in `components/dcode/`. Assets under `public/dcode/`.
+- The red is an approximation of the logo red — verify against the official brand guideline before launch.
+
 ### Key Directories
 
-| Path          | Purpose                                                                                |
-| ------------- | -------------------------------------------------------------------------------------- |
-| `app/`        | Pages, layouts, API routes, sitemap/robots generators                                  |
-| `components/` | UI components grouped by feature (`tv/`, `admin/`, `seo/`, `header/`, `routes/`, etc.) |
-| `lib/`        | Cross-cutting utilities: DB client, admin auth, media URLs, form schemas, SEO helpers  |
-| `content/`    | Static fallback data (TV catalog, about copy)                                          |
-| `messages/`   | Translation dictionaries — `fa.json` and `en.json`                                     |
-| `prisma/`     | Prisma schema and migration history                                                    |
-| `types/`      | Shared TypeScript types (`tv.ts`, `wm.ts`, `svg.d.ts`)                                 |
-| `i18n/`       | next-intl routing config and request helpers                                           |
-| `scripts/`    | DB seed scripts                                                                        |
-| `seo/`        | Keyword list helpers                                                                   |
+| Path          | Purpose                                                                                                    |
+| ------------- | ---------------------------------------------------------------------------------------------------------- |
+| `app/`        | Pages, layouts, API routes, sitemap/robots generators                                                      |
+| `components/` | UI components grouped by feature (`tv/`, `admin/`, `seo/`, `header/`, `routes/`, `dcode/`, etc.)           |
+| `lib/`        | Cross-cutting utilities: DB client, admin auth, media URLs, form schemas, SEO helpers, `dcode/` data+brand |
+| `content/`    | Static fallback data (TV catalog, about copy, `DcodeProducts.ts`)                                          |
+| `messages/`   | Translation dictionaries — `fa.json` and `en.json`                                                         |
+| `prisma/`     | Prisma schema and migration history                                                                        |
+| `types/`      | Shared TypeScript types (`tv.ts`, `wm.ts`, `dcode.ts`, `svg.d.ts`)                                         |
+| `i18n/`       | next-intl routing config and request helpers                                                               |
+| `scripts/`    | DB seed scripts                                                                                            |
+| `seo/`        | Keyword list helpers                                                                                       |
 
 ### Localization
 
@@ -146,7 +162,9 @@ Always use the `mediaUrl(path)` helper from `lib/mediaUrl.ts`. It switches betwe
 
 7. **RTL flips layout** — Persian (fa) is RTL. Flex direction, carousel scroll direction, padding/margin semantics, and text alignment all reverse. Always test both locales after touching any layout or carousel component.
 
-8. **DB is primary, JSON is fallback** — `lib/serviceCenterSource.ts` and `lib/iranLocationSource.ts` query the database first. The JSON files in `lib/` are emergency fallbacks, not the authoritative data source.
+8. **DB is primary, JSON is fallback** — `lib/serviceCenterSource.ts`, `lib/iranLocationSource.ts`, and `lib/dcode/source.ts` query the database first. The JSON/TS content files (`lib/*.json`, `content/DcodeProducts.ts`) are emergency fallbacks, not the authoritative data source.
+
+9. **`db:seed` runs through an orchestrator** — `npm run db:seed` invokes `scripts/seed-all.mjs`, not a plain `&&` chain. On Windows + Node the `tsx` + `@prisma/adapter-pg` + `pg` Pool teardown intermittently exits non-zero **after** the seed already committed. The runner keys success off each seed's completion sentinel (e.g. `"D'code seed complete."`) rather than the exit code, so a benign post-commit teardown crash doesn't abort the remaining seeds — but a real failure (no sentinel) still fails the run. Add new seeds to the `SEEDS` array with their sentinel string.
 
 ## Environment Variables
 
@@ -157,7 +175,7 @@ Always use the `mediaUrl(path)` helper from `lib/mediaUrl.ts`. It switches betwe
 | `ADMIN_USERNAME`                       | Yes      | Admin login credential                                                  |
 | `ADMIN_PASSWORD`                       | Yes      | Admin login credential                                                  |
 | `ADMIN_SESSION_SECRET`                 | Yes      | HMAC-SHA256 signing key for session tokens                              |
-| `INTERNAL_API_BASE_URL`                | Dev      | Internal fetch base (dev: `http://localhost:3000`)                      |
+| `INTERNAL_API_BASE_URL`                | Dev      | Internal fetch base (dev: `http://localhost:3001`)                      |
 | `NEXT_PUBLIC_MEDIA_BASE_URL`           | Optional | CDN base for product images (defaults to `/`)                           |
 | `NEXT_PUBLIC_CONTENT_SOURCE`           | Optional | `"local"` or `"remote"` content mode                                    |
 | `NEXT_PUBLIC_GA_ID`                    | Optional | Google Analytics measurement ID                                         |
