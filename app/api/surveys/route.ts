@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { surveySubmissionSchema } from '@/lib/surveys/schema';
+import { SITE_ID } from '@/lib/siteId';
 
 function parseDateOnly(value: string | null) {
   if (!value) {
@@ -43,6 +44,7 @@ export async function POST(request: Request) {
     const survey = await prisma.surveySubmission.create({
       data: {
         ...surveyData,
+        site: SITE_ID,
         referenceCode: createReferenceCode(),
         serviceDate: parseDateOnly(serviceDate),
       },

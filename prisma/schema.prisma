@@ -194,6 +194,7 @@ model ComplaintSubmission {
   city                   String
   address                String?
   description            String
+  site                   String    @default("hisense")
   status                 String    @default("NEW")
   createdAt              DateTime  @default(now())
   updatedAt              DateTime  @updatedAt
@@ -219,6 +220,7 @@ model SurveySubmission {
   followUpConsent        String
   overallFeedback        String
   improvementSuggestions String?
+  site                   String    @default("hisense")
   status                 String    @default("NEW")
   createdAt              DateTime  @default(now())
   updatedAt              DateTime  @updatedAt
