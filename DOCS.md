@@ -595,14 +595,26 @@ Scripts under `ops/` are the source of truth. After a deploy pulls changes, manu
 ```bash
 # Local:
 pg_dump -Fc zarrin > zarrin.dump
-scp zarrin.dump reza@nexzarrin:/home/reza/
+scp -i ~/.ssh/nexzarrin_ed25519 zarrin.dump reza@172.17.0.10:/home/reza/
 
-# Server:
+# Server (shared Postgres lives on nexzarrin):
 pm2 stop hisense-ir
-dropdb zarrin && createdb -O reza_sf zarrin
-pg_restore --no-owner --no-privileges -d zarrin /home/reza/zarrin.dump
+# NOTE: the OS user is `reza` but the Postgres ROLE is `reza_sf`. Bare `dropdb`/`createdb`
+# default to a `reza` role that does not exist -> "FATAL: role reza does not exist".
+# Always pass `-h localhost -U reza_sf` (TCP + password auth, same as the app).
+dropdb -h localhost -U reza_sf --force zarrin        # --force terminates open conns (PG16; DB is shared)
+createdb -h localhost -U reza_sf -O reza_sf zarrin   # reza_sf now has CREATEDB (granted 2026-06-16)
+# Restore AS reza_sf so it OWNS the tables (app then has full access). Do NOT restore as postgres.
+pg_restore -h localhost -U reza_sf --no-owner --no-privileges -d zarrin /home/reza/zarrin.dump
 pm2 start hisense-ir
 ```
+
+**Role/privilege gotchas (hit during the 2026-06-16 promotion on nexzarrin):**
+
+- OS user `reza` ≠ DB role `reza_sf`. Bare `dropdb`/`createdb` fail with `role "reza" does not exist` — always specify `-h localhost -U reza_sf`.
+- `createdb` needs the `CREATEDB` privilege. `reza_sf` originally lacked it (`permission denied to create database`); granted permanently with `sudo -u postgres psql -c 'ALTER ROLE reza_sf CREATEDB;'`. On a fresh cluster, recreate as superuser instead: `sudo -u postgres createdb -O reza_sf zarrin`.
+- A password prompt that returns `permission denied …` or `database … does not exist` means **auth succeeded** (post-login errors) — the password is fine; the issue is privilege/state.
+- ⚠️ **Shared DB:** hisense and zarrinac share one Postgres. A drop/restore replaces **both** sites' submissions with the local snapshot — only promote when the local DB is the intended source of truth for everything.
 
 ---
 
