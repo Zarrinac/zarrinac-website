@@ -69,6 +69,20 @@ npm run db:deploy
 log "Clearing Next cache (.next/cache) to avoid serving stale content..."
 rm -rf .next/cache
 
+# Ensure public/media -> live media dir symlink exists.
+# Media lives outside the app at /var/www/zarrinac/media and is served to
+# browsers by the Apache `Alias /media/`. But next/image's optimizer fetches a
+# *relative* source (NEXT_PUBLIC_MEDIA_BASE_URL=/media) via an INTERNAL request
+# to the Node server (:3000), which has no /media route — so optimized images
+# 400 with "received null" unless the Node server can also resolve /media.
+# Symlinking it into public/ lets the optimizer read it off disk, independent of
+# host/domain (works via raw IP and the live domain alike). Idempotent.
+MEDIA_LIVE="${ZARRINAC_MEDIA_DIR:-/var/www/zarrinac/media}"
+if [ -d "$MEDIA_LIVE" ] && [ ! -e "$APP_DIR/public/media" ]; then
+  log "Linking public/media -> $MEDIA_LIVE ..."
+  ln -s "$MEDIA_LIVE" "$APP_DIR/public/media"
+fi
+
 log "Building Next.js..."
 npm run build
 

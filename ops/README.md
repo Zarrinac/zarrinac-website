@@ -76,6 +76,12 @@ sudo touch /var/log/zarrinac-deploy.log && sudo chown reza:reza /var/log/zarrina
 sudo touch /var/log/zarrinac-seo-audit.log && sudo chown reza:reza /var/log/zarrinac-seo-audit.log
 sudo touch /var/log/zarrinac-monitor.log && sudo chown reza:reza /var/log/zarrinac-monitor.log
 
+# PM2 boot persistence (so the app resurrects after a reboot). Run pm2 startup,
+# then run the sudo line it prints, then snapshot the running process list:
+pm2 startup systemd           # prints a `sudo env PATH=... pm2 startup ...` line — run it
+pm2 save                      # writes ~/.pm2/dump.pm2, replayed by pm2-reza.service at boot
+# Verify: systemctl is-enabled pm2-reza   ->   enabled
+
 # Cron entries (crontab -e)  — adjust times to taste
 0 * * * *  /usr/local/bin/zarrinac-monitor.sh                # hourly monitor
 0 3 * * 0  /usr/local/bin/weekly-backup.sh >> /var/log/zarrinac-backup.log 2>&1   # Sun 03:00 backup
@@ -92,6 +98,19 @@ server `/var/www/zarrinac/media`).
 The Next app runs as `reza` and reads media off disk to optimize images — so the live dir
 **must be readable by `reza`**. Leaving it `www-data`-only / mode `700` causes `EACCES` and a
 503 crash-loop. `sync-media.sh` always applies `chmod -R a+rX`, which prevents that.
+
+**`public/media` symlink (required for `next/image`).** Browsers fetch raw media via Apache's
+`Alias /media/ → /var/www/zarrinac/media/`, but `next/image`'s optimizer fetches its _relative_
+source (`NEXT_PUBLIC_MEDIA_BASE_URL=/media`) through an **internal request to the Node server**
+(`:3000`), which has no `/media` route — so every optimized image 400s with
+`"received null"` (raw `<img>`/video still works, masking it). Fix: symlink the live dir into
+the app's `public/` so the optimizer can read it off disk, host/domain-independent:
+
+```bash
+ln -s /var/www/zarrinac/media /var/www/zarrinac/app/public/media   # idempotent
+```
+
+`deploy.sh` recreates this link on every deploy if missing, so it survives a fresh app dir.
 
 **One-time setup on the server** (so `upload-media.ps1` runs unattended):
 
@@ -118,6 +137,41 @@ with `--delete` on the server.
 Manual equivalent (no PS script):
 `scp -i ~/.ssh/zarrin_ng_site_ed25519 -r media/ reza@172.17.0.19:/home/reza/`, then on the server
 `sudo /usr/local/bin/sync-media.sh`.
+
+## TLS / HTTPS
+
+Apache terminates TLS for `zarrinac.com` (+ `www`) and reverse-proxies to Next on `:3000`;
+the `:80` vhost 301-redirects to HTTPS (mirrors the nexzarrin/hisense pattern). Cert files
+live **outside git** under `/etc/ssl/zarrinac/`:
+
+| File                              | Perms           | Apache directive        |
+| --------------------------------- | --------------- | ----------------------- |
+| `/etc/ssl/zarrinac/fullchain.crt` | `644 root:root` | `SSLCertificateFile`    |
+| `/etc/ssl/zarrinac/zarrinac.key`  | `600 root:root` | `SSLCertificateKeyFile` |
+
+`fullchain.crt` is the **leaf + both intermediates** concatenated, in order
+(`*.zarrinac.com` → `Certum DV TLS G2 R39 CA` → `Certum Trusted Root CA`); the self-signed
+root is omitted (clients have it). The cert is a **Certum wildcard** (SAN `*.zarrinac.com` +
+`zarrinac.com`) — **NOT** Let's Encrypt, so **renewal is manual**.
+
+**Renewal** (current cert valid until **2026-12-16**): obtain the new Certum bundle, then
+rebuild + reinstall:
+
+```bash
+# locally: assemble fullchain (leaf first, root omitted)
+cat <leaf>.crt <DV-TLS-G2-R39>.cer <Trusted-Root-CA>.cer > fullchain.crt
+openssl verify -CAfile <ca-bundle> <leaf>.crt          # expect: OK
+# verify key matches cert (hashes must match):
+openssl x509 -in <leaf>.crt -noout -pubkey | openssl md5
+openssl pkey -in <key> -pubout            | openssl md5
+# upload + install (key stays 600 root:root), then:
+sudo apache2ctl configtest && sudo systemctl reload apache2
+# verify: curl -sS -o /dev/null -w '%{http_code} verify=%{ssl_verify_result}\n' \
+#   --resolve zarrinac.com:443:127.0.0.1 https://zarrinac.com/fa     # 200 verify=0
+```
+
+Public reachability also needs DNS A-records for `zarrinac.com` + `www` pointing at the host
+and port `443` open through any firewall.
 
 ## Notes
 
