@@ -23,8 +23,26 @@ fi
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"; }
 
+# --- Toolchain on PATH (nvm) --------------------------------------------------
+# node/npm/pm2 are installed via nvm, which is initialized in ~/.bashrc — a file
+# that NON-interactive shells (cron, CI, `ssh host /var/www/zarrinac/deploy.sh`)
+# do NOT source. Without this, an unattended deploy dies at the first node/npm
+# call with "node: command not found"; it only appears to work when launched from
+# an interactive login shell. Source nvm here so the script is self-sufficient
+# however it's invoked. (The sibling ops scripts — zarrinac-monitor.sh,
+# seo-audit.sh — already do this; the hisense-ir deploy script omits it and only
+# survives because it's always run by hand.)
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+# shellcheck source=/dev/null
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" >/dev/null 2>&1
+command -v node >/dev/null 2>&1 || {
+  echo "ERROR: node not found on PATH (nvm not loaded from $NVM_DIR)." >&2
+  exit 127
+}
+
 log "=== Deploy started ==="
 cd "$APP_DIR"
+log "Toolchain: node $(node -v), npm $(npm -v), pm2 $(pm2 -v 2>/dev/null || echo '?')"
 
 # The legacy generated public/sitemap-0.xml can block the pull; the native
 # app/sitemap.ts route is the source of truth now, so discard local changes to it.
