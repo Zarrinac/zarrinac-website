@@ -9,7 +9,7 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zarrinac.c
 // Stable sitemap <lastmod> baseline. Using a fixed date (instead of `new Date()` at
 // build time) keeps the signal trustworthy — bump this only when site content
 // meaningfully changes, so crawlers don't see "everything changed" on every deploy.
-export const SITE_CONTENT_LAST_MODIFIED = new Date('2026-06-06T00:00:00Z');
+export const SITE_CONTENT_LAST_MODIFIED = new Date('2026-06-18T00:00:00Z');
 
 export type SeoBreadcrumbItem = {
   label: string;
