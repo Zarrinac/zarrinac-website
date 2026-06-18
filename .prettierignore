@@ -1,0 +1,8 @@
+# Machine-generated knowledge-graph artifacts — never format these.
+# Prettier re-normalizing the large graph.json/graph.html files trips the
+# lint-staged pre-commit hook during restage.
+graphify-out/
+
+# Build / dependency output
+.next/
+node_modules/

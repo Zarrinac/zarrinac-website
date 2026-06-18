@@ -13,6 +13,7 @@ type LabeledNavItem = {
   key: NavKey;
   href: string;
   label: string;
+  hasSubmenu: boolean;
 };
 
 type MobileNavPanelProps = {
@@ -83,17 +84,29 @@ export default function MobileNavPanel({
             }`}
             aria-hidden={mobileActiveMenuKey ? 'true' : 'false'}
           >
-            {allNavItems.map((item) => (
-              <button
-                type="button"
-                key={item.key}
-                className="flex items-center justify-between border-b border-(--border-color) pb-4 text-left transition-colors hover:text-(--brand-color)"
-                onClick={() => onMobileMenuKeyChange(item.key)}
-              >
-                <span className="text-(--default-black-font)">{item.label}</span>
-                {locale === 'fa' ? <HiChevronLeft /> : <HiChevronRight />}
-              </button>
-            ))}
+            {allNavItems.map((item) =>
+              item.hasSubmenu ? (
+                <button
+                  type="button"
+                  key={item.key}
+                  className="flex items-center justify-between border-b border-(--border-color) pb-4 text-left transition-colors hover:text-(--brand-color)"
+                  onClick={() => onMobileMenuKeyChange(item.key)}
+                >
+                  <span className="text-(--default-black-font)">{item.label}</span>
+                  {locale === 'fa' ? <HiChevronLeft /> : <HiChevronRight />}
+                </button>
+              ) : (
+                // No submenu: render a direct link to the section, no chevron.
+                <Link
+                  key={item.key}
+                  href={toLocalePath(item.href)}
+                  onClick={handleNavigate}
+                  className="flex items-center justify-between border-b border-(--border-color) pb-4 text-left transition-colors hover:text-(--brand-color)"
+                >
+                  <span className="text-(--default-black-font)">{item.label}</span>
+                </Link>
+              ),
+            )}
           </nav>
 
           <div
