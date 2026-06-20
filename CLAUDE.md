@@ -3,7 +3,9 @@
 Marketing + admin site for Hisense Iran (zarrinac.com). Also hosts the separate **D'code** TV brand under `/dcode`.
 Stack: Next.js 16 App Router · React 19 · TypeScript 6 · PostgreSQL + Prisma 7 · next-intl · Tailwind CSS v4 · MUI 9 · Zod · React Hook Form · Playwright.
 
-> This codebase is a replica of the Hisense (`hisense.ir`) site, rebranded to zarrinac.com and extended with the D'code brand section. The package is named `zarrinac` and the **dev server runs on port 3001** (not 3000) so it can run alongside the Hisense site locally.
+> This codebase is a replica of the Hisense Iran (`hisense-ir.com`) site, rebranded to zarrinac.com and extended with the D'code brand section. The package is named `zarrinac` and the **dev server runs on port 3001** (not 3000) so it can run alongside the Hisense site locally.
+>
+> **Click forwarding:** Every Hisense-replica section is 308-redirected to `https://www.hisense-ir.com` (see `next.config.ts` → `HISENSE_SECTIONS`) to consolidate SEO and funnel traffic to the canonical Hisense site. NOT redirected: the home (`/[locale]`), the D'code section (`/[locale]/dcode/*`, slated for its own domain), and `/admin` + `/api`. The sitemap (`app/sitemap.ts`) therefore lists only home + D'code; `robots.ts` keeps the redirected sections crawlable so Google sees the 308 and transfers equity.
 
 ## Primary Objective: SEO
 

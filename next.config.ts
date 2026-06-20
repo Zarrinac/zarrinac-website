@@ -50,11 +50,53 @@ const securityHeaders = [
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
 ];
 
+// Zarrinac is a 1:1 replica of the Hisense Iran site plus the D'code brand.
+// To consolidate SEO signals and funnel visitors to the canonical Hisense site,
+// every Hisense-replica section is permanently (308) forwarded to
+// https://www.hisense-ir.com, preserving locale + sub-path. Intentionally NOT
+// redirected: the Zarrinac home (`/[locale]`), the D'code section
+// (`/[locale]/dcode/*` — slated for its own domain later), and the functional
+// `/admin` + `/api` routes. Keep this list in sync with the public routes under
+// `app/[locale]/` whenever a Hisense section is added or renamed.
+const HISENSE_SITE_URL = 'https://www.hisense-ir.com';
+const HISENSE_SECTIONS = [
+  'about',
+  'cac',
+  'complaint',
+  'contact-us',
+  'faq',
+  'find-service-center',
+  'hisense-repair',
+  'portal',
+  'products',
+  'rac',
+  'refrigerator',
+  'request-representation',
+  'support',
+  'survey',
+  'tv-hisense',
+  'warranty-and-guarantee',
+  'washing-machine',
+];
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns,
     // Serve modern formats (AVIF first, WebP fallback) for smaller payloads / better LCP.
     formats: ['image/avif', 'image/webp'],
+  },
+  redirects() {
+    // `:path*` matches the section root AND any nested path (zero-or-more
+    // segments), so each entry covers e.g. `/fa/products` and
+    // `/fa/products/tvs/u7k` in one rule. `permanent: true` emits a 308, which
+    // Google treats identically to a 301 for canonicalization/equity transfer.
+    return Promise.resolve(
+      HISENSE_SECTIONS.map((section) => ({
+        source: `/:locale(fa|en)/${section}/:path*`,
+        destination: `${HISENSE_SITE_URL}/:locale/${section}/:path*`,
+        permanent: true,
+      })),
+    );
   },
   headers() {
     return Promise.resolve([

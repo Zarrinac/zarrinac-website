@@ -1,51 +1,14 @@
 import type { MetadataRoute } from 'next';
-import { FALLBACK_PRODUCTS } from '@/lib/api/products/normalizers';
-import { categoryToSlug } from '@/lib/api/products/categories';
-import { REF_PRODUCTS } from '@/content/RefProducts';
 import { routing } from '@/i18n/routing';
 import { SITE_URL, SITE_CONTENT_LAST_MODIFIED } from '@/lib/seo/site';
 
-// Native sitemap built from the same product source the pages serve. Using the
-// content-backed product list (the API's fallback source) guarantees every URL
-// resolves and includes models generated programmatically (e.g. RAC HIH/HRH
-// series) that the previous regex-based generator silently dropped.
+// Zarrinac forwards every Hisense-replica section to hisense-ir.com via 308
+// redirects (see next.config.ts). The sitemap must therefore list ONLY the URLs
+// that still resolve on this domain — the home page and the D'code brand
+// section. Advertising redirected URLs here would emit a mixed signal (sitemap
+// says "index me", server says "308 elsewhere").
 
-const STATIC_PATHS = [
-  '/products/tvs',
-  '/products/rac',
-  '/products/cac',
-  '/refrigerator',
-  '/products/wms',
-  '/dcode',
-  '/dcode/tvs',
-  '/dcode/tvs/r6d',
-  '/about',
-  '/contact-us',
-  '/hisense-repair',
-  '/complaint',
-  '/survey',
-  '/faq',
-  '/warranty-and-guarantee',
-  '/portal',
-  '/find-service-center',
-  '/request-representation',
-];
-
-const productPaths = (): string[] => {
-  const categoryProductPaths = FALLBACK_PRODUCTS.reduce<string[]>((acc, product) => {
-    const slug = categoryToSlug(product.category);
-    if (slug) {
-      acc.push(`/products/${slug}/${(product.slug ?? product.id).toLowerCase()}`);
-    }
-    return acc;
-  }, []);
-
-  const refrigeratorPaths = REF_PRODUCTS.map(
-    (product) => `/refrigerator/${product.id.toLowerCase()}`,
-  );
-
-  return [...categoryProductPaths, ...refrigeratorPaths];
-};
+const STATIC_PATHS = ['/dcode', '/dcode/tvs', '/dcode/tvs/r6d'];
 
 const buildLanguageAlternates = (path: string): Record<string, string> => {
   const languages = routing.locales.reduce<Record<string, string>>((acc, locale) => {
@@ -64,7 +27,7 @@ const priorityForPath = (path: string): number => {
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = SITE_CONTENT_LAST_MODIFIED;
-  const logicalPaths = Array.from(new Set(['', ...STATIC_PATHS, ...productPaths()]));
+  const logicalPaths = Array.from(new Set(['', ...STATIC_PATHS]));
 
   return logicalPaths.flatMap((path) => {
     const languages = buildLanguageAlternates(path);
