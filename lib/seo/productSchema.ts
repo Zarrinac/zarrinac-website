@@ -6,11 +6,15 @@ import { SITE_CONTENT_LAST_MODIFIED, SITE_URL, getLocaleLanguage, toAbsoluteUrl 
 //
 // `offers` decision: the site intentionally publishes no prices (volatile rial
 // pricing, distributor model — quotes go through authorized representatives). A
-// price-less Offer is invalid for Google rich results, so we emit NO `offers` by
-// default. The builder is forward-compatible: pass a positive `price` and it emits
-// a valid Offer (priceCurrency defaults to IRR, availability to InStock, seller =
-// the Organization) — unlocking product rich results with zero call-site changes
-// the moment products carry a price.
+// `Product` node with no `offers`/`review`/`aggregateRating` is invalid for Google
+// (it triggers the GSC "Either offers, review, or aggregateRating should be
+// specified" Product-snippet warning and is never eligible for rich results), so
+// this builder returns `null` when there's no valid offer — callers must guard
+// (`productJsonLd && <JsonLd … />`). Product info still ships via the page's
+// `WebPage` + `about:{@type:"Thing"}` node. The builder stays forward-compatible:
+// pass a positive `price` and it emits a valid Product + Offer (priceCurrency
+// defaults to IRR, availability to InStock, seller = the Organization), restoring
+// product rich results with zero call-site changes the moment products carry a price.
 
 type ProductOfferAvailability = 'InStock' | 'OutOfStock' | 'PreOrder' | 'BackOrder';
 
@@ -57,18 +61,21 @@ export const buildProductJsonLd = ({
   );
 
   const hasPrice = typeof price === 'number' && Number.isFinite(price) && price > 0;
-  const offers = hasPrice
-    ? {
-        offers: {
-          '@type': 'Offer',
-          price: String(price),
-          priceCurrency,
-          availability: `https://schema.org/${availability}`,
-          url,
-          seller: { '@id': `${SITE_URL}#organization` },
-        },
-      }
-    : {};
+  // Without a valid offer the Product node is invalid for Google — omit it
+  // entirely rather than emitting a flagged, ineligible price-less Product.
+  if (!hasPrice) {
+    return null;
+  }
+  const offers = {
+    offers: {
+      '@type': 'Offer',
+      price: String(price),
+      priceCurrency,
+      availability: `https://schema.org/${availability}`,
+      url,
+      seller: { '@id': `${SITE_URL}#organization` },
+    },
+  };
 
   return {
     '@context': 'https://schema.org',

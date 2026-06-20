@@ -556,7 +556,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
       dir={lang === 'fa' ? 'rtl' : 'ltr'}
     >
       <JsonLd data={productPageSchema} />
-      <JsonLd data={productJsonLd} />
+      {productJsonLd && <JsonLd data={productJsonLd} />}
       {videoJsonLd && <JsonLd data={videoJsonLd} />}
       <BannerSection
         banner={banners[0]}

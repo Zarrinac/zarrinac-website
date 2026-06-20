@@ -424,7 +424,7 @@ export default async function RefrigeratorProductPage({ params }: PageProps) {
       dir={lang === 'fa' ? 'rtl' : 'ltr'}
     >
       <JsonLd data={productPageSchema} />
-      <JsonLd data={productJsonLd} />
+      {productJsonLd && <JsonLd data={productJsonLd} />}
       <RefrigeratorHero
         locale={locale}
         lang={lang}
