@@ -60,34 +60,50 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-const buildProductJsonLd = (
+// This site is informational (no e-commerce, no published prices), so the detail
+// page is described as a `WebPage` whose `about` is a generic `Thing` — NOT a
+// schema.org `Product`. A price-less `Product` triggers Google's "Either offers,
+// review, or aggregateRating should be specified" warning and is never eligible
+// for product rich results anyway, while faking an Offer/rating violates Google
+// policy. Mirrors the Hisense product `productPageSchema` (WebPage + about Thing).
+const buildProductPageJsonLd = (
   locale: Locale,
   productId: string,
   product: NonNullable<Awaited<ReturnType<typeof getDcodeProductById>>>,
 ) => {
   const copy = product.copy[locale];
+  const url = `${SITE_URL}/${locale}/dcode/tvs/${productId}`;
   return {
     '@context': 'https://schema.org',
-    '@type': 'Product',
+    '@type': 'WebPage',
     name: copy.name,
     description: copy.description || copy.tagline,
-    brand: { '@type': 'Brand', name: DCODE_BRAND.name },
-    category: 'LED TV',
-    image: toAbsoluteUrl(imageToUrl(product.heroImage)),
-    url: `${SITE_URL}/${locale}/dcode/tvs/${productId}`,
+    url,
     inLanguage: getLocaleLanguage(locale),
-    // No `offers`: prices are not published, so an Offer is omitted rather than
-    // emitting a price-less (invalid) one.
-    model: product.variants.map((variant) => ({
-      '@type': 'ProductModel',
-      name: `${copy.name} ${variant.size}`,
-      sku: variant.sku,
-    })),
-    additionalProperty: [
-      { '@type': 'PropertyValue', name: 'Resolution', value: product.resolution },
-      { '@type': 'PropertyValue', name: 'Operating system', value: product.os },
-      { '@type': 'PropertyValue', name: 'Storage', value: product.storage },
-    ],
+    isPartOf: { '@id': `${SITE_URL}#website` },
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: toAbsoluteUrl(imageToUrl(product.heroImage)),
+    },
+    about: {
+      '@type': 'Thing',
+      name: copy.name,
+      description: copy.description || copy.tagline,
+      url,
+      image: toAbsoluteUrl(imageToUrl(product.heroImage)),
+      additionalProperty: [
+        { '@type': 'PropertyValue', name: 'Brand', value: DCODE_BRAND.name },
+        { '@type': 'PropertyValue', name: 'Category', value: 'LED TV' },
+        { '@type': 'PropertyValue', name: 'Resolution', value: product.resolution },
+        { '@type': 'PropertyValue', name: 'Operating system', value: product.os },
+        { '@type': 'PropertyValue', name: 'Storage', value: product.storage },
+        ...product.variants.map((variant) => ({
+          '@type': 'PropertyValue' as const,
+          name: `Model ${variant.size}`,
+          value: variant.sku,
+        })),
+      ],
+    },
   };
 };
 
@@ -131,7 +147,7 @@ export default async function DcodeTvDetailPage({ params }: PageProps) {
       <JsonLd
         data={[
           createBreadcrumbJsonLd(breadcrumbItems),
-          buildProductJsonLd(locale, productId, product),
+          buildProductPageJsonLd(locale, productId, product),
         ]}
       />
       <div className={DCODE_BLEED_CLASS}>
