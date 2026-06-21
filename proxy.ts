@@ -2,7 +2,8 @@ import createMiddleware from 'next-intl/middleware';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { routing } from './i18n/routing';
-import { getAdminAuthConfig, hasAdminSession } from './lib/admin/auth';
+import { ADMIN_SESSION_COOKIE, getAdminSessionSecret, verifyAdminSession } from './lib/admin/auth';
+import { canAccessSection, sectionForPath } from './lib/admin/access';
 import { createAdminRedirectUrl } from './lib/admin/url';
 
 // Middleware keeps all non-asset routes locale-scoped for next-intl.
@@ -97,11 +98,14 @@ export default async function proxy(request: NextRequest) {
       return addAdminSecurityHeaders(NextResponse.next());
     }
 
-    if (!getAdminAuthConfig()) {
+    if (!getAdminSessionSecret()) {
       return missingAdminConfigResponse();
     }
 
-    if (!(await hasAdminSession(request))) {
+    const token = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
+    const session = await verifyAdminSession(token);
+
+    if (!session) {
       if (isAdminApiRoute(pathname)) {
         return addAdminSecurityHeaders(
           NextResponse.json({ error: 'Authentication required.' }, { status: 401 }),
@@ -109,6 +113,21 @@ export default async function proxy(request: NextRequest) {
       }
 
       return addAdminSecurityHeaders(adminLoginRedirect(request));
+    }
+
+    // Role-based section guard. sectionForPath only matches /admin page routes;
+    // /api/admin routes return null and stay auth-only.
+    const section = sectionForPath(pathname);
+
+    if (section && !canAccessSection(session.role, section)) {
+      if (isAdminApiRoute(pathname)) {
+        return addAdminSecurityHeaders(forbiddenResponse());
+      }
+
+      // Bounce to the dashboard, which every authenticated role can see.
+      return addAdminSecurityHeaders(
+        NextResponse.redirect(createAdminRedirectUrl('/admin', request)),
+      );
     }
 
     const response = NextResponse.next();

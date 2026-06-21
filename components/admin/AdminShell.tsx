@@ -1,16 +1,21 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
+import type { AdminRole } from '@/lib/admin/access';
+import { canAccessSection } from '@/lib/admin/access';
 import type { AdminLocale, getAdminDictionary } from '@/lib/admin/i18n';
 import { getAdminDirection, getAdminFontFamily } from '@/lib/admin/i18n';
 
@@ -19,6 +24,8 @@ type AdminShellProps = {
   locale: AdminLocale;
   dictionary: ReturnType<typeof getAdminDictionary>;
   unread: { complaints: number; surveys: number };
+  role: AdminRole;
+  username: string;
 };
 
 const navItems = [
@@ -52,124 +59,155 @@ const navItems = [
     labelKey: 'settings',
     icon: SettingsOutlinedIcon,
   },
+  {
+    href: '/admin/users',
+    labelKey: 'users',
+    icon: ManageAccountsOutlinedIcon,
+  },
 ] as const;
 
-export default function AdminShell({ children, locale, dictionary, unread }: AdminShellProps) {
+export default function AdminShell({
+  children,
+  locale,
+  dictionary,
+  unread,
+  role,
+  username,
+}: AdminShellProps) {
   const pathname = usePathname();
+  const visibleNavItems = navItems.filter((item) => canAccessSection(role, item.labelKey));
   const unreadFor = (labelKey: string) =>
     labelKey === 'complaints' ? unread.complaints : labelKey === 'surveys' ? unread.surveys : 0;
   const direction = getAdminDirection(locale);
+  const fontFamily = getAdminFontFamily(locale);
   const inactiveLocale = locale === 'fa' ? 'en' : 'fa';
+
+  // Give MUI form controls (TextField, Select, Dialog, …) the admin's locale
+  // font + direction. Without a theme they fall back to MUI's Roboto/Arial,
+  // which doesn't render the Persian face.
+  const muiTheme = useMemo(
+    () => createTheme({ direction, typography: { fontFamily } }),
+    [direction, fontFamily],
+  );
 
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
 
   return (
-    <div
-      dir={direction}
-      className="admin-root min-h-screen bg-[#f3f6f8] text-[#172026]"
-      style={{ fontFamily: getAdminFontFamily(locale) }}
-    >
-      <div className="grid min-h-screen lg:grid-cols-[17.5rem_1fr]">
-        <aside className="admin-no-print border-b border-[#dbe3e8] bg-white px-4 py-4 lg:border-r lg:border-b-0 lg:px-5 lg:py-6">
-          <div className="flex items-center justify-between gap-4 lg:block">
-            <Link href="/admin" className="block">
-              <span className="block text-sm font-semibold tracking-[0.18em] text-[#00a8a3]">
-                {dictionary.common.brand}
-              </span>
-              <span className="mt-1 block text-xl font-semibold text-[#172026]">
-                {dictionary.common.admin}
-              </span>
-            </Link>
+    <ThemeProvider theme={muiTheme}>
+      <div
+        dir={direction}
+        className="admin-root min-h-screen bg-[#f3f6f8] text-[#172026]"
+        style={{ fontFamily }}
+      >
+        <div className="grid min-h-screen lg:grid-cols-[17.5rem_1fr]">
+          <aside className="admin-no-print border-b border-[#dbe3e8] bg-white px-4 py-4 lg:border-r lg:border-b-0 lg:px-5 lg:py-6">
+            <div className="flex items-center justify-between gap-4 lg:block">
+              <Link href="/admin" className="block">
+                <span className="block text-sm font-semibold tracking-[0.18em] text-[#00a8a3]">
+                  {dictionary.common.brand}
+                </span>
+                <span className="mt-1 block text-xl font-semibold text-[#172026]">
+                  {dictionary.common.admin}
+                </span>
+              </Link>
 
-            <Link
-              href="/fa"
-              className="inline-flex h-10 items-center gap-2 rounded-md border border-[#d4dde3] bg-white px-3 text-sm font-medium text-[#41515c] transition hover:border-[#00a8a3] hover:text-[#008f8a]"
-            >
-              <OpenInNewOutlinedIcon fontSize="small" />
-              {dictionary.common.site}
-            </Link>
-          </div>
+              <Link
+                href="/fa"
+                className="inline-flex h-10 items-center gap-2 rounded-md border border-[#d4dde3] bg-white px-3 text-sm font-medium text-[#41515c] transition hover:border-[#00a8a3] hover:text-[#008f8a]"
+              >
+                <OpenInNewOutlinedIcon fontSize="small" />
+                {dictionary.common.site}
+              </Link>
+            </div>
 
-          <nav className="mt-5 flex gap-2 overflow-x-auto pb-1 lg:mt-8 lg:block lg:space-y-1 lg:overflow-visible lg:pb-0">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive =
-                item.href === '/admin'
-                  ? pathname === item.href
-                  : pathname === item.href || pathname.startsWith(`${item.href}/`);
-              const badgeCount = unreadFor(item.labelKey);
+            <nav className="mt-5 flex gap-2 overflow-x-auto pb-1 lg:mt-8 lg:block lg:space-y-1 lg:overflow-visible lg:pb-0">
+              {visibleNavItems.map((item) => {
+                const Icon = item.icon;
+                const isActive =
+                  item.href === '/admin'
+                    ? pathname === item.href
+                    : pathname === item.href || pathname.startsWith(`${item.href}/`);
+                const badgeCount = unreadFor(item.labelKey);
 
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={isActive ? 'page' : undefined}
-                  className={[
-                    'flex h-11 min-w-max items-center gap-3 rounded-md px-3 text-sm font-medium transition lg:w-full',
-                    isActive
-                      ? 'bg-[#e5fbf8] text-[#007f7b]'
-                      : 'text-[#52636f] hover:bg-[#f1f5f7] hover:text-[#172026]',
-                  ].join(' ')}
-                >
-                  <Icon fontSize="small" />
-                  {dictionary.shell.nav[item.labelKey]}
-                  {badgeCount > 0 ? (
-                    <span
-                      aria-label={`${badgeCount}`}
-                      className="ms-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#e5484d] px-1.5 text-xs font-bold text-white"
-                    >
-                      {badgeCount.toLocaleString(locale)}
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={[
+                      'flex h-11 min-w-max items-center gap-3 rounded-md px-3 text-sm font-medium transition lg:w-full',
+                      isActive
+                        ? 'bg-[#e5fbf8] text-[#007f7b]'
+                        : 'text-[#52636f] hover:bg-[#f1f5f7] hover:text-[#172026]',
+                    ].join(' ')}
+                  >
+                    <Icon fontSize="small" />
+                    {dictionary.shell.nav[item.labelKey]}
+                    {badgeCount > 0 ? (
+                      <span
+                        aria-label={`${badgeCount}`}
+                        className="ms-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#e5484d] px-1.5 text-xs font-bold text-white"
+                      >
+                        {badgeCount.toLocaleString(locale)}
+                      </span>
+                    ) : null}
+                  </Link>
+                );
+              })}
+            </nav>
+          </aside>
+
+          <div className="min-w-0">
+            <header className="admin-no-print border-b border-[#dbe3e8] bg-white px-4 py-4 sm:px-6 lg:px-8">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#667782]">
+                    {dictionary.shell.pathLabel}
+                  </p>
+                  <h1 className="mt-1 text-2xl font-semibold text-[#172026]">
+                    {dictionary.common.adminPanel}
+                  </h1>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  {username ? (
+                    <span className="inline-flex h-10 items-center gap-2 rounded-md border border-[#d4dde3] bg-[#f8fafb] px-3 text-sm font-medium text-[#41515c]">
+                      <AccountCircleOutlinedIcon fontSize="small" />
+                      <span className="text-[#172026]">{username}</span>
+                      <span className="text-xs text-[#667782]">{dictionary.users.roles[role]}</span>
                     </span>
                   ) : null}
-                </Link>
-              );
-            })}
-          </nav>
-        </aside>
-
-        <div className="min-w-0">
-          <header className="admin-no-print border-b border-[#dbe3e8] bg-white px-4 py-4 sm:px-6 lg:px-8">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#667782]">
-                  {dictionary.shell.pathLabel}
-                </p>
-                <h1 className="mt-1 text-2xl font-semibold text-[#172026]">
-                  {dictionary.common.adminPanel}
-                </h1>
+                  <form action="/api/admin/locale" method="post">
+                    <input type="hidden" name="next" value={pathname} />
+                    <button
+                      type="submit"
+                      name="locale"
+                      value={inactiveLocale}
+                      className="inline-flex h-10 items-center rounded-md border border-[#d4dde3] bg-[#f8fafb] px-3 text-sm font-medium text-[#52636f] transition hover:border-[#00a8a3] hover:text-[#008f8a]"
+                    >
+                      {inactiveLocale === 'fa' ? 'فارسی' : 'English'}
+                    </button>
+                  </form>
+                  <form action="/api/admin/auth/logout" method="post">
+                    <button
+                      type="submit"
+                      className="inline-flex h-10 items-center gap-2 rounded-md border border-[#d4dde3] bg-[#f8fafb] px-3 text-sm font-medium text-[#52636f] transition hover:border-[#00a8a3] hover:text-[#008f8a]"
+                    >
+                      <LogoutOutlinedIcon fontSize="small" />
+                      {dictionary.common.logout}
+                    </button>
+                  </form>
+                </div>
               </div>
-              <div className="flex flex-wrap items-center gap-2">
-                <form action="/api/admin/locale" method="post">
-                  <input type="hidden" name="next" value={pathname} />
-                  <button
-                    type="submit"
-                    name="locale"
-                    value={inactiveLocale}
-                    className="inline-flex h-10 items-center rounded-md border border-[#d4dde3] bg-[#f8fafb] px-3 text-sm font-medium text-[#52636f] transition hover:border-[#00a8a3] hover:text-[#008f8a]"
-                  >
-                    {inactiveLocale === 'fa' ? 'فارسی' : 'English'}
-                  </button>
-                </form>
-                <form action="/api/admin/auth/logout" method="post">
-                  <button
-                    type="submit"
-                    className="inline-flex h-10 items-center gap-2 rounded-md border border-[#d4dde3] bg-[#f8fafb] px-3 text-sm font-medium text-[#52636f] transition hover:border-[#00a8a3] hover:text-[#008f8a]"
-                  >
-                    <LogoutOutlinedIcon fontSize="small" />
-                    {dictionary.common.logout}
-                  </button>
-                </form>
-              </div>
-            </div>
-          </header>
+            </header>
 
-          <main className="mx-auto w-full max-w-368 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-            {children}
-          </main>
+            <main className="mx-auto w-full max-w-368 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+              {children}
+            </main>
+          </div>
         </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }

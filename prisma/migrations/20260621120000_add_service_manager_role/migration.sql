@@ -1,0 +1,3 @@
+-- AlterEnum
+-- Adds the SERVICE_MANAGER access level between ADMIN and EDITOR.
+ALTER TYPE "AdminRole" ADD VALUE IF NOT EXISTS 'SERVICE_MANAGER' BEFORE 'EDITOR';

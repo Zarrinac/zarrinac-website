@@ -337,9 +337,35 @@ The admin portal at `/admin` provides an interface for managing submissions and 
 
 - **No NextAuth** — custom JWT-based session.
 - Session cookie: `hisense_admin_session` (httpOnly, Secure, 8-hour expiry).
-- Credentials (`ADMIN_USERNAME` / `ADMIN_PASSWORD`) are env-var configured.
-- Token signed with `ADMIN_SESSION_SECRET` via HMAC-SHA256.
-- `lib/admin/auth.ts` exports `verifyAdminSession()` — used in `app/admin/layout.tsx` and all admin server actions.
+- Token signed with `ADMIN_SESSION_SECRET` via HMAC-SHA256. Session payload carries `sub` (username), `uid` (AdminUser id or `env`), and `role`.
+- `lib/admin/auth.ts` exports `verifyAdminSession()` — used in `app/admin/layout.tsx`, `proxy.ts`, and all admin server actions. It is **edge-safe** (Web Crypto, no DB) so it runs in middleware.
+
+#### DB-backed credentials (DB-first, env fallback)
+
+- Credentials live in the **`AdminUser`** table (`username`, `passwordHash` via Node `scrypt`, `role`, `isActive`). `lib/admin/credentials.ts` → `authenticateAdmin()` is **Node-only** and resolves a login DB-first; env `ADMIN_USERNAME`/`ADMIN_PASSWORD` is only a bootstrap (no rows) or DB-outage fallback.
+- Manage users: `npm run db:seed:admins` (bootstrap env admin → DB), `npm run admin:create <username> <password> [role]`.
+
+#### Access control (role matrix)
+
+`lib/admin/access.ts` gates sections per role (keep in sync with `ROLE_SECTIONS`):
+
+| Section         | SUPER_ADMIN | ADMIN | SERVICE_MANAGER | CIC_MANAGER | EDITOR |
+| --------------- | :---------: | :---: | :-------------: | :---------: | :----: |
+| Dashboard       |      ✓      |   ✓   |        ✓        |      ✓      |   ✓    |
+| Products        |      ✓      |   ✓   |        —        |      —      |   —    |
+| Complaints      |      ✓      |   ✓   |        ✓        |      ✓      |   ✓    |
+| Surveys         |      ✓      |   ✓   |        ✓        |      ✓      |   ✓    |
+| Service centers |      ✓      |   ✓   |        ✓        |      ✓      |   —    |
+| Settings        |      ✓      |   ✓   |        —        |      —      |   —    |
+| Users           |      ✓      |   —   |        —        |      —      |   —    |
+
+Enforced in 3 layers: middleware (`proxy.ts`), nav filtering (`AdminShell`), and server actions (`app/admin/users/actions.ts`). `SERVICE_MANAGER` (مدیر خدمات) and `CIC_MANAGER` (مدیر CIC) have identical access (title differs) + a trimmed dashboard (`hasTrimmedDashboard`).
+
+#### User-management UI (`/admin/users`, SUPER_ADMIN only)
+
+`app/admin/users/{page.tsx,actions.ts}` + `components/admin/AdminUsersManager.tsx` (MUI). Create/role/activate/reset-password/delete with last-super-admin & self-delete guards. `lib/admin/session.ts` → `getAdminSession()` reads the session server-side.
+
+> **Shared with Hisense:** the DB-backed admin auth + `prisma/` AdminUser model/migrations are synced from the Hisense repo (`.agents/skills/hisense-sync`) and must stay byte-identical (shared DB).
 
 ### Rate limiting
 

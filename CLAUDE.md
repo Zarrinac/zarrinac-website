@@ -139,7 +139,13 @@ Always use the `mediaUrl(path)` helper from `lib/mediaUrl.ts`. It switches betwe
 ### Admin Auth
 
 - Session cookie name: `hisense_admin_session` (httpOnly, Secure, 8-hour expiry)
-- Always verify sessions using `verifyAdminSession()` from `lib/admin/auth.ts` inside admin layouts and server actions
+- Always verify sessions using `verifyAdminSession()` from `lib/admin/auth.ts` inside admin layouts and server actions. `auth.ts` is **edge-safe** (Web Crypto, no DB) — it runs in `proxy.ts` middleware, so never add Prisma or `node:crypto` imports to it.
+- **Credentials are DB-first:** the `AdminUser` table (`username`, `passwordHash` via Node `scrypt` in `lib/admin/password.ts`, `role`, `isActive`) is the source of truth. `lib/admin/credentials.ts` → `authenticateAdmin()` is **Node-only** (Prisma + scrypt), called only from the login route — never from middleware. Env `ADMIN_USERNAME`/`ADMIN_PASSWORD` is a bootstrap/outage fallback (used only when no `AdminUser` rows exist or the DB is down).
+- `role` enum (`SUPER_ADMIN | ADMIN | SERVICE_MANAGER | CIC_MANAGER | EDITOR`) gates admin **sections** via `lib/admin/access.ts` (`ROLE_SECTIONS`, `canAccessSection`, `sectionForPath`, `canManageUsers`). Enforced in 3 layers: middleware (`proxy.ts`), nav filtering (`AdminShell`), and server actions. `SERVICE_MANAGER` (مدیر خدمات) and `CIC_MANAGER` (مدیر CIC) share identical access = dashboard + complaints + surveys + service centers (+ trimmed dashboard via `hasTrimmedDashboard`); only the title differs.
+- User-management UI at `/admin/users` (SUPER_ADMIN only): `app/admin/users/{page.tsx,actions.ts}` + `components/admin/AdminUsersManager.tsx`. Guards: no self-delete, no removing the last active super admin.
+- MUI admin form controls are themed for the locale font via a `ThemeProvider` in `AdminShell` — without it they fall back to Roboto/Arial and don't render the Persian face.
+- This DB-backed admin auth is **shared with the Hisense repo** (synced via `.agents/skills/hisense-sync`); the `prisma/` AdminUser model + migrations must stay byte-identical to Hisense — see [[shared-db-consolidation]].
+- Manage users via CLI: `npm run db:seed:admins` (bootstrap env admin → DB), `npm run admin:create <username> <password> [role]`.
 - Login rate limiting is enforced by `lib/admin/rateLimit.ts` (in-memory, IP-based) — only used at the login endpoint
 
 ### Forms (Complaints & Surveys)
@@ -170,19 +176,19 @@ Always use the `mediaUrl(path)` helper from `lib/mediaUrl.ts`. It switches betwe
 
 ## Environment Variables
 
-| Variable                               | Required | Purpose                                                                 |
-| -------------------------------------- | -------- | ----------------------------------------------------------------------- |
-| `DATABASE_URL`                         | Optional | PostgreSQL connection for Prisma; app runs on static fallback if absent |
-| `NEXT_PUBLIC_SITE_URL`                 | Yes      | Canonical/OG base URL (e.g., `https://zarrinac.com`)                    |
-| `ADMIN_USERNAME`                       | Yes      | Admin login credential                                                  |
-| `ADMIN_PASSWORD`                       | Yes      | Admin login credential                                                  |
-| `ADMIN_SESSION_SECRET`                 | Yes      | HMAC-SHA256 signing key for session tokens                              |
-| `INTERNAL_API_BASE_URL`                | Dev      | Internal fetch base (dev: `http://localhost:3001`)                      |
-| `NEXT_PUBLIC_MEDIA_BASE_URL`           | Optional | CDN base for product images (defaults to `/`)                           |
-| `NEXT_PUBLIC_CONTENT_SOURCE`           | Optional | `"local"` or `"remote"` content mode                                    |
-| `NEXT_PUBLIC_GA_ID`                    | Optional | Google Analytics measurement ID                                         |
-| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Optional | Google Search Console token                                             |
-| `NEXT_PUBLIC_BING_SITE_VERIFICATION`   | Optional | Bing Webmaster Tools token                                              |
+| Variable                               | Required | Purpose                                                                     |
+| -------------------------------------- | -------- | --------------------------------------------------------------------------- |
+| `DATABASE_URL`                         | Optional | PostgreSQL connection for Prisma; app runs on static fallback if absent     |
+| `NEXT_PUBLIC_SITE_URL`                 | Yes      | Canonical/OG base URL (e.g., `https://zarrinac.com`)                        |
+| `ADMIN_USERNAME`                       | Fallback | Bootstrap/outage admin login (DB `AdminUser` is primary)                    |
+| `ADMIN_PASSWORD`                       | Fallback | Bootstrap/outage admin login (used only when no `AdminUser` rows / DB down) |
+| `ADMIN_SESSION_SECRET`                 | Yes      | HMAC-SHA256 signing key for session tokens (required for any login)         |
+| `INTERNAL_API_BASE_URL`                | Dev      | Internal fetch base (dev: `http://localhost:3001`)                          |
+| `NEXT_PUBLIC_MEDIA_BASE_URL`           | Optional | CDN base for product images (defaults to `/`)                               |
+| `NEXT_PUBLIC_CONTENT_SOURCE`           | Optional | `"local"` or `"remote"` content mode                                        |
+| `NEXT_PUBLIC_GA_ID`                    | Optional | Google Analytics measurement ID                                             |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Optional | Google Search Console token                                                 |
+| `NEXT_PUBLIC_BING_SITE_VERIFICATION`   | Optional | Bing Webmaster Tools token                                                  |
 
 Copy `.env.example` → `.env.local` to get started.
 
