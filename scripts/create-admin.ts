@@ -6,6 +6,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 import { hashPassword } from '../lib/admin/password';
+import { ADMIN_ROLES } from '../lib/admin/access';
 
 const envFiles = ['.env.local', '.env', '.env.production'];
 for (const file of envFiles) {
@@ -20,11 +21,13 @@ if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL is required to create an admin user.');
 }
 
-const VALID_ROLES = ['SUPER_ADMIN', 'ADMIN', 'EDITOR'] as const;
+// Single source of truth — stays in sync with lib/admin/access.ts so new roles
+// (e.g. SERVICE_MANAGER, CIC_MANAGER) are accepted automatically.
+const VALID_ROLES = ADMIN_ROLES;
 type Role = (typeof VALID_ROLES)[number];
 
 // Usage: tsx scripts/create-admin.ts <username> <password> [role]
-//   role defaults to ADMIN; one of SUPER_ADMIN | ADMIN | EDITOR.
+//   role defaults to ADMIN; one of SUPER_ADMIN | ADMIN | SERVICE_MANAGER | CIC_MANAGER | EDITOR.
 // Creates the user, or updates the password/role if the username exists.
 const [, , username, password, roleArg] = process.argv;
 const role = (roleArg ?? 'ADMIN').toUpperCase();
