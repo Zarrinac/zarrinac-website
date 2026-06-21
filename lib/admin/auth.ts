@@ -5,9 +5,16 @@ export const ADMIN_SESSION_MAX_AGE_SECONDS = 60 * 60 * 8;
 
 type AdminSessionPayload = {
   sub: string;
-  role: 'admin';
+  uid: string;
+  role: string;
   iat: number;
   exp: number;
+};
+
+export type AdminSessionUser = {
+  id: string;
+  username: string;
+  role: string;
 };
 
 export type AdminAuthConfig = {
@@ -63,6 +70,14 @@ async function constantTimeEqual(left: string, right: string) {
   return leftHash === rightHash;
 }
 
+// Session signing only needs the secret. Kept separate from credential
+// config so a DB-only setup (no ADMIN_USERNAME/ADMIN_PASSWORD) still works.
+export function getAdminSessionSecret(): string | null {
+  return process.env.ADMIN_SESSION_SECRET ?? null;
+}
+
+// Env-based credentials are now only a bootstrap/outage fallback (see
+// lib/admin/credentials.ts). Returns null unless all three vars are present.
 export function getAdminAuthConfig(): AdminAuthConfig | null {
   const username = process.env.ADMIN_USERNAME;
   const password = process.env.ADMIN_PASSWORD;
@@ -94,30 +109,31 @@ export async function verifyAdminCredentials(username: string, password: string)
   return usernameMatches && passwordMatches;
 }
 
-export async function createAdminSession(username: string) {
-  const config = getAdminAuthConfig();
+export async function createAdminSession(user: AdminSessionUser) {
+  const sessionSecret = getAdminSessionSecret();
 
-  if (!config) {
+  if (!sessionSecret) {
     return null;
   }
 
   const now = Math.floor(Date.now() / 1000);
   const payload: AdminSessionPayload = {
-    sub: username,
-    role: 'admin',
+    sub: user.username,
+    uid: user.id,
+    role: user.role,
     iat: now,
     exp: now + ADMIN_SESSION_MAX_AGE_SECONDS,
   };
   const encodedPayload = base64UrlEncode(JSON.stringify(payload));
-  const signature = await sign(encodedPayload, config.sessionSecret);
+  const signature = await sign(encodedPayload, sessionSecret);
 
   return `${encodedPayload}.${signature}`;
 }
 
 export async function verifyAdminSession(token: string | undefined) {
-  const config = getAdminAuthConfig();
+  const sessionSecret = getAdminSessionSecret();
 
-  if (!config || !token) {
+  if (!sessionSecret || !token) {
     return null;
   }
 
@@ -127,7 +143,7 @@ export async function verifyAdminSession(token: string | undefined) {
     return null;
   }
 
-  const expectedSignature = await sign(encodedPayload, config.sessionSecret);
+  const expectedSignature = await sign(encodedPayload, sessionSecret);
 
   if (!(await constantTimeEqual(signature, expectedSignature))) {
     return null;
@@ -137,7 +153,7 @@ export async function verifyAdminSession(token: string | undefined) {
     const payload = JSON.parse(base64UrlDecode(encodedPayload)) as AdminSessionPayload;
     const now = Math.floor(Date.now() / 1000);
 
-    if (payload.role !== 'admin' || payload.exp <= now) {
+    if (!payload.sub || !payload.role || payload.exp <= now) {
       return null;
     }
 

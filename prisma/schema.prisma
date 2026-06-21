@@ -269,3 +269,29 @@ model ServiceRepresentative {
   @@index([provinceId, cityId, serviceKind, sortOrder])
   @@index([serviceKind, sortOrder])
 }
+
+// Access levels for admin portal users. Enforcement is added incrementally;
+// the field exists now so users can be tagged with a role from day one.
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+  SERVICE_MANAGER
+  CIC_MANAGER
+  EDITOR
+}
+
+// Admin portal users. Credentials live in the DB (DB-first, same as every
+// other source); the env ADMIN_USERNAME/ADMIN_PASSWORD pair remains a
+// bootstrap/outage fallback used only when no AdminUser rows exist.
+model AdminUser {
+  id           String    @id @default(cuid())
+  username     String    @unique
+  passwordHash String
+  role         AdminRole @default(ADMIN)
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([isActive])
+}

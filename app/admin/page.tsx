@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import AdminStatusCard from '@/components/admin/AdminStatusCard';
+import { hasTrimmedDashboard } from '@/lib/admin/access';
 import { getAdminDashboardData } from '@/lib/admin/dashboard';
 import {
   adminCategoryLabels,
@@ -9,18 +10,24 @@ import {
   getAdminDictionary,
 } from '@/lib/admin/i18n';
 import { getAdminLocale } from '@/lib/admin/i18n.server';
+import { getAdminSession } from '@/lib/admin/session';
 
 export default async function AdminDashboardPage() {
   const locale = await getAdminLocale();
   const dictionary = getAdminDictionary(locale);
   const dashboard = await getAdminDashboardData();
+  const session = await getAdminSession();
+
+  // Manager roles get a trimmed dashboard: no intro copy, no internal
+  // "admin foundation" card (route/indexing/last-check diagnostics).
+  const isServiceManager = hasTrimmedDashboard(session?.role);
 
   return (
     <>
       <AdminPageHeader
         eyebrow={dictionary.dashboard.eyebrow}
         title={dictionary.dashboard.title}
-        description={dictionary.dashboard.description}
+        description={isServiceManager ? undefined : dictionary.dashboard.description}
       />
 
       {!dashboard.databaseReady ? (
@@ -46,7 +53,7 @@ export default async function AdminDashboardPage() {
         ))}
       </section>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[1.4fr_1fr]">
+      <div className={`mt-6 grid gap-6 ${isServiceManager ? '' : 'xl:grid-cols-[1.4fr_1fr]'}`}>
         <AdminStatusCard title={dictionary.dashboard.productCategories}>
           {dashboard.categoryMetrics.length > 0 ? (
             <div className="space-y-3">
@@ -64,24 +71,26 @@ export default async function AdminDashboardPage() {
           )}
         </AdminStatusCard>
 
-        <AdminStatusCard title={dictionary.dashboard.foundation}>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between gap-4">
-              <span>{dictionary.common.route}</span>
-              <span className="font-medium text-[#172026]">/admin</span>
+        {isServiceManager ? null : (
+          <AdminStatusCard title={dictionary.dashboard.foundation}>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between gap-4">
+                <span>{dictionary.common.route}</span>
+                <span className="font-medium text-[#172026]">/admin</span>
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <span>{dictionary.common.indexing}</span>
+                <span className="font-medium text-[#172026]">noindex</span>
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <span>{dictionary.common.lastCheck}</span>
+                <span className="font-medium text-[#172026]">
+                  {formatAdminDateTime(dashboard.lastCheckedAt, locale)}
+                </span>
+              </div>
             </div>
-            <div className="flex items-center justify-between gap-4">
-              <span>{dictionary.common.indexing}</span>
-              <span className="font-medium text-[#172026]">noindex</span>
-            </div>
-            <div className="flex items-center justify-between gap-4">
-              <span>{dictionary.common.lastCheck}</span>
-              <span className="font-medium text-[#172026]">
-                {formatAdminDateTime(dashboard.lastCheckedAt, locale)}
-              </span>
-            </div>
-          </div>
-        </AdminStatusCard>
+          </AdminStatusCard>
+        )}
       </div>
     </>
   );

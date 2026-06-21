@@ -1,10 +1,6 @@
 import { NextResponse } from 'next/server';
-import {
-  createAdminSession,
-  getAdminAuthConfig,
-  setAdminSessionCookie,
-  verifyAdminCredentials,
-} from '@/lib/admin/auth';
+import { createAdminSession, getAdminSessionSecret, setAdminSessionCookie } from '@/lib/admin/auth';
+import { authenticateAdmin } from '@/lib/admin/credentials';
 import {
   clearLoginFailures,
   getClientIp,
@@ -46,7 +42,7 @@ export async function POST(request: Request) {
     return loginRedirect(request, 'rate-limited', nextPath);
   }
 
-  if (!getAdminAuthConfig()) {
+  if (!getAdminSessionSecret()) {
     return loginRedirect(request, 'config', nextPath);
   }
 
@@ -55,16 +51,16 @@ export async function POST(request: Request) {
     return loginRedirect(request, 'invalid', nextPath);
   }
 
-  const isValid = await verifyAdminCredentials(username, password);
+  const user = await authenticateAdmin(username, password);
 
-  if (!isValid) {
+  if (!user) {
     recordLoginFailure(ip);
     return loginRedirect(request, 'invalid', nextPath);
   }
 
   clearLoginFailures(ip);
 
-  const token = await createAdminSession(username);
+  const token = await createAdminSession(user);
 
   if (!token) {
     return loginRedirect(request, 'config', nextPath);
