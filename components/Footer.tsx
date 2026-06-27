@@ -67,9 +67,9 @@ const CONTACT_ITEMS = [
 ];
 
 const SOCIAL_LINKS = [
-  { icon: WhatsAppIcon, key: 'whatsappSales', href: 'https://wa.me/989123456789' },
-  { icon: WhatsAppIcon, key: 'whatsappService', href: 'https://wa.me/989123456780' },
-  { icon: InstagramIcon, key: 'instagram', href: 'https://instagram.com/yourbrand' },
+  { icon: WhatsAppIcon, key: 'whatsappSales', href: 'https://wa.me/989216390779' },
+  { icon: WhatsAppIcon, key: 'whatsappService', href: 'https://wa.me/989217381016' },
+  { icon: InstagramIcon, key: 'instagram', href: 'https://instagram.com/zarrin.nama.caspian' },
 ];
 
 export default function Footer() {
