@@ -54,10 +54,11 @@ const securityHeaders = [
 // To consolidate SEO signals and funnel visitors to the canonical Hisense site,
 // every Hisense-replica section is permanently (308) forwarded to
 // https://www.hisense-ir.com, preserving locale + sub-path. Intentionally NOT
-// redirected: the Zarrinac home (`/[locale]`), the D'code section
-// (`/[locale]/dcode/*` — slated for its own domain later), and the functional
-// `/admin` + `/api` routes. Keep this list in sync with the public routes under
-// `app/[locale]/` whenever a Hisense section is added or renamed.
+// redirected: the Zarrinac home (`/[locale]`) and the functional `/admin` +
+// `/api` routes. The D'code section (`/[locale]/dcode/*`) is now forwarded to
+// its own standalone site (see DCODE_SITE_URL below). Keep this list in sync
+// with the public routes under `app/[locale]/` whenever a Hisense section is
+// added or renamed.
 const HISENSE_SITE_URL = 'https://www.hisense-ir.com';
 const HISENSE_SECTIONS = [
   'about',
@@ -79,6 +80,13 @@ const HISENSE_SECTIONS = [
   'washing-machine',
 ];
 
+// D'code spun off to its own standalone site (dcode.co.ir). Forward the whole
+// `/[locale]/dcode/*` section there with a 308, just like the Hisense sections.
+// The standalone site has NO `/dcode` URL prefix (its landing is `/[locale]`,
+// TV list `/[locale]/tvs`, detail `/[locale]/tvs/<id>`), so the redirect strips
+// the `dcode` segment while preserving locale + everything beneath it.
+const DCODE_SITE_URL = 'https://dcode.co.ir';
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns,
@@ -90,13 +98,21 @@ const nextConfig: NextConfig = {
     // segments), so each entry covers e.g. `/fa/products` and
     // `/fa/products/tvs/u7k` in one rule. `permanent: true` emits a 308, which
     // Google treats identically to a 301 for canonicalization/equity transfer.
-    return Promise.resolve(
-      HISENSE_SECTIONS.map((section) => ({
+    return Promise.resolve([
+      ...HISENSE_SECTIONS.map((section) => ({
         source: `/:locale(fa|en)/${section}/:path*`,
         destination: `${HISENSE_SITE_URL}/:locale/${section}/:path*`,
         permanent: true,
       })),
-    );
+      // D'code → standalone site, dropping the `/dcode` segment. `:path*` is
+      // zero-or-more, so this single rule covers `/fa/dcode` (→ dcode.co.ir/fa)
+      // and any nested path (`/fa/dcode/tvs/r6d` → dcode.co.ir/fa/tvs/r6d).
+      {
+        source: '/:locale(fa|en)/dcode/:path*',
+        destination: `${DCODE_SITE_URL}/:locale/:path*`,
+        permanent: true,
+      },
+    ]);
   },
   headers() {
     return Promise.resolve([
