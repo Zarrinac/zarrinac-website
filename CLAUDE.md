@@ -5,7 +5,7 @@ Stack: Next.js 16 App Router · React 19 · TypeScript 6 · PostgreSQL + Prisma 
 
 > This codebase is a replica of the Hisense Iran (`hisense-ir.com`) site, rebranded to zarrinac.com and extended with the D'code brand section. The package is named `zarrinac` and the **dev server runs on port 3001** (not 3000) so it can run alongside the Hisense site locally.
 >
-> **Click forwarding:** Every Hisense-replica section is 308-redirected to `https://www.hisense-ir.com` (see `next.config.ts` → `HISENSE_SECTIONS`) to consolidate SEO and funnel traffic to the canonical Hisense site. NOT redirected: the home (`/[locale]`), the D'code section (`/[locale]/dcode/*`, slated for its own domain), and `/admin` + `/api`. The sitemap (`app/sitemap.ts`) therefore lists only home + D'code; `robots.ts` keeps the redirected sections crawlable so Google sees the 308 and transfers equity.
+> **Click forwarding:** Every Hisense-replica section is 308-redirected to `https://www.hisense-ir.com` (see `next.config.ts` → `HISENSE_SECTIONS`) to consolidate SEO and funnel traffic to the canonical Hisense site. The D'code section (`/[locale]/dcode/*`) is likewise 308-redirected to its own standalone site **dcode.co.ir** (`next.config.ts` → `DCODE_SITE_URL`), stripping the `/dcode` segment (`/fa/dcode/tvs/r6d` → `dcode.co.ir/fa/tvs/r6d`). NOT redirected: the home (`/[locale]`) and the functional `/admin` + `/api` routes. The sitemap (`app/sitemap.ts`) therefore lists only the home; `robots.ts` keeps the redirected sections crawlable so Google sees the 308 and transfers equity.
 
 ## Primary Objective: SEO
 
@@ -65,6 +65,9 @@ The app runs without a database. If `DATABASE_URL` is absent, API routes fall ba
 Content source is toggled by `NEXT_PUBLIC_CONTENT_SOURCE` (`"local"` or `"remote"`).
 
 ### D'code Brand (`/dcode`)
+
+> **Spun off (2026-06-21):** D'code now has its own standalone project + repo —
+> [`Zarrinac/dcode-website`](https://github.com/Zarrinac/dcode-website) (local: `IT-Hisense\dcode-website\dcode`, domain **dcode.co.ir**, dev port 3002). The two D'code codebases have **diverged** — changes here are no longer shared with the standalone site. The `/dcode` section below stays in this repo (pages still build) but is now **308-redirected to dcode.co.ir** (`DCODE_SITE_URL` in `next.config.ts`) and dropped from the sitemap. See the `dcode-standalone-spinoff` memory.
 
 D'code is a **separate TV brand** from Hisense, kept deliberately independent so the two can evolve apart. Today it ships a single LED line (R6D) in three sizes (55"/65"/75").
 

@@ -2,13 +2,14 @@ import type { MetadataRoute } from 'next';
 import { routing } from '@/i18n/routing';
 import { SITE_URL, SITE_CONTENT_LAST_MODIFIED } from '@/lib/seo/site';
 
-// Zarrinac forwards every Hisense-replica section to hisense-ir.com via 308
-// redirects (see next.config.ts). The sitemap must therefore list ONLY the URLs
-// that still resolve on this domain — the home page and the D'code brand
-// section. Advertising redirected URLs here would emit a mixed signal (sitemap
-// says "index me", server says "308 elsewhere").
+// Zarrinac forwards every Hisense-replica section to hisense-ir.com, and the
+// D'code section to its own standalone site (dcode.co.ir), all via 308 redirects
+// (see next.config.ts). The sitemap must therefore list ONLY the URLs that still
+// resolve on this domain — currently just the home page. Advertising redirected
+// URLs here would emit a mixed signal (sitemap says "index me", server says
+// "308 elsewhere").
 
-const STATIC_PATHS = ['/dcode', '/dcode/tvs', '/dcode/tvs/r6d'];
+const STATIC_PATHS: string[] = [];
 
 const buildLanguageAlternates = (path: string): Record<string, string> => {
   const languages = routing.locales.reduce<Record<string, string>>((acc, locale) => {
