@@ -27,49 +27,51 @@ const HOME_SEO_CONTENT: Record<
   }
 > = {
   fa: {
-    title: 'نمایندگی رسمی هایسنس در ایران | زرین نمای کاسپین',
+    title: "زرین نمای کاسپین | بازرگانی لوازم خانگی هایسنس و برند تلویزیون دیکد D'code",
     description:
-      'زرین نمای کاسپین، نمایندگی رسمی هایسنس در ایران؛ عرضه‌کننده تلویزیون، یخچال فریزر، ماشین لباسشویی و تهویه مطبوع هایسنس با گارانتی و خدمات پس از فروش سراسری.',
-    eyebrow: 'Hisense Iran',
-    heading: 'نمایندگی رسمی هایسنس در ایران',
+      "زرین نمای کاسپین، گروه بازرگانی وارد‌کننده محصولات هایسنس در ایران و صاحب‌ امتیاز برند تلویزیون دیکد D'code؛ خانه برندهای لوازم خانگی و صوتی-تصویری با خدمات سراسری.",
+    eyebrow: 'گروه زرین نمای کاسپین',
+    heading: "زرین نمای کاسپین؛ خانه برندهای هایسنس و دیکد D'code",
     paragraphs: [
-      'زرین نمای کاسپین به عنوان نمایندگی رسمی هایسنس در ایران، مجموعه‌ای از تلویزیون، یخچال فریزر، ماشین لباسشویی و تهویه مطبوع خانگی و تجاری Hisense را به بازار ایران عرضه می‌کند.',
-      'شبکه فروش و خدمات پس از فروش سراسری، گارانتی رسمی و دسترسی به قطعات اصلی باعث شده است این صفحه، مرجع اصلی معرفی برند، محصولات و مسیرهای رسمی ارتباط با هایسنس ایران باشد.',
+      'شرکت زرین نمای کاسپین یک مجموعه بازرگانی در حوزه لوازم خانگی و محصولات صوتی-تصویری است که مسئولیت واردات، عرضه و پشتیبانی محصولات هایسنس در ایران را بر عهده دارد.',
+      "در کنار همکاری با هایسنس، برند اختصاصی تلویزیون دیکد (D'code) نیز توسط زرین نمای کاسپین معرفی شده است؛ خط تولید تلویزیون‌های هوشمند LED 4K مدل R6D با طراحی مدرن در سه سایز ۵۵، ۶۵ و ۷۵ اینچ.",
+      "این صفحه دروازه ورود به دنیای برندهای زرین نمای کاسپین است؛ از محصولات و خدمات هایسنس ایران تا تلویزیون‌های اختصاصی دیکد D'code و مسیرهای رسمی ارتباط با ما.",
     ],
     trustSignals: [
-      { value: '۱۳۰۰+', label: 'نماینده فروش و خدمات در سراسر ایران' },
-      { value: 'گارانتی رسمی', label: 'پشتیبانی و خدمات پس از فروش محصولات هایسنس' },
-      { value: 'محصولات اصلی', label: 'تلویزیون، یخچال، لباسشویی و تهویه مطبوع' },
+      { value: "دیکد D'code", label: 'برند اختصاصی تلویزیون‌های هوشمند LED 4K' },
+      { value: 'هایسنس', label: 'واردات و پشتیبانی رسمی محصولات هایسنس در ایران' },
+      { value: 'خدمات سراسری', label: 'شبکه فروش و خدمات پس از فروش در سراسر کشور' },
     ],
     quickLinks: [
-      { href: '/about', label: 'آشنایی با زرین نمای کاسپین' },
-      { href: '/contact-us', label: 'تماس با هایسنس ایران' },
-      { href: '/warranty-and-guarantee', label: 'شرایط گارانتی و خدمات' },
-      { href: '/hisense-repair', label: 'خدمات پس از فروش و تعمیرات رسمی' },
-      { href: '/complaint', label: 'ثبت شکایت و پیگیری' },
+      { href: '/dcode', label: "تلویزیون‌های دیکد D'code" },
+      { href: '/about', label: 'درباره زرین نمای کاسپین' },
+      { href: '/contact-us', label: 'تماس با ما' },
+      { href: '/warranty-and-guarantee', label: 'گارانتی و خدمات' },
+      { href: '/hisense-repair', label: 'خدمات پس از فروش هایسنس' },
     ],
   },
   en: {
-    title: 'Official Hisense Distributor in Iran | Zarrin Namaye Caspian',
+    title: "Zarrin Namaye Caspian | Hisense Home Appliances & D'code TVs",
     description:
-      'Zarrin Namaye Caspian is the official Hisense distributor in Iran for TVs, refrigerators, washing machines, and HVAC systems with nationwide warranty and after-sales service.',
-    eyebrow: 'Hisense Iran',
-    heading: 'Official Hisense Distributor in Iran',
+      "Zarrin Namaye Caspian imports and supports Hisense products in Iran and owns the D'code TV brand — the home of appliance and electronics brands with nationwide after-sales service.",
+    eyebrow: 'Zarrin Namaye Caspian Group',
+    heading: "Zarrin Namaye Caspian — Home of Hisense & D'code",
     paragraphs: [
-      'Zarrin Namaye Caspian is the official Hisense representative in Iran, supplying televisions, refrigerators, washing machines, and residential and commercial HVAC systems across the country.',
-      'Nationwide sales coverage, official warranty, and access to genuine parts make this homepage the primary brand hub for Hisense Iran, its product lines, and its verified support channels.',
+      'Zarrin Namaye Caspian is a trading group in the home-appliance and consumer-electronics sector, responsible for importing, distributing, and supporting Hisense products across Iran.',
+      "Alongside its Hisense partnership, the company runs its own television brand, D'code — the R6D line of 4K UHD Android smart LED TVs in 55, 65, and 75 inches, with a clean, modern design.",
+      "This page is the gateway to the Zarrin Namaye Caspian brands: from Hisense Iran's products and support to the exclusive D'code TV range and our official contact channels.",
     ],
     trustSignals: [
-      { value: '1300+', label: 'Sales and service partners across Iran' },
-      { value: 'Official Warranty', label: 'After-sales coverage for Hisense products' },
-      { value: 'Core Categories', label: 'TV, refrigeration, laundry, and HVAC' },
+      { value: "D'code", label: 'Our own brand of 4K smart LED televisions' },
+      { value: 'Hisense', label: 'Official import and support of Hisense in Iran' },
+      { value: 'Nationwide', label: 'Sales and after-sales service across the country' },
     ],
     quickLinks: [
+      { href: '/dcode', label: "D'code televisions" },
       { href: '/about', label: 'About Zarrin Namaye Caspian' },
-      { href: '/contact-us', label: 'Contact Hisense Iran' },
-      { href: '/warranty-and-guarantee', label: 'Warranty and service terms' },
-      { href: '/hisense-repair', label: 'Official service and repair' },
-      { href: '/complaint', label: 'Submit a complaint' },
+      { href: '/contact-us', label: 'Contact us' },
+      { href: '/warranty-and-guarantee', label: 'Warranty and service' },
+      { href: '/hisense-repair', label: 'Hisense after-sales service' },
     ],
   },
 };
@@ -182,7 +184,7 @@ export default async function HomePage() {
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-(--brand-color)">
               {seoContent.eyebrow}
             </p>
-            <h1 className="text-3xl font-bold tracking-tight text-(--default-black-font) sm:text-4xl">
+            <h1 className="text-3xl font-bold leading-snug tracking-tight text-(--default-black-font) sm:text-4xl">
               {seoContent.heading}
             </h1>
             {seoContent.paragraphs.map((paragraph) => (

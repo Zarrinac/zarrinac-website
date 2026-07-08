@@ -56,6 +56,12 @@ const BANNERS: Banner[] = [
     mobile: bannerAsset('Fix-Banner-06-Back-mobile.webp'),
     alt: 'Hisense flagship lineup hero 5',
   },
+  {
+    id: 'banner-7',
+    desktop: bannerAsset('Fix-Banner-07.webp'),
+    mobile: bannerAsset('Fix-Banner-07-mobile.webp'),
+    alt: 'Zarrin Namaye Caspian featured lineup',
+  },
 ];
 
 const getSrc = (imageData: ImageSource) =>
