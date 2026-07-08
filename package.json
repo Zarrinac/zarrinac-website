@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
+    "prebuild": "node scripts/scan-build-config.mjs",
     "build": "next build",
     "postinstall": "prisma generate",
     "start": "next start",
