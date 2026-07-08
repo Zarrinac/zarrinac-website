@@ -36,6 +36,7 @@ const FOOTER_SECTIONS: Array<{
   {
     titleKey: 'products.title',
     linkKeys: [
+      { key: 'dcode', href: '/dcode' },
       { key: 'ventilation', href: '/rac' },
       { key: 'industrialVentilation', href: '/cac' },
       { key: 'refrigerator', href: '/refrigerator' },

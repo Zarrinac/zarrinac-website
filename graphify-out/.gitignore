@@ -5,5 +5,8 @@
 cache/
 cost.json
 
+# Timestamped curated-graph backups auto-created by `graphify update` — regenerable
+[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/
+
 # Commit these (the actual map): graph.json, GRAPH_REPORT.md, manifest.json,
 # and optionally graph.html. They are NOT ignored.
