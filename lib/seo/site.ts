@@ -11,6 +11,12 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zarrinac.c
 // meaningfully changes, so crawlers don't see "everything changed" on every deploy.
 export const SITE_CONTENT_LAST_MODIFIED = new Date('2026-06-18T00:00:00Z');
 
+// Homepage-specific <lastmod>. The home content was differentiated from hisense-ir.com
+// (to resolve the cross-domain "duplicate canonical" GSC issue, where Google folded the
+// two identical homepages) after the baseline above, so the home URL carries its own
+// fresher date — a targeted change signal for Google to recrawl the differentiated home.
+export const HOME_CONTENT_LAST_MODIFIED = new Date('2026-07-08T00:00:00Z');
+
 export type SeoBreadcrumbItem = {
   label: string;
   href: string;

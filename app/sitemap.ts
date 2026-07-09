@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { routing } from '@/i18n/routing';
-import { SITE_URL, SITE_CONTENT_LAST_MODIFIED } from '@/lib/seo/site';
+import { SITE_URL, SITE_CONTENT_LAST_MODIFIED, HOME_CONTENT_LAST_MODIFIED } from '@/lib/seo/site';
 
 // Zarrinac forwards every Hisense-replica section to hisense-ir.com, and the
 // D'code section to its own standalone site (dcode.co.ir), all via 308 redirects
@@ -27,11 +27,13 @@ const priorityForPath = (path: string): number => {
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = SITE_CONTENT_LAST_MODIFIED;
   const logicalPaths = Array.from(new Set(['', ...STATIC_PATHS]));
 
   return logicalPaths.flatMap((path) => {
     const languages = buildLanguageAlternates(path);
+    // The homepage carries a fresher <lastmod> than the baseline so a sitemap resubmit
+    // gives Google a real change signal for the differentiated home page.
+    const lastModified = path === '' ? HOME_CONTENT_LAST_MODIFIED : SITE_CONTENT_LAST_MODIFIED;
     return routing.locales.map((locale) => ({
       url: `${SITE_URL}/${locale}${path}`,
       lastModified,
