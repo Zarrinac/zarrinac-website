@@ -68,3 +68,6 @@ next-env.d.ts
 # native routes are not shadowed by static files.
 /public/sitemap*.xml
 /public/robots.txt
+
+# graphify knowledge-graph output (generated, not committed)
+/graphify-out/
