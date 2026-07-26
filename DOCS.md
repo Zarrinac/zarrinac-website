@@ -407,6 +407,14 @@ A canonical product detail page (`app/[locale]/products/[category]/[productId]/p
 9. **ProductFaqSection** — FAQ accordion per product, emits `FAQPage` JSON-LD.
 10. **Breadcrumbs** — `BreadcrumbList` JSON-LD.
 
+### Printed catalog pages
+
+Mirrored from the hisense repo (2026-07-26) so the two shared detail pages stay byte-identical. `lib/catalog/catalogAssets.ts` resolves a printed catalog spread per product (by `series` first, `id` second, separators stripped) and `components/catalog/ProductCatalogSection.tsx` renders it between `SpecsSection` and `ProductFaqSection` on both detail-page implementations. One spread deliberately serves a whole series or a pair of models; products with no spread (U7K) render no section. Spreads are capped at 2048×1483 by `ops/optimize-media.mjs`, which `CATALOG_PAGE_WIDTH`/`CATALOG_PAGE_HEIGHT` must match.
+
+**Zarrinac-specific:** every `products/*` and `refrigerator/*` route here is 308-forwarded to `www.hisense-ir.com` (`next.config.ts`), so those spreads are **never requested on this domain** — that code exists for lockstep parity with hisense, not for rendering. Only `catalog-general-full.pdf` is therefore promoted to this server's media (`<media>/catalog/`); the 17 per-series JPEG spreads live on the hisense server only. If a Hisense section ever stops redirecting, sync the spreads here too.
+
+What does render on this domain is the full-catalog download: the homepage CTA (`components/catalog/CatalogDownloadSection.tsx`, copy in `HOME_SEO_CONTENT.catalog`) and the footer "download product catalog" link (`Footer.links.catalog`, flagged `download: true` so it renders as a plain anchor and skips the locale prefix). **The homepage catalog copy is deliberately worded differently from the hisense homepage's — keep it that way**, per the cross-domain duplicate-canonical fix, and bump `HOME_CONTENT_LAST_MODIFIED` on any home-content change.
+
 ### Media URLs
 
 Always use `mediaUrl(path)` from `lib/mediaUrl.ts`. It switches between `/` (local) and `NEXT_PUBLIC_MEDIA_BASE_URL` (CDN). Never hardcode `/media/` paths in components.

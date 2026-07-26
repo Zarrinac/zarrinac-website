@@ -11,6 +11,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { useLocale, useTranslations } from 'next-intl';
 import { useTheme } from '@/components/theme/ThemeProvider';
+import { FULL_CATALOG_DOWNLOAD_NAME, FULL_CATALOG_URL } from '@/lib/catalog/catalogAssets';
 import ZarrinLogoBlack from '@/public/icons/Zarrin-Logo-Black.png';
 import ZarrinLogoWhite from '@/public/icons/Zarrin-Logo-White.png';
 
@@ -19,12 +20,15 @@ type FooterLinkSection = {
   links: Array<{
     label: string;
     href: string;
+    // File downloads (catalog PDF) resolve through mediaUrl and skip the locale
+    // prefix, so they render as a plain anchor instead of a next/link route.
+    download?: boolean;
   }>;
 };
 
 const FOOTER_SECTIONS: Array<{
   titleKey: string;
-  linkKeys: Array<{ key: string; href: string }>;
+  linkKeys: Array<{ key: string; href: string; download?: boolean }>;
 }> = [
   {
     titleKey: 'about.title',
@@ -55,6 +59,7 @@ const FOOTER_SECTIONS: Array<{
       { key: 'feedback', href: '/survey' },
       { key: 'dealerPortal', href: '/portal' },
       { key: 'becomeDealer', href: '/request-representation' },
+      { key: 'catalog', href: FULL_CATALOG_URL, download: true },
     ],
   },
 ];
@@ -88,7 +93,8 @@ export default function Footer() {
     title: t(section.titleKey),
     links: section.linkKeys.map((item) => ({
       label: t(`links.${item.key}`),
-      href: toLocalePath(item.href),
+      href: item.download ? item.href : toLocalePath(item.href),
+      download: item.download,
     })),
   }));
 
@@ -139,9 +145,19 @@ export default function Footer() {
               <ul className="grid mt-3 space-y-2 text-sm text-(--text-muted-color) grid-cols-1 2xs:grid-cols-2 xs:grid-cols-1 gap-6">
                 {section.links.map((link) => (
                   <li key={link.label}>
-                    <Link href={link.href} className="transition hover:text-(--brand-color)">
-                      {link.label}
-                    </Link>
+                    {link.download ? (
+                      <a
+                        href={link.href}
+                        download={FULL_CATALOG_DOWNLOAD_NAME}
+                        className="transition hover:text-(--brand-color)"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link href={link.href} className="transition hover:text-(--brand-color)">
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

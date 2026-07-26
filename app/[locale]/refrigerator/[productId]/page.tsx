@@ -35,6 +35,8 @@ import { buildProductMetaDescription, buildProductMetaTitle } from '@/lib/seo/pr
 import { buildProductFaqs, getProductFaqHeading } from '@/lib/seo/productFaq';
 import { buildFeatureCardSectionLinks } from '@/lib/products/featureCardSectionLinks';
 import ProductFaqSection from '@/components/seo/ProductFaqSection';
+import ProductCatalogSection from '@/components/catalog/ProductCatalogSection';
+import { getProductCatalogUrl } from '@/lib/catalog/catalogAssets';
 
 // Builds the refrigerator detail page from bundled content.
 
@@ -361,6 +363,12 @@ export default async function RefrigeratorProductPage({ params }: PageProps) {
   const sectionGroups = buildSectionGroups(product, blocks);
   const specDetails: string[] = resolveSpecs(product.specs, lang);
   const seriesDisplay = getSeriesDisplay(product);
+  // Printed catalog spread for this model (one spread can cover two models).
+  const catalogUrl = getProductCatalogUrl({
+    categorySlug: 'refrigerator',
+    series: product.series,
+    productId: product.id,
+  });
   const featureCards = product.featureCards ?? [];
   // Link each feature card to the content section it best describes, so clicking
   // a card smooth-scrolls there.
@@ -483,6 +491,15 @@ export default async function RefrigeratorProductPage({ params }: PageProps) {
       />
 
       <SpecsSection items={specDetails} lang={lang} id="product-specs" />
+
+      {catalogUrl && (
+        <ProductCatalogSection
+          src={catalogUrl}
+          productId={product.id}
+          productName={copy.name || product.id}
+          lang={lang}
+        />
+      )}
 
       <ProductFaqSection
         faqs={buildProductFaqs({
