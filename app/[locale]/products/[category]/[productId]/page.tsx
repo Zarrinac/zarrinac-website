@@ -40,6 +40,8 @@ import { buildProductMetaDescription, buildProductMetaTitle } from '@/lib/seo/pr
 import { buildProductFaqs, getProductFaqHeading } from '@/lib/seo/productFaq';
 import { buildFeatureCardSectionLinks } from '@/lib/products/featureCardSectionLinks';
 import ProductFaqSection from '@/components/seo/ProductFaqSection';
+import ProductCatalogSection from '@/components/catalog/ProductCatalogSection';
+import { getProductCatalogUrl } from '@/lib/catalog/catalogAssets';
 
 // Builds product detail pages from the API (DB-first) with bundled content as fallback via the API layer.
 
@@ -494,6 +496,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
   );
   const availableSizes = getAvailableSizes(product);
   const seriesDisplay = getSeriesDisplay(product);
+  // Printed catalog spread for this series (null when this print run has none).
+  const catalogUrl = getProductCatalogUrl({
+    categorySlug,
+    series: product.series,
+    productId: product.id,
+  });
   const categoryCopy = await getCategoryCopy(categorySlug);
   const breadcrumbItems = buildBreadcrumbItems(
     locale,
@@ -618,6 +626,15 @@ export default async function ProductDetailPage({ params }: PageProps) {
       )}
 
       <SpecsSection items={specDetails} lang={lang} id="product-specs" />
+
+      {catalogUrl && (
+        <ProductCatalogSection
+          src={catalogUrl}
+          productId={product.id}
+          productName={copy.name || product.id}
+          lang={lang}
+        />
+      )}
 
       <ProductFaqSection
         faqs={buildProductFaqs({

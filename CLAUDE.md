@@ -107,6 +107,8 @@ D'code is a **separate TV brand** from Hisense, kept deliberately independent so
 
 Always use the `mediaUrl(path)` helper from `lib/mediaUrl.ts`. It switches between `/` (local) and `NEXT_PUBLIC_MEDIA_BASE_URL` (CDN) based on env. Never hardcode `/media/` paths.
 
+Printed-catalog code (`lib/catalog/catalogAssets.ts`, `components/catalog/*`) is **mirrored from the hisense repo** — keep it byte-identical there. Only `catalog-general-full.pdf` ships to this server's media: the per-series spreads are unreachable here because `products/*` and `refrigerator/*` 308-redirect to hisense. The homepage catalog copy must stay worded differently from hisense's. Details in DOCS.md → "Printed catalog pages".
+
 ## Code Conventions
 
 ### TypeScript

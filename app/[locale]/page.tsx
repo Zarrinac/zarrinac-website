@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import HeroBanner from '@/components/hero/HeroBanner';
 import CategorySpotlights from '@/components/home/CategorySpotlights';
 import type { SpotlightCard } from '@/components/home/CategorySpotlights';
+import CatalogDownloadSection from '@/components/catalog/CatalogDownloadSection';
 import JsonLd from '@/components/seo/JsonLd';
 import { mediaUrl } from '@/lib/mediaUrl';
 import { getLanguageAlternates, getLocaleLanguage, SITE_URL, toAbsoluteUrl } from '@/lib/seo/site';
@@ -24,6 +25,13 @@ const HOME_SEO_CONTENT: Record<
     paragraphs: string[];
     trustSignals: Array<{ value: string; label: string }>;
     quickLinks: Array<{ href: string; label: string }>;
+    catalog: {
+      eyebrow: string;
+      heading: string;
+      description: string;
+      cta: string;
+      note: string;
+    };
   }
 > = {
   fa: {
@@ -49,6 +57,14 @@ const HOME_SEO_CONTENT: Record<
       { href: '/warranty-and-guarantee', label: 'گارانتی و خدمات' },
       { href: '/hisense-repair', label: 'خدمات پس از فروش هایسنس' },
     ],
+    catalog: {
+      eyebrow: 'کاتالوگ هایسنس',
+      heading: 'کاتالوگ واردات و عرضه محصولات هایسنس',
+      description:
+        'فهرست کامل محصولات هایسنسی که زرین نمای کاسپین در ایران وارد و عرضه می‌کند؛ مشخصات فنی، ظرفیت‌ها و شماره مدل‌ها در یک فایل، برای همکاران تجاری، نمایندگان فروش و مشتریان.',
+      cta: 'دریافت کاتالوگ (PDF)',
+      note: 'فایل PDF — حدود ۱۰ مگابایت',
+    },
   },
   en: {
     title: "Zarrin Namaye Caspian | Hisense Home Appliances & D'code TVs",
@@ -73,6 +89,14 @@ const HOME_SEO_CONTENT: Record<
       { href: '/warranty-and-guarantee', label: 'Warranty and service' },
       { href: '/hisense-repair', label: 'Hisense after-sales service' },
     ],
+    catalog: {
+      eyebrow: 'Hisense catalog',
+      heading: 'Our Hisense import and distribution catalog',
+      description:
+        'The full range of Hisense products Zarrin Namaye Caspian imports and distributes in Iran — specifications, capacities, and model numbers in a single file for trade partners, dealers, and customers.',
+      cta: 'Get the catalog (PDF)',
+      note: 'PDF file — about 10 MB',
+    },
   },
 };
 
@@ -226,6 +250,14 @@ export default async function HomePage() {
         title={categoryTranslations('title')}
         items={localizedSpotlights}
         locale={locale}
+      />
+      <CatalogDownloadSection
+        eyebrow={seoContent.catalog.eyebrow}
+        heading={seoContent.catalog.heading}
+        description={seoContent.catalog.description}
+        cta={seoContent.catalog.cta}
+        note={seoContent.catalog.note}
+        isRTL={isRTL}
       />
     </>
   );
