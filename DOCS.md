@@ -427,12 +427,26 @@ D'code pages live under `/[locale]/dcode`. They use `lib/dcode/source.ts`, which
 
 ## Service Centers
 
-The service-center finder at `/[locale]/support/find-service-center` lets users find Hisense service representatives by province and city.
+The service-center finder at `/[locale]/find-service-center` lets users find Hisense service representatives by province and city.
 
 - **Component:** `components/service-centers/ServiceCenterFinder.tsx` — MUI Autocomplete for province, then city, then fetches and displays matching reps.
-- **Data source:** `lib/serviceCenterSource.ts` queries `ServiceRepresentative` from Postgres. Falls back to `lib/iranLocations.json` if DB is unavailable.
-- **Location data:** `lib/iranLocationSource.ts` queries `IranProvince` and `IranCity`. Same JSON fallback.
+- **Data source:** `lib/serviceCenterSource.ts` queries `ServiceRepresentative` from Postgres. Falls back to `content/service-centers/serviceCenters.json` if the DB is unavailable or the table is empty.
+- **Location data:** `lib/iranLocationSource.ts` queries `IranProvince` and `IranCity`. Falls back to `lib/iranLocations.json`.
 - **Performance:** Reduced to a single DB query (was 3 separate queries previously).
+
+### Refreshing the representative list — mirror from hisense, never regenerate here
+
+`content/service-centers/serviceCenters.json` is **mirrored from the hisense repo**, which owns
+the refresh: the service department's dated spreadsheet lands there, and
+`scripts/convert-representatives-xlsx.mjs` (hisense-only — deliberately not ported) regenerates
+the JSON from it. To update this repo, copy hisense's `content/service-centers/serviceCenters.json`
+verbatim. Never hand-edit it and never seed a stale copy:
+
+> **`npm run db:seed:representatives` wipes the table.** `scripts/seed-service-representatives.ts`
+> runs `deleteMany()` then bulk-creates from this JSON inside one transaction — and the Postgres
+> is **shared with hisense**. Seeding from an out-of-date copy here silently rolls back the live
+> representative list for _both_ sites. Same hazard as the products seed
+> (`ops/shared-db-runbook.md`): let hisense own the refresh, mirror the JSON, then seed.
 
 ---
 
