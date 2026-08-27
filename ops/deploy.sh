@@ -111,7 +111,7 @@ log "=== Deploy complete ==="
 
 # Post-deploy SEO regression audit against the now-live site (non-blocking,
 # backgrounded so it never delays or fails the deploy). Logs to
-# /var/log/zarrinac-seo-audit.log and escalates ERROR-level findings to claude -p.
+# /var/log/zarrinac-seo-audit.log; ERROR-level findings are flagged in that log.
 if [ -x /usr/local/bin/seo-audit.sh ]; then
   log "Kicking off post-deploy SEO audit (background)..."
   (/usr/local/bin/seo-audit.sh >/dev/null 2>&1 &)

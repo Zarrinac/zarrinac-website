@@ -8,7 +8,7 @@
 // header — guards the next-intl alternateLinks regression).
 //
 // Prints a human-readable report and exits 1 if any ERROR-level issue is found
-// (the cron wrapper escalates to `claude -p` on a non-zero exit). Warnings are
+// (the cron wrapper flags that in its log for manual review). Warnings are
 // advisory and don't change the exit code.
 //
 // Run: node ops/seo-audit.mjs [--base https://zarrinac.com]
