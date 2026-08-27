@@ -14,13 +14,13 @@ The app reads the shared `zarrin` database on `nexzarrin` and must set
 | Repo file                      | Live location on server              | Purpose                                                                                        |
 | ------------------------------ | ------------------------------------ | ---------------------------------------------------------------------------------------------- |
 | `ops/deploy.sh`                | `/var/www/zarrinac/deploy.sh`        | Pull → `npm ci` → `db:deploy` → `build` → `pm2 reload`                                         |
-| `ops/cron/zarrinac-monitor.sh` | `/usr/local/bin/zarrinac-monitor.sh` | Hourly health check piped to `claude -p`                                                       |
+| `ops/cron/zarrinac-monitor.sh` | `/usr/local/bin/zarrinac-monitor.sh` | Daily health check, deterministic thresholds (disk/mem/PM2), no external API calls             |
 | `ops/cron/weekly-backup.sh`    | `/usr/local/bin/weekly-backup.sh`    | Weekly lean backup: `pg_dumpall` + `/etc` + app secrets, keeps 4 weeks                         |
 | `ops/sync-media.sh`            | `/usr/local/bin/sync-media.sh`       | Mirror staged media → live dir + fix owner/perms (`a+rX`)                                      |
 | `ops/upload-media.ps1`         | (runs on the Windows dev PC)         | scp upload + trigger `sync-media.sh` over ssh (key auth)                                       |
 | `ops/preflight.mjs`            | (runs from deploy on the server)     | Validates Zarrinac env identity and the shared nexzarrin DB target without printing secrets    |
 | `ops/seo-audit.mjs`            | (runs from the repo on the server)   | Deterministic SEO checker: title/desc/canonical/hreflang/h1/size/JSON-LD over the live sitemap |
-| `ops/cron/seo-audit.sh`        | `/usr/local/bin/seo-audit.sh`        | SEO audit wrapper; currently installed non-executable and not scheduled on `zarrin-ng-site`    |
+| `ops/cron/seo-audit.sh`        | `/usr/local/bin/seo-audit.sh`        | SEO audit wrapper (log only, no LLM triage); installed non-executable and not scheduled        |
 
 > Not included: `ecosystem.config.cjs`, `.env` — they hold secrets and are gitignored.
 > Keep them only on the server. The husky hooks (`.husky/pre-commit`, `pre-push`) live in
@@ -83,7 +83,7 @@ pm2 save                      # writes ~/.pm2/dump.pm2, replayed by pm2-reza.ser
 # Verify: systemctl is-enabled pm2-reza   ->   enabled
 
 # Cron entries (crontab -e)  — adjust times to taste
-0 * * * *  /usr/local/bin/zarrinac-monitor.sh                # hourly monitor
+0 7 * * *  /usr/local/bin/zarrinac-monitor.sh                # daily monitor at 07:00
 0 3 * * 0  /usr/local/bin/weekly-backup.sh >> /var/log/zarrinac-backup.log 2>&1   # Sun 03:00 backup
 ```
 
@@ -175,8 +175,16 @@ and port `443` open through any firewall.
 
 ## Notes
 
-- `zarrinac-monitor.sh` and `seo-audit.sh` source nvm and resolve `node`, `pm2`, and `claude`
-  dynamically, so they survive Node patch-version upgrades.
+- `zarrinac-monitor.sh` and `seo-audit.sh` source nvm and resolve `node` and `pm2` dynamically,
+  so they survive Node patch-version upgrades.
+- **No script here may call `claude -p` or any other Anthropic API endpoint.** The server IP
+  (Iran) gets flat `403`s from `api.anthropic.com`, so LLM-based checks fail silently; the
+  Claude CLI and its API key have been removed from this host. Keep server automation
+  deterministic. `ops/cron/zarrinac-monitor.sh` mirrors `ops/cron/hisense-monitor.sh` from the
+  hisense repo — that copy is the reference; port changes from there.
+- The monitor cron is **currently disabled** on `zarrin-ng-site` (entry removed alongside the
+  Claude CLI cleanup). Re-enable by copying the script to `/usr/local/bin`, `chmod +x`, and
+  adding the daily crontab line above — it needs no credentials now.
 - `deploy.sh` runs as `reza` (never root): a root-owned `.next` breaks PM2.
 - Deploy/DB/media workflow context lives in the repo root `CLAUDE.md` (Deployment & Ops,
   DB & Media Workflow sections).
