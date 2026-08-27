@@ -28,7 +28,7 @@ import {
 } from '@/lib/seo/site';
 import { createInternalApiUrl } from '@/lib/api/internalUrl';
 import { CATEGORY_SEO_CONTENT } from '@/lib/seo/categorySeoContent';
-import { buildCategoryMetaTitle } from '@/lib/seo/productMeta';
+import { buildCategoryMetaDescription, buildCategoryMetaTitle } from '@/lib/seo/productMeta';
 
 // ISR: cache category listings (and their DB-backed product fetch) and refresh
 // hourly instead of re-querying the database on every request/crawl.
@@ -136,6 +136,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const pageTranslations = await getTranslations('TvHisensePage');
     const keywordsRaw: unknown = pageTranslations.raw('metadata.keywords');
     const languageAlternates = getLanguageAlternates(`/products/${categorySlug}`);
+    const metaDescription = buildCategoryMetaDescription(locale, categorySlug);
     const ogImage = HERO_SLIDES[0]?.image;
     const ogImageUrl =
       typeof ogImage === 'string' && ogImage.length > 0
@@ -146,11 +147,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     return {
       title: buildCategoryMetaTitle(locale, routeTranslations('title')),
-      description: routeTranslations('description'),
+      description: metaDescription,
       keywords: Array.isArray(keywordsRaw) ? keywordsRaw : undefined,
       openGraph: {
         title: routeTranslations('title'),
-        description: routeTranslations('description'),
+        description: metaDescription,
         url: `/${locale}/products/${categorySlug}`,
         type: 'website',
         images: ogImageUrl
@@ -167,7 +168,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       twitter: {
         card: 'summary_large_image',
         title: routeTranslations('title'),
-        description: routeTranslations('description'),
+        description: metaDescription,
         images: ogImageUrl ? [ogImageUrl] : undefined,
       },
       alternates: {
@@ -181,19 +182,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (category === 'WMS') {
     const routeTranslations = await getTranslations('Routes.washingMachine');
     const languageAlternates = getLanguageAlternates(`/products/${categorySlug}`);
+    const metaDescription = buildCategoryMetaDescription(locale, categorySlug);
     return {
       title: buildCategoryMetaTitle(locale, routeTranslations('title')),
-      description: routeTranslations('description'),
+      description: metaDescription,
       openGraph: {
         title: routeTranslations('title'),
-        description: routeTranslations('description'),
+        description: metaDescription,
         url: `/${locale}/products/${categorySlug}`,
         type: 'website',
       },
       twitter: {
         card: 'summary_large_image',
         title: routeTranslations('title'),
-        description: routeTranslations('description'),
+        description: metaDescription,
       },
       alternates: {
         canonical: `/${locale}/products/${categorySlug}`,
@@ -206,19 +208,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (category === 'RAC') {
     const routeTranslations = await getTranslations('Routes.rac');
     const languageAlternates = getLanguageAlternates(`/products/${categorySlug}`);
+    const metaDescription = buildCategoryMetaDescription(locale, categorySlug);
     return {
       title: buildCategoryMetaTitle(locale, routeTranslations('title')),
-      description: routeTranslations('description'),
+      description: metaDescription,
       openGraph: {
         title: routeTranslations('title'),
-        description: routeTranslations('description'),
+        description: metaDescription,
         url: `/${locale}/products/${categorySlug}`,
         type: 'website',
       },
       twitter: {
         card: 'summary_large_image',
         title: routeTranslations('title'),
-        description: routeTranslations('description'),
+        description: metaDescription,
       },
       alternates: {
         canonical: `/${locale}/products/${categorySlug}`,
@@ -231,19 +234,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (category === 'CAC') {
     const routeTranslations = await getTranslations('Routes.cac');
     const languageAlternates = getLanguageAlternates(`/products/${categorySlug}`);
+    const metaDescription = buildCategoryMetaDescription(locale, categorySlug);
     return {
       title: buildCategoryMetaTitle(locale, routeTranslations('title')),
-      description: routeTranslations('description'),
+      description: metaDescription,
       openGraph: {
         title: routeTranslations('title'),
-        description: routeTranslations('description'),
+        description: metaDescription,
         url: `/${locale}/products/${categorySlug}`,
         type: 'website',
       },
       twitter: {
         card: 'summary_large_image',
         title: routeTranslations('title'),
-        description: routeTranslations('description'),
+        description: metaDescription,
       },
       alternates: {
         canonical: `/${locale}/products/${categorySlug}`,

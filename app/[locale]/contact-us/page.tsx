@@ -20,6 +20,7 @@ import {
   SITE_URL,
 } from '@/lib/seo/site';
 import { buildLocalBusinessJsonLd } from '@/lib/seo/localBusiness';
+import { buildSupportMetaDescription } from '@/lib/seo/productMeta';
 
 const HERO_IMAGE = mediaUrl('/contact-us/contactUs-support-hero.jpg');
 const SUPPORT_IMAGE = mediaUrl('/contact-us/contactUs-box1.jpg');
@@ -299,17 +300,18 @@ export async function generateMetadata(): Promise<Metadata> {
   const localizedPath = `/${locale}/contact-us`;
   const languageAlternates = getLanguageAlternates('/contact-us');
   const ogImageUrl = HERO_IMAGE.startsWith('http') ? HERO_IMAGE : `${SITE_URL}${HERO_IMAGE}`;
+  const metaDescription = buildSupportMetaDescription(locale, 'contact');
 
   return {
     title: routeTranslations('title'),
-    description: routeTranslations('description'),
+    description: metaDescription,
     alternates: {
       canonical: localizedPath,
       languages: languageAlternates,
     },
     openGraph: {
       title: routeTranslations('title'),
-      description: routeTranslations('description'),
+      description: metaDescription,
       url: `${SITE_URL}${localizedPath}`,
       type: 'website',
       images: [
@@ -324,7 +326,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: routeTranslations('title'),
-      description: routeTranslations('description'),
+      description: metaDescription,
       images: [ogImageUrl],
     },
   };

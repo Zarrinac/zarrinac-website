@@ -13,6 +13,7 @@ import {
   SITE_URL,
 } from '@/lib/seo/site';
 import { buildLocalBusinessJsonLd } from '@/lib/seo/localBusiness';
+import { buildSupportMetaDescription } from '@/lib/seo/productMeta';
 
 const PAGE_CONTENT = {
   fa: {
@@ -154,24 +155,25 @@ export async function generateMetadata(): Promise<Metadata> {
   const routeTranslations = await getTranslations('Routes.findServiceCenter');
   const localizedPath = `/${locale}/find-service-center`;
   const languageAlternates = getLanguageAlternates('/find-service-center');
+  const metaDescription = buildSupportMetaDescription(locale, 'findServiceCenter');
 
   return {
     title: routeTranslations('title'),
-    description: routeTranslations('description'),
+    description: metaDescription,
     alternates: {
       canonical: localizedPath,
       languages: languageAlternates,
     },
     openGraph: {
       title: routeTranslations('title'),
-      description: routeTranslations('description'),
+      description: metaDescription,
       url: `${SITE_URL}${localizedPath}`,
       type: 'website',
     },
     twitter: {
       card: 'summary',
       title: routeTranslations('title'),
-      description: routeTranslations('description'),
+      description: metaDescription,
     },
   };
 }

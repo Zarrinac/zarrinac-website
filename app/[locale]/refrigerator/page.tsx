@@ -17,7 +17,7 @@ import {
   toAbsoluteUrl,
 } from '@/lib/seo/site';
 import { CATEGORY_SEO_CONTENT } from '@/lib/seo/categorySeoContent';
-import { buildCategoryMetaTitle } from '@/lib/seo/productMeta';
+import { buildCategoryMetaDescription, buildCategoryMetaTitle } from '@/lib/seo/productMeta';
 
 const bannerAsset = (path: string) => mediaUrl(`/products/refrigerator/banner/${path}`);
 const productAsset = (path: string) => mediaUrl(`/products/refrigerator/${path}`);
@@ -122,13 +122,14 @@ export async function generateMetadata(): Promise<Metadata> {
         ? ogImage
         : `${SITE_URL}${ogImage}`
       : undefined;
+  const metaDescription = buildCategoryMetaDescription(locale, 'refrigerator');
 
   return {
     title: buildCategoryMetaTitle(locale, routeTranslations('title')),
-    description: routeTranslations('description'),
+    description: metaDescription,
     openGraph: {
       title: routeTranslations('title'),
-      description: routeTranslations('description'),
+      description: metaDescription,
       url: `/${locale}/refrigerator`,
       type: 'website',
       images: ogImageUrl ? [{ url: ogImageUrl }] : undefined,
@@ -136,7 +137,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: routeTranslations('title'),
-      description: routeTranslations('description'),
+      description: metaDescription,
       images: ogImageUrl ? [ogImageUrl] : undefined,
     },
     alternates: {
