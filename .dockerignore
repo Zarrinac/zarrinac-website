@@ -1,0 +1,50 @@
+# Build context filter for the Docker image (docker/Dockerfile).
+# Mirrors .gitignore so the image is built from the same tree the server
+# deploys — nothing local (node_modules, .next, media copies) leaks in.
+
+.git
+.gitattributes
+.github
+.husky
+.vscode
+.claude
+.codex
+.agents
+
+node_modules
+.next
+out
+build
+coverage
+*.tsbuildinfo
+
+# Secrets / local env — the image gets its env from build args + compose.
+.env
+.env.*
+ecosystem.config.cjs
+
+# Generated / local-only
+graphify-out
+temp-files
+backups
+playwright-report
+test-results
+
+# Media lives OUTSIDE the image and is bind-mounted at /app/public/media
+# (same split as the server, where public/media is a symlink to
+# /var/www/zarrinac/media). These public/ subdirs are gitignored local copies.
+public/products
+public/images
+public/banner
+public/tv-banner
+public/contact-us
+public/downloads
+public/representatives
+public/catalog
+public/media
+public/sitemap*.xml
+public/robots.txt
+
+# Docs that don't affect the build
+*.md
+!README.md

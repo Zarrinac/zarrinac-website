@@ -1,0 +1,54 @@
+# znci.ir — local/standalone run of the containerised zarrinac deployment.
+#
+#   cp docker/env.example docker/.env      # then edit the secrets
+#   docker compose -f docker/compose.yaml up -d --build
+#
+# Compose auto-loads docker/.env (gitignored) for the ${...} substitutions below.
+# NEXT_PUBLIC_* are BUILD args — Next inlines them — so changing one needs a
+# rebuild (--build), not just a restart.
+
+name: znci
+
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://znci.ir}
+        NEXT_PUBLIC_SITE_ID: ${NEXT_PUBLIC_SITE_ID:-zarrinac}
+        NEXT_PUBLIC_MEDIA_BASE_URL: ${NEXT_PUBLIC_MEDIA_BASE_URL:-/media}
+        NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
+        NEXT_PUBLIC_GTM_ID: ${NEXT_PUBLIC_GTM_ID:-}
+        NEXT_PUBLIC_GOOGLE_ADS_ID: ${NEXT_PUBLIC_GOOGLE_ADS_ID:-}
+        NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION:-}
+        NEXT_PUBLIC_BING_SITE_VERIFICATION: ${NEXT_PUBLIC_BING_SITE_VERIFICATION:-}
+    image: ${ZNCI_IMAGE:-znci-website:latest}
+    container_name: znci-website
+    restart: unless-stopped
+
+    ports:
+      # Host 3010 keeps clear of the zarrinac dev server (3001) and dcode (3002).
+      - '${ZNCI_PORT:-3010}:3000'
+
+    environment:
+      # Runtime-only. Read on each request, so these can change without a rebuild.
+      # No DATABASE_URL: this deployment runs on the bundled static fallback, and
+      # every DB-backed page (/complaint, /survey, /products, service centres) is
+      # 308-forwarded to hisense-ir.com anyway. Leaving it unset also guarantees
+      # the container can never write into the shared hisense+zarrinac database.
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      # Without this, /admin answers 503 (proxy.ts) and the public site is fine.
+      ADMIN_SESSION_SECRET: ${ADMIN_SESSION_SECRET:-}
+
+    volumes:
+      # Media library, mounted read-only where next/image can read it off disk.
+      # Default resolves to ..\..\media (the shared IT-Hisense\zarrin\media folder).
+      - ${ZNCI_MEDIA_DIR:-../../media}:/app/public/media:ro
+
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
