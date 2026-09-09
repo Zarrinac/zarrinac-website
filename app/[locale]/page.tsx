@@ -46,7 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const resolvedLocale: HomepageLocale = locale === 'en' ? 'en' : 'fa';
   const seoContent = getHomeSeoContent(resolvedLocale);
   const canonical = `/${resolvedLocale}`;
-  const ogImage = toAbsoluteUrl(bannerAsset('Fix-Banner-07.jpg'));
+  const ogImage = toAbsoluteUrl(bannerAsset('Fix-Banner-07.webp'));
 
   return {
     title: seoContent.title,

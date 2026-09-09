@@ -14,10 +14,15 @@ import StructuredData from '@/components/seo/StructuredData';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { routing, type Locale } from '@/i18n/routing';
 import { getSeoKeywords } from '@/lib/seo/keywords';
+import { toAbsoluteUrl } from '@/lib/seo/site';
+import { mediaUrl } from '@/lib/mediaUrl';
 
 // Locale layout validates the locale, wires translations/theme, and applies shared page chrome.
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zarrinac.com';
+// Build the share image through mediaUrl so it picks up NEXT_PUBLIC_MEDIA_BASE_URL;
+// hardcoding `${SITE_URL}/banner/...` drops the /media prefix and 404s.
+const OG_IMAGE_URL = toAbsoluteUrl(mediaUrl('/banner/Fix-Banner-07.webp'));
 const OG_LOCALE_MAP: Record<Locale, string> = {
   fa: 'fa_IR',
   en: 'en_US',
@@ -114,7 +119,7 @@ export async function generateMetadata(
       type: 'website',
       images: [
         {
-          url: `${SITE_URL}/banner/Fix-Banner-07.webp`,
+          url: OG_IMAGE_URL,
           width: 1920,
           height: 650,
           alt: t('title'),
@@ -125,7 +130,7 @@ export async function generateMetadata(
       card: 'summary_large_image',
       title: t('title'),
       description: t('description'),
-      images: [`${SITE_URL}/banner/Fix-Banner-07.webp`],
+      images: [OG_IMAGE_URL],
     },
   };
 }

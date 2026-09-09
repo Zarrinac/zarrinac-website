@@ -32,6 +32,7 @@ reads. zarrinac.com and hisense-ir.com never set it and build exactly as before.
 | `env.example`      | Template → copy to `docker/.env` (gitignored via the repo's `.env*` rule) |
 | `../.dockerignore` | Build-context filter, mirrors `.gitignore`                                |
 | `deploy.sh`        | Server deploy: pull → identity preflight → rebuild → health gate          |
+| `znci-vhost.conf`  | Canonical Apache vhost (HTTP→HTTPS + TLS reverse proxy) — see **TLS**     |
 
 ## Quick start
 
@@ -93,30 +94,86 @@ Without the mount the site still renders, but images 404.
 ## Putting it behind a domain
 
 The container listens on `:3000` and is published on the host as `${ZNCI_PORT}` (3010).
-Terminate TLS in front of it and reverse-proxy. Apache, matching the existing
-zarrinac.com vhost pattern:
-
-```apache
-<VirtualHost *:443>
-    ServerName znci.ir
-    ServerAlias www.znci.ir
-
-    SSLEngine on
-    SSLCertificateFile    /etc/ssl/znci/fullchain.crt
-    SSLCertificateKeyFile /etc/ssl/znci/znci.key
-
-    ProxyPreserveHost On
-    RequestHeader set X-Forwarded-Proto "https"
-    ProxyPass        / http://127.0.0.1:3010/
-    ProxyPassReverse / http://127.0.0.1:3010/
-</VirtualHost>
-```
+Apache on SC1 terminates TLS and reverse-proxies to it. The vhost lives at
+`/etc/apache2/vhosts.d/znci.conf`; the canonical copy is **`docker/znci-vhost.conf`** in
+this repo (same convention as `ops/` for zarrinac.com). It follows zarrin-ng-site's
+`zarrinac.conf` pattern, minus the `Alias /media/` block — znci serves `/media/*` from the
+container's own bind-mounted `public/`, so Apache never reads media off the host disk.
 
 `ProxyPreserveHost On` + `X-Forwarded-Proto` matter: `proxy.ts` uses `x-forwarded-host` /
 `x-forwarded-proto` for the admin same-origin check on mutating requests.
 
 `Strict-Transport-Security` is emitted by the app itself (`next.config.ts` security
 headers), so serve the domain over HTTPS before pointing DNS at it.
+
+## TLS
+
+Certificate: **Certum DV**, `CN=znci.ir` with SAN `znci.ir, www.znci.ir`, issued
+2026-09-09, **expires 2027-03-27** (~6.5 months — DV, so it needs renewing roughly twice a
+year, unlike zarrinac.com's 12-month wildcard). Issued files are kept out of git, next to
+zarrinac's, in `IT-Hisense\zarrinac-website-related-files\znci.ir-certificate\`.
+
+Apache wants one concatenated chain in `SSLCertificateFile`, leaf first and the root
+**omitted** (clients already trust it) — identical to how `/etc/ssl/zarrinac/fullchain.crt`
+was built:
+
+```bash
+# leaf, then Certum DV TLS G2 R39 CA, then Certum Trusted Root CA.
+# Root_CA.cer is deliberately NOT included -- 3 certs total.
+cat certum_certificate.pem Intermediate_CA2.cer Intermediate_CA.cer > znci-fullchain.crt
+```
+
+Install on SC1 (done 2026-09-09 — TLS is live; this is the recipe for the next renewal):
+
+```bash
+sudo install -d -m 755 /etc/ssl/znci
+sudo install -m 644 -o root -g root znci-fullchain.crt /etc/ssl/znci/fullchain.crt
+sudo install -m 600 -o root -g root znci.key           /etc/ssl/znci/znci.key
+```
+
+Then enable TLS and swap the vhost in. On openSUSE `Listen 443` comes from the
+`<IfDefine SSL>` block in `listen.conf`, so the **`SSL` server flag is what opens the
+port** — adding the vhost alone does nothing:
+
+```bash
+sudo sed -i 's/^APACHE_SERVER_FLAGS=.*/APACHE_SERVER_FLAGS="SSL"/' /etc/sysconfig/apache2
+sudo cp /etc/apache2/vhosts.d/znci.conf.tls-staged /etc/apache2/vhosts.d/znci.conf
+sudo apachectl configtest && sudo systemctl restart apache2
+```
+
+`znci.conf.tls-staged` is the staged copy of `docker/znci-vhost.conf`; the `.tls-staged`
+suffix keeps it out of Apache's `vhosts.d/*.conf` glob until the key exists, so a
+restart cannot fail on a missing `SSLCertificateKeyFile`. Copying it over `znci.conf`
+replaces the plain `:80` proxy vhost with the `:80` → `:443` redirect **and** the TLS
+vhost in one move — do not leave both files active as `.conf` or two `:80` vhosts will
+claim `ServerName znci.ir`. The pre-TLS HTTP-only vhost is kept on SC1 as
+`znci.conf.bak-http-20260909`, and `/etc/sysconfig/apache2.bak-20260909` holds the config
+from before the `SSL` flag.
+
+Already in place, no action needed: `ssl` + `socache_shmcb` are in `APACHE_MODULES`,
+firewalld already permits the `https` service, `ssl-global.conf` sets
+`SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1` with `PROFILE=SYSTEM` ciphers, and the chain file
+carries the correct SELinux `cert_t` label.
+
+**Verified live 2026-09-09** (before public DNS, using `--resolve` against `172.17.0.36`):
+HTTP `/fa` 301 → `https://znci.ir/fa`; HTTPS `/fa` and `www.znci.ir/fa` both 200 with
+`ssl_verify_result=0` — i.e. the served chain validates against the system trust store
+with no `-k`, confirming the intermediates are present and correctly ordered (3 certs on
+the wire); `Strict-Transport-Security: max-age=63072000; includeSubDomains` present;
+canonical `https://znci.ir/fa`, one `<h1>`; `/fa/products` 308 → www.hisense-ir.com and
+`/fa/dcode/tvs/r6d` 308 → dcode.co.ir still intact over TLS; `/media/*` and
+`/_next/image` 200.
+
+Re-verify the same way after each renewal:
+
+```bash
+curl -sSI https://znci.ir/fa | head -1
+# run from a workstation -- SC1 has no openssl CLI
+echo | openssl s_client -connect znci.ir:443 -servername znci.ir 2>/dev/null | openssl x509 -noout -subject -dates
+```
+
+Renewal is manual (no ACME on this host): reissue at Certum, rebuild `fullchain.crt` the
+same way, replace both files, `systemctl reload apache2`. Set a reminder for **2027-03**.
 
 ## Rebuilding after a code change
 
