@@ -53,9 +53,12 @@ COPY . .
 
 # --- Public identity for this deployment (baked into the bundle) -------------
 ARG NEXT_PUBLIC_SITE_URL=https://znci.ir
-# SITE_ID tags rows written to the shared database. lib/siteId.ts defaults to
-# 'hisense', so it must be set explicitly even though this build ships DB-less.
-ARG NEXT_PUBLIC_SITE_ID=zarrinac
+# SITE_ID selects which block of content/homeSeoContent.ts is baked in (and, on
+# a DB-backed deployment, tags rows in the shared database). lib/siteId.ts
+# defaults to 'hisense', so it must be set explicitly even though this build
+# ships DB-less. At any value but 'znci' the image serves zarrinac.com's home
+# copy on znci.ir - the duplicate-content condition docker/deploy.sh refuses.
+ARG NEXT_PUBLIC_SITE_ID=znci
 # Matches the server: media is served from /media, NOT from public/ root.
 # (Leaving NEXT_PUBLIC_CONTENT_SOURCE unset is deliberate — setting it to
 # "local" would make mediaUrl() strip the /media prefix and every asset 404.)
@@ -77,18 +80,22 @@ ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL} \
     NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=${NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION} \
     NEXT_PUBLIC_BING_SITE_VERIFICATION=${NEXT_PUBLIC_BING_SITE_VERIFICATION}
 
-# Run the in-repo malware guard against the REAL next.config.ts before it is
-# swapped out below — the prebuild hook would otherwise only ever see the
-# Docker overlay, silently dropping the check that ops/deploy.sh also performs.
+# Run the in-repo malware guard against next.config.ts, the same check that
+# ops/deploy.sh performs on the server before building.
 RUN node scripts/scan-build-config.mjs
 
-# Swap in the standalone overlay (see docker/next.config.standalone.ts). The
-# original config keeps every rule; it is only re-exported with output:'standalone'.
-# docker/ is then dropped: `next build` type-checks the whole tree, and the
-# overlay's `./next.config.site` import resolves only from the repo root.
-RUN mv next.config.ts next.config.site.ts \
-    && cp docker/next.config.standalone.ts next.config.ts \
-    && rm -rf docker
+# The one build-level difference from the PM2 deploys: emit .next/standalone,
+# a self-contained server.js with only the traced runtime deps (~200 MB image
+# instead of all of node_modules). next.config.ts reads this flag and adds
+# `output: 'standalone'` itself.
+#
+# This replaces an earlier file swap (mv next.config.ts -> next.config.site.ts,
+# cp docker/next.config.standalone.ts -> next.config.ts, rm -rf docker). That
+# overlay imported a module which only ever existed inside this build, so repo
+# tsc/eslint could not resolve it and the `rm -rf docker` existed purely to hide
+# the same error from `next build`. Now the config that was just scanned is the
+# config that gets built.
+ENV NEXT_BUILD_STANDALONE=1
 
 # No DATABASE_URL here on purpose. Product/category pages prerender through the
 # DB->fallback chain; with no DB configured they take the bundled static data

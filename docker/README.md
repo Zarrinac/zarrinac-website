@@ -11,23 +11,27 @@ The one thing that is **not** a copy of zarrinac.com is the home copy itself. zn
 a trade/corporate framing (ZNCI as importer and distributor) against zarrinac.com's
 consumer/brand framing. That divergence is load-bearing, not cosmetic; see **SEO** below.
 
-**Nothing in the app was changed to make this work.** `next.config.ts`, the redirect
-list, the SEO helpers and the ops scripts are untouched — zarrinac.com and
-hisense-ir.com deploy exactly as before. The whole znci identity is injected through
-build args, and the one build-level difference (`output: 'standalone'`, needed for a
-small image) is applied by an overlay config that the Dockerfile swaps in _inside the
-build_, never in the working tree.
+The znci identity is injected entirely through build args. The one build-level
+difference from the PM2 deploys — `output: 'standalone'`, needed for a small image — is
+opt-in via `NEXT_BUILD_STANDALONE=1`, which the Dockerfile sets and `next.config.ts`
+reads. zarrinac.com and hisense-ir.com never set it and build exactly as before.
+
+> Until 2026-09-09 this was done by swapping `next.config.ts` out for an overlay file
+> (`docker/next.config.standalone.ts`) during the build. That overlay imported
+> `./next.config.site`, a module that only existed _inside_ the image build, so repo-level
+> `tsc` and `eslint` could never resolve it — and the Dockerfile's `rm -rf docker` existed
+> only to hide the same error from `next build`. The env flag replaces the whole
+> mechanism, and the config the malware guard scans is now the config that is built.
 
 ## Files
 
-| File                        | Purpose                                                                    |
-| --------------------------- | -------------------------------------------------------------------------- |
-| `Dockerfile`                | 3-stage build: `deps` → `builder` → `runner` (Next standalone, non-root)   |
-| `compose.yaml`              | Local/standalone run: port mapping, media bind-mount, runtime env          |
-| `env.example`               | Template → copy to `docker/.env` (gitignored via the repo's `.env*` rule)  |
-| `next.config.standalone.ts` | Build-time overlay: re-exports the real config plus `output: 'standalone'` |
-| `../.dockerignore`          | Build-context filter, mirrors `.gitignore`                                 |
-| `deploy.sh`                 | Server deploy: pull → identity preflight → rebuild → health gate           |
+| File               | Purpose                                                                   |
+| ------------------ | ------------------------------------------------------------------------- |
+| `Dockerfile`       | 3-stage build: `deps` → `builder` → `runner` (Next standalone, non-root)  |
+| `compose.yaml`     | Local/standalone run: port mapping, media bind-mount, runtime env         |
+| `env.example`      | Template → copy to `docker/.env` (gitignored via the repo's `.env*` rule) |
+| `../.dockerignore` | Build-context filter, mirrors `.gitignore`                                |
+| `deploy.sh`        | Server deploy: pull → identity preflight → rebuild → health gate          |
 
 ## Quick start
 

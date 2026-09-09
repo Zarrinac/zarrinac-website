@@ -87,7 +87,21 @@ const HISENSE_SECTIONS = [
 // the `dcode` segment while preserving locale + everything beneath it.
 const DCODE_SITE_URL = 'https://dcode.co.ir';
 
+// Container builds need `output: 'standalone'` — a self-contained
+// .next/standalone/server.js with only the traced runtime deps, so the image is
+// ~200 MB instead of shipping all of node_modules. It is opt-in via env and set
+// only by docker/Dockerfile, so the PM2 deploys on zarrin-ng-site and nexzarrin
+// build exactly as before.
+//
+// This used to be done by swapping this file out for docker/next.config.standalone.ts
+// during the image build. That overlay imported a module that only ever existed
+// inside the build, so repo-level `tsc`/`eslint` could never resolve it (TS2307 →
+// no-unsafe-assignment) and the Dockerfile had to `rm -rf docker` to hide the same
+// error from `next build`. One env-gated field replaces all of it.
+const standaloneOutput = process.env.NEXT_BUILD_STANDALONE === '1';
+
 const nextConfig: NextConfig = {
+  ...(standaloneOutput ? { output: 'standalone' as const } : {}),
   images: {
     remotePatterns,
     // Serve modern formats (AVIF first, WebP fallback) for smaller payloads / better LCP.
