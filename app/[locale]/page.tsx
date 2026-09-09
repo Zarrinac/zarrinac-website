@@ -8,99 +8,11 @@ import CatalogDownloadSection from '@/components/catalog/CatalogDownloadSection'
 import JsonLd from '@/components/seo/JsonLd';
 import { mediaUrl } from '@/lib/mediaUrl';
 import { getLanguageAlternates, getLocaleLanguage, SITE_URL, toAbsoluteUrl } from '@/lib/seo/site';
+import { getHomeSeoContent, type HomepageLocale } from '@/content/homeSeoContent';
 
 // Locale-aware homepage renders the hero carousel and localized category spotlights.
 
 const bannerAsset = (path: string) => mediaUrl(`/banner/${path}`);
-
-type HomepageLocale = 'fa' | 'en';
-
-const HOME_SEO_CONTENT: Record<
-  HomepageLocale,
-  {
-    title: string;
-    description: string;
-    eyebrow: string;
-    heading: string;
-    paragraphs: string[];
-    trustSignals: Array<{ value: string; label: string }>;
-    quickLinks: Array<{ href: string; label: string }>;
-    catalog: {
-      eyebrow: string;
-      heading: string;
-      description: string;
-      cta: string;
-      note: string;
-    };
-  }
-> = {
-  fa: {
-    title: "زرین نمای کاسپین | بازرگانی لوازم خانگی هایسنس و برند تلویزیون دیکد D'code",
-    description:
-      "زرین نمای کاسپین، گروه بازرگانی وارد‌کننده محصولات هایسنس در ایران و صاحب‌ امتیاز برند تلویزیون دیکد D'code؛ خانه برندهای لوازم خانگی و صوتی-تصویری با خدمات سراسری.",
-    eyebrow: 'گروه زرین نمای کاسپین',
-    heading: "زرین نمای کاسپین؛ خانه برندهای هایسنس و دیکد D'code",
-    paragraphs: [
-      'شرکت زرین نمای کاسپین یک مجموعه بازرگانی در حوزه لوازم خانگی و محصولات صوتی-تصویری است که مسئولیت واردات، عرضه و پشتیبانی محصولات هایسنس در ایران را بر عهده دارد.',
-      "در کنار همکاری با هایسنس، برند اختصاصی تلویزیون دیکد (D'code) نیز توسط زرین نمای کاسپین معرفی شده است؛ خط تولید تلویزیون‌های هوشمند LED 4K مدل R6D با طراحی مدرن در سه سایز ۵۵، ۶۵ و ۷۵ اینچ.",
-      "این صفحه دروازه ورود به دنیای برندهای زرین نمای کاسپین است؛ از محصولات و خدمات هایسنس ایران تا تلویزیون‌های اختصاصی دیکد D'code و مسیرهای رسمی ارتباط با ما.",
-    ],
-    trustSignals: [
-      { value: "دیکد D'code", label: 'برند اختصاصی تلویزیون‌های هوشمند LED 4K' },
-      { value: 'هایسنس', label: 'واردات و پشتیبانی رسمی محصولات هایسنس در ایران' },
-      { value: 'خدمات سراسری', label: 'شبکه فروش و خدمات پس از فروش در سراسر کشور' },
-    ],
-    quickLinks: [
-      { href: '/dcode', label: "تلویزیون‌های دیکد D'code" },
-      { href: '/about', label: 'درباره زرین نمای کاسپین' },
-      { href: '/contact-us', label: 'تماس با ما' },
-      { href: '/warranty-and-guarantee', label: 'گارانتی و خدمات' },
-      { href: '/hisense-repair', label: 'خدمات پس از فروش هایسنس' },
-    ],
-    catalog: {
-      eyebrow: 'کاتالوگ هایسنس',
-      heading: 'کاتالوگ واردات و عرضه محصولات هایسنس',
-      description:
-        'فهرست کامل محصولات هایسنسی که زرین نمای کاسپین در ایران وارد و عرضه می‌کند؛ مشخصات فنی، ظرفیت‌ها و شماره مدل‌ها در یک فایل، برای همکاران تجاری، نمایندگان فروش و مشتریان.',
-      cta: 'دریافت کاتالوگ (PDF)',
-      note: 'فایل PDF — حدود ۱۰ مگابایت',
-    },
-  },
-  en: {
-    title: "Zarrin Namaye Caspian | Hisense Home Appliances & D'code TVs",
-    description:
-      "Zarrin Namaye Caspian imports and supports Hisense products in Iran and owns the D'code TV brand — the home of appliance and electronics brands with nationwide after-sales service.",
-    eyebrow: 'Zarrin Namaye Caspian Group',
-    heading: "Zarrin Namaye Caspian — Home of Hisense & D'code",
-    paragraphs: [
-      'Zarrin Namaye Caspian is a trading group in the home-appliance and consumer-electronics sector, responsible for importing, distributing, and supporting Hisense products across Iran.',
-      "Alongside its Hisense partnership, the company runs its own television brand, D'code — the R6D line of 4K UHD Android smart LED TVs in 55, 65, and 75 inches, with a clean, modern design.",
-      "This page is the gateway to the Zarrin Namaye Caspian brands: from Hisense Iran's products and support to the exclusive D'code TV range and our official contact channels.",
-    ],
-    trustSignals: [
-      { value: "D'code", label: 'Our own brand of 4K smart LED televisions' },
-      { value: 'Hisense', label: 'Official import and support of Hisense in Iran' },
-      { value: 'Nationwide', label: 'Sales and after-sales service across the country' },
-    ],
-    quickLinks: [
-      { href: '/dcode', label: "D'code televisions" },
-      { href: '/about', label: 'About Zarrin Namaye Caspian' },
-      { href: '/contact-us', label: 'Contact us' },
-      { href: '/warranty-and-guarantee', label: 'Warranty and service' },
-      { href: '/hisense-repair', label: 'Hisense after-sales service' },
-    ],
-    catalog: {
-      eyebrow: 'Hisense catalog',
-      heading: 'Our Hisense import and distribution catalog',
-      description:
-        'The full range of Hisense products Zarrin Namaye Caspian imports and distributes in Iran — specifications, capacities, and model numbers in a single file for trade partners, dealers, and customers.',
-      cta: 'Get the catalog (PDF)',
-      note: 'PDF file — about 10 MB',
-    },
-  },
-};
-
-// Locale-aware homepage renders the hero carousel and localized category spotlights.
 
 const SPOTLIGHT_SOURCES = [
   {
@@ -132,7 +44,7 @@ const SPOTLIGHT_SOURCES = [
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const resolvedLocale: HomepageLocale = locale === 'en' ? 'en' : 'fa';
-  const seoContent = HOME_SEO_CONTENT[resolvedLocale];
+  const seoContent = getHomeSeoContent(resolvedLocale);
   const canonical = `/${resolvedLocale}`;
   const ogImage = toAbsoluteUrl(bannerAsset('Fix-Banner-07.jpg'));
 
@@ -170,7 +82,7 @@ export default async function HomePage() {
   const categoryTranslations = await getTranslations('HomePage.categories');
   const locale = await getLocale();
   const resolvedLocale: HomepageLocale = locale === 'en' ? 'en' : 'fa';
-  const seoContent = HOME_SEO_CONTENT[resolvedLocale];
+  const seoContent = getHomeSeoContent(resolvedLocale);
   const isRTL = resolvedLocale === 'fa';
   const pageSchema = {
     '@context': 'https://schema.org',

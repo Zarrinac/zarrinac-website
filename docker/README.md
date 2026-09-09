@@ -6,6 +6,11 @@ page served from the domain, every Hisense-replica section 308-forwards to
 `https://www.hisense-ir.com`, and `/[locale]/dcode/*` 308-forwards to `https://dcode.co.ir`.
 `/admin` and `/api` stay functional.
 
+The one thing that is **not** a copy of zarrinac.com is the home copy itself. znci.ir builds
+`NEXT_PUBLIC_SITE_ID=znci`, which selects its own block in `content/homeSeoContent.ts` —
+a trade/corporate framing (ZNCI as importer and distributor) against zarrinac.com's
+consumer/brand framing. That divergence is load-bearing, not cosmetic; see **SEO** below.
+
 **Nothing in the app was changed to make this work.** `next.config.ts`, the redirect
 list, the SEO helpers and the ops scripts are untouched — zarrinac.com and
 hisense-ir.com deploy exactly as before. The whole znci identity is injected through
@@ -22,6 +27,7 @@ build_, never in the working tree.
 | `env.example`               | Template → copy to `docker/.env` (gitignored via the repo's `.env*` rule)  |
 | `next.config.standalone.ts` | Build-time overlay: re-exports the real config plus `output: 'standalone'` |
 | `../.dockerignore`          | Build-context filter, mirrors `.gitignore`                                 |
+| `deploy.sh`                 | Server deploy: pull → identity preflight → rebuild → health gate           |
 
 ## Quick start
 
@@ -145,11 +151,39 @@ Built and run on Docker 29.7.2 / Windows, image `znci-website:latest`, 503 MB:
 | `/admin` login with env creds, no DB           | 303 + `hisense_admin_session` cookie issued      |
 | Container healthcheck                          | healthy                                          |
 
-## SEO caveat
+## SEO — why the home copy differs
 
-znci.ir currently serves a home page byte-identical to zarrinac.com's. That is the same
-condition that made Google fold zarrinac.com and hisense-ir.com into one cluster in
-2026-07 (26× _"Duplicate, Google chose different canonical than user"_). Before letting
-znci.ir be indexed, either differentiate `HOME_SEO_CONTENT` for this deployment or keep
-the domain out of the index. Nothing here forces that choice — the image just reproduces
-zarrinac as asked.
+znci.ir and zarrinac.com are the only two domains this tree serves a 200 on (everything
+else 308-forwards away), so if both homes carried the same title/H1/body Google would fold
+them into one cluster and choose the canonical itself. That is not hypothetical: it is
+exactly what happened between zarrinac.com and hisense-ir.com in 2026-07, when GSC reported
+26 URLs as _"Duplicate, Google chose different canonical than user"_ and picked zarrinac.
+
+The fix is structural rather than per-deployment guesswork:
+
+- `content/homeSeoContent.ts` holds one copy block per site, selected by
+  `NEXT_PUBLIC_SITE_ID` via `getHomeSeoContent(locale)`. Keep the blocks substantively
+  different — different title, H1, body and keyword targets — not translations of one
+  another.
+- `HOME_CONTENT_LAST_MODIFIED` in `lib/seo/site.ts` is keyed the same way, so bumping
+  znci's sitemap `<lastmod>` does not falsely signal that zarrinac.com's home changed.
+- `deploy.sh` refuses to build unless `docker/.env` carries `NEXT_PUBLIC_SITE_ID=znci` and
+  `NEXT_PUBLIC_SITE_URL=https://znci.ir`. At any other value the rebuild would republish
+  znci.ir as a byte-identical copy of zarrinac.com's home, which is the whole failure mode.
+
+## Deploying on the server
+
+The live copy of the deploy script sits **outside** the repo, so a `git pull` cannot rewrite
+it mid-run (same convention as `ops/deploy.sh` for zarrinac.com):
+
+```bash
+cp /var/www/znci/app/docker/deploy.sh /var/www/znci/deploy.sh
+chmod +x /var/www/znci/deploy.sh
+/var/www/znci/deploy.sh
+```
+
+It pulls `main`, scans the build config for the malware signature that hit origin/main in
+2026-06, asserts the znci identity, rebuilds the image (`docker compose up -d --build`,
+~6 min), waits for `/fa` to answer 200, and prunes the dangling image the rebuild leaves
+behind. Any merge to `main` therefore reaches znci.ir the same way it reaches
+zarrinac.com — one command per host, no sync step, no second repo.

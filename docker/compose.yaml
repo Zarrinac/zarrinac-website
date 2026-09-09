@@ -16,7 +16,7 @@ services:
       dockerfile: docker/Dockerfile
       args:
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://znci.ir}
-        NEXT_PUBLIC_SITE_ID: ${NEXT_PUBLIC_SITE_ID:-zarrinac}
+        NEXT_PUBLIC_SITE_ID: ${NEXT_PUBLIC_SITE_ID:-znci}
         NEXT_PUBLIC_MEDIA_BASE_URL: ${NEXT_PUBLIC_MEDIA_BASE_URL:-/media}
         NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
         NEXT_PUBLIC_GTM_ID: ${NEXT_PUBLIC_GTM_ID:-}
