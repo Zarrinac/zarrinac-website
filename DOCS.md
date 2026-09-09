@@ -692,13 +692,19 @@ znci.ir is **the same repository** built with a different identity, not a fork. 
 
 Everything znci-specific lives in `docker/`:
 
-| File                               | Purpose                                                                  |
-| ---------------------------------- | ------------------------------------------------------------------------ |
-| `docker/Dockerfile`                | 3-stage build (`deps` → `builder` → `runner`), Next standalone, non-root |
-| `docker/compose.yaml`              | Port mapping, media bind-mount, runtime env                              |
-| `docker/env.example`               | Template → `docker/.env` (gitignored)                                    |
-| `docker/next.config.standalone.ts` | Build-time overlay adding `output: 'standalone'`                         |
-| `docker/deploy.sh`                 | Deploy script — canonical here, live copy at `/var/www/znci/deploy.sh`   |
+| File                  | Purpose                                                                  |
+| --------------------- | ------------------------------------------------------------------------ |
+| `docker/Dockerfile`   | 3-stage build (`deps` → `builder` → `runner`), Next standalone, non-root |
+| `docker/compose.yaml` | Port mapping, media bind-mount, runtime env                              |
+| `docker/env.example`  | Template → `docker/.env` (gitignored)                                    |
+| `docker/deploy.sh`    | Deploy script — canonical here, live copy at `/var/www/znci/deploy.sh`   |
+
+The image's only build-level difference from the PM2 deploys is `output: 'standalone'`,
+which `next.config.ts` adds when `NEXT_BUILD_STANDALONE=1` — a flag the Dockerfile sets
+and nothing else does. Before 2026-09-09 this was a config-file swap whose overlay
+imported `./next.config.site`, a module that existed only inside the image build; that is
+why repo-level `tsc` and `eslint` reported an unresolvable import in `docker/`, and why
+the Dockerfile had to `rm -rf docker` before `next build`. Both are gone.
 
 **Deploy:** same shape as zarrinac's, one command on SC1:
 
