@@ -241,6 +241,7 @@ znci.ir builds from this same repo with a different identity. Host **SC1** (open
 - `NEXT_PUBLIC_*` are **inlined at build time**, so an identity or code change needs `--build` (~6 min), never a bare restart.
 - Live script sits outside the repo (same reason as zarrinac's): `cp /var/www/znci/app/docker/deploy.sh /var/www/znci/deploy.sh && chmod +x`.
 - Host-side setup that is not in git (Docker `bip` moved off the `172.17.0.0/16` LAN range, SELinux `container_file_t` + `httpd_can_network_connect`, port bound to loopback) is documented in `docker/README.md`.
+- **TLS is live** (2026-09-09): Certum DV cert for `znci.ir` + `www.znci.ir`, **expires 2027-03-27** (DV = ~6-month life, so it renews about twice as often as zarrinac.com's wildcard — reminder for 2027-03). Chain + key at `/etc/ssl/znci/`; the vhost's canonical copy is `docker/znci-vhost.conf`. On openSUSE the `SSL` flag in `/etc/sysconfig/apache2` — not the vhost — is what opens `Listen 443`. Runbook in `docker/README.md` → "TLS".
 
 **Update flow:** one merge to `main` feeds both deployments — `/var/www/zarrinac/deploy.sh` on `zarrin-ng-site` and `/var/www/znci/deploy.sh` on SC1. No sync step, no second repo.
 
