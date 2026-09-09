@@ -1,5 +1,6 @@
 import type { Locale } from '@/i18n/routing';
-import { SITE_URL, getLocaleLanguage } from './site';
+import { mediaUrl } from '@/lib/mediaUrl';
+import { SITE_URL, getLocaleLanguage, toAbsoluteUrl } from './site';
 
 // Shared LocalBusiness structured data for contact / service pages. LocalBusiness
 // (a subtype of Organization) is the strongest signal for local/branded search and
@@ -29,7 +30,7 @@ export const buildLocalBusinessJsonLd = (locale: Locale) => {
     name: content.name,
     description: content.description,
     url: SITE_URL,
-    image: `${SITE_URL}/banner/Fix-Banner-07.webp`,
+    image: toAbsoluteUrl(mediaUrl('/banner/Fix-Banner-07.webp')),
     logo: `${SITE_URL}/icons/hisense-logo-full.svg`,
     telephone: '+98-21-72133',
     email: 'info@zarrinac.com',
