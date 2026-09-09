@@ -1,5 +1,6 @@
 import type { Locale } from '@/i18n/routing';
 import { routing } from '@/i18n/routing';
+import { SITE_ID, type SiteId } from '@/lib/siteId';
 
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zarrinac.com').replace(
   /\/$/,
@@ -15,7 +16,22 @@ export const SITE_CONTENT_LAST_MODIFIED = new Date('2026-06-18T00:00:00Z');
 // (to resolve the cross-domain "duplicate canonical" GSC issue, where Google folded the
 // two identical homepages) after the baseline above, so the home URL carries its own
 // fresher date — a targeted change signal for Google to recrawl the differentiated home.
-export const HOME_CONTENT_LAST_MODIFIED = new Date('2026-07-26T00:00:00Z');
+//
+// Per-site, because zarrinac.com and znci.ir build from this same tree with different
+// home copy (content/homeSeoContent.ts). Differentiating znci's home changes znci's home
+// only; bumping one shared constant would falsely tell Google that zarrinac.com's home
+// changed as well — the exact false-freshness signal the split above exists to avoid.
+// Bump a deployment's entry whenever you edit that deployment's home copy.
+const ZARRINAC_HOME_LAST_MODIFIED = new Date('2026-07-26T00:00:00Z');
+
+const HOME_CONTENT_LAST_MODIFIED_BY_SITE: Partial<Record<SiteId, Date>> = {
+  zarrinac: ZARRINAC_HOME_LAST_MODIFIED,
+  // znci.ir's home was given its own trade-partner copy on 2026-09-09.
+  znci: new Date('2026-09-09T00:00:00Z'),
+};
+
+export const HOME_CONTENT_LAST_MODIFIED =
+  HOME_CONTENT_LAST_MODIFIED_BY_SITE[SITE_ID] ?? ZARRINAC_HOME_LAST_MODIFIED;
 
 export type SeoBreadcrumbItem = {
   label: string;

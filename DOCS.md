@@ -2,7 +2,7 @@
 
 Marketing and support website for Zarrinac / Hisense Iran (zarrinac.com). Bi-lingual (Persian/English), SEO-first, with a full admin portal, DB-first catalog, and a retained D'code brand section.
 
-**Last updated: 2026-06-14**
+**Last updated: 2026-09-09**
 
 ---
 
@@ -556,6 +556,24 @@ All JSON-LD is rendered server-side via `components/seo/JsonLd.tsx`.
 
 `lib/seo/categorySeoContent.ts` contains long-form SEO copy and FAQ entries for each category page. Targets purchase-intent long-tail keywords: خرید/قیمت/نصب/قطعات یدکی. Rendered by `components/seo/CategorySeoSection.tsx`.
 
+### Per-site home copy (zarrinac.com vs znci.ir)
+
+This tree is deployed on two domains: **zarrinac.com** (PM2, `zarrin-ng-site`) and **znci.ir** (Docker, `SC1` — see Ops & Deployment). Both 308-forward every section except the home, so the home is the only page either domain serves with a 200. If the two homes carried the same title/H1/body, Google would fold them into one cluster and pick the canonical itself — which is exactly what happened between zarrinac.com and hisense-ir.com in 2026-07 (26 URLs reported as _"Duplicate, Google chose different canonical than user"_).
+
+`content/homeSeoContent.ts` therefore holds **one copy block per deployment**, selected by `NEXT_PUBLIC_SITE_ID` (`lib/siteId.ts`) through `getHomeSeoContent(locale)`:
+
+| Site         | `NEXT_PUBLIC_SITE_ID` | Angle                                                                          |
+| ------------ | --------------------- | ------------------------------------------------------------------------------ |
+| zarrinac.com | `zarrinac`            | Consumer / brand portfolio — Zarrin Namaye Caspian as home of Hisense + D'code |
+| znci.ir      | `znci`                | Trade / corporate — ZNCI as importer, supplier and distributor                 |
+
+Rules when editing:
+
+- Keep the two blocks **divergent in substance** — different title, H1, and body, targeting different keywords. They are not translations or variants of each other.
+- The site is resolved at **build time** (Next inlines `NEXT_PUBLIC_*`), so changing a deployment's identity requires a rebuild, never just a restart.
+- An unrecognised `NEXT_PUBLIC_SITE_ID` falls back to the zarrinac block rather than crashing.
+- `HOME_CONTENT_LAST_MODIFIED` in `lib/seo/site.ts` is likewise **per-site**. Bump only the entry for the deployment whose copy you changed — a shared bump would falsely tell Google that the other domain's home changed too.
+
 ### Sitemap & robots
 
 - `app/sitemap.ts` — native Next.js sitemap generator. Covers all locale × product URLs + static routes. Uses `SITE_CONTENT_LAST_MODIFIED` from `lib/seo/site.ts` as a stable `lastmod` baseline (bump it only when content meaningfully changes).
@@ -667,6 +685,36 @@ procedures.
 - `createdb` needs the `CREATEDB` privilege. `reza_sf` originally lacked it (`permission denied to create database`); granted permanently with `sudo -u postgres psql -c 'ALTER ROLE reza_sf CREATEDB;'`. On a fresh cluster, recreate as superuser instead: `sudo -u postgres createdb -O reza_sf zarrin`.
 - A password prompt that returns `permission denied …` or `database … does not exist` means **auth succeeded** (post-login errors) — the password is fine; the issue is privilege/state.
 - ⚠️ **Shared DB:** hisense and zarrinac share one Postgres. A drop/restore replaces **both** sites' submissions with the local snapshot — only promote when the local DB is the intended source of truth for everything.
+
+### znci.ir — second deployment of this tree
+
+znci.ir is **the same repository** built with a different identity, not a fork. It runs as a Docker container on **SC1** (openSUSE Leap 16, `172.17.0.36`), app at `/var/www/znci/app`, media at `/var/www/znci/media`, behind Apache reverse-proxying `127.0.0.1:3010`. It ships **DB-less** — every DB-backed page is 308-forwarded off the domain — so it never touches the shared `zarrin` Postgres.
+
+Everything znci-specific lives in `docker/`:
+
+| File                               | Purpose                                                                  |
+| ---------------------------------- | ------------------------------------------------------------------------ |
+| `docker/Dockerfile`                | 3-stage build (`deps` → `builder` → `runner`), Next standalone, non-root |
+| `docker/compose.yaml`              | Port mapping, media bind-mount, runtime env                              |
+| `docker/env.example`               | Template → `docker/.env` (gitignored)                                    |
+| `docker/next.config.standalone.ts` | Build-time overlay adding `output: 'standalone'`                         |
+| `docker/deploy.sh`                 | Deploy script — canonical here, live copy at `/var/www/znci/deploy.sh`   |
+
+**Deploy:** same shape as zarrinac's, one command on SC1:
+
+```bash
+/var/www/znci/deploy.sh    # git pull → identity preflight → compose up --build → health gate
+```
+
+It refuses to run if `docker/.env` does not carry `NEXT_PUBLIC_SITE_ID=znci` and `NEXT_PUBLIC_SITE_URL=https://znci.ir`. That guard is the point: at any other value the rebuild silently republishes znci.ir with zarrinac.com's home copy, recreating the duplicate-content condition described under SEO Infrastructure. Like `ops/deploy.sh`, the live copy sits outside the repo so a pull cannot rewrite the running script:
+
+```bash
+cp /var/www/znci/app/docker/deploy.sh /var/www/znci/deploy.sh && chmod +x /var/www/znci/deploy.sh
+```
+
+**Update flow:** a change merged to `main` reaches zarrinac.com via `/var/www/zarrinac/deploy.sh` and znci.ir via `/var/www/znci/deploy.sh`. There is no sync step and no second repo — that is why the two stay in step by default, and why anything intentionally different between them belongs behind `SITE_ID`, not in a divergent file.
+
+Host-side specifics (Docker `bip` moved off the LAN range, SELinux contexts, port bound to loopback) are recorded in `docker/README.md`.
 
 ---
 
