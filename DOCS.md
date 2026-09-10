@@ -419,6 +419,25 @@ What does render on this domain is the full-catalog download: the homepage CTA (
 
 Always use `mediaUrl(path)` from `lib/mediaUrl.ts`. It switches between `/` (local) and `NEXT_PUBLIC_MEDIA_BASE_URL` (CDN). Never hardcode `/media/` paths in components.
 
+**The rule is media-store vs `public/`, not "always call `mediaUrl`".** Assets in the media store (`banner/`, `products/`, `tv-banner/`, `catalog/`, … — gitignored out of `public/` and promoted with `ops/upload-media.ps1`) **must** go through `mediaUrl()`. Assets genuinely committed under `public/` — notably `public/icons/*` — **must not**: production sets `NEXT_PUBLIC_MEDIA_BASE_URL=/media`, so wrapping an `icons/` path would push it to a directory that does not exist. This is why `buildLocalBusinessJsonLd`'s `logo` stays a bare `${SITE_URL}/icons/...` while its `image` is wrapped. Fixed here 2026-09-09 (PR #37) and ported to hisense 2026-09-10 (PR #127).
+
+**A 404 in metadata or JSON-LD is invisible on screen**, so verify by requesting the emitted URL rather than loading the page:
+
+```bash
+curl -sS https://zarrinac.com/fa | grep -oE '<meta property="og:image" content="[^"]*"'
+# then curl -I whatever it emits — it must be 200
+```
+
+### Homepage hero banners
+
+`components/hero/HeroBanner.tsx` holds the carousel's `BANNERS` array; array order is slide order and every slide is `priority`, so **slide 1 is the LCP**. The home is the only Hisense-replica surface that still renders on zarrinac.com and znci.ir — every other section 308-forwards to hisense-ir.com — so banner changes are the one part of a hisense hero update that is worth porting here.
+
+**Zarrinac keeps its own final slide** (`banner-7`, `Fix-Banner-07`, alt "Zarrin Namaye Caspian featured lineup") which hisense does not carry. Port hero changes as a _delta_, never by copying hisense's array wholesale.
+
+Mobile artwork must be portrait, roughly 0.56–0.75 aspect, to survive the `aspect-9/16` mobile container's `object-cover`. A 1:1 social export cannot be **padded** to fit (tried on hisense, always seams), but it can be **cropped** when the composition survives — check by eye. Prep as `.webp` (max width 2048) into **both** `media/banner/` and `public/banner/`, then promote with `ops/upload-media.ps1`.
+
+**znci.ir gets media by bind-mount, not through the image.** `docker/compose.yaml` maps the host's media dir to `/app/public/media:ro` (`/var/www/znci/media` on SC1), so new banner files must be copied there separately — rebuilding or redeploying the container alone will not pick them up.
+
 ### D'code section
 
 D'code pages live under `/[locale]/dcode`. They use `lib/dcode/source.ts`, which queries `DcodeProduct` first and falls back to `content/DcodeProducts.ts`. The desktop nav treats D'code as a plain link: it keeps the red brand hover underline but does not open a mega-menu dropdown.
