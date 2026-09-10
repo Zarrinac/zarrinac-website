@@ -21,10 +21,16 @@ const bannerAsset = (path: string) => mediaUrl(`/banner/${path}`);
 
 const BANNERS: Banner[] = [
   {
-    id: 'banner-wc2026',
-    desktop: bannerAsset('Fix-Banner-NEW-WC2026.webp'),
-    mobile: bannerAsset('Fix-Banner-NEW-WC2026-mobile.webp'),
-    alt: 'Hisense FIFA World Cup 2026 campaign',
+    id: 'banner-08',
+    desktop: bannerAsset('Fix-Banner-08.webp'),
+    mobile: bannerAsset('Fix-Banner-08-mobile.webp'),
+    alt: 'Hisense RGB MiniLED television in a modern open-plan living room',
+  },
+  {
+    id: 'banner-09',
+    desktop: bannerAsset('Fix-Banner-09.webp'),
+    mobile: bannerAsset('Fix-Banner-09-mobile.webp'),
+    alt: 'Hisense large-capacity refrigerator open in an orchard landscape',
   },
   {
     id: 'banner-1',
