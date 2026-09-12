@@ -83,28 +83,38 @@ function emptyToUndefined(value: string | undefined) {
 }
 
 /**
- * Kohgiluyeh and Boyer-Ahmad shipped under a misspelt province label until the
- * 2026-09-12 cleanup. The label is the source of both `provinceId` and the
- * `cityId` prefix, so correcting it moved every slug for that province. Finder
- * URLs are produced only by the form itself — none are in the sitemap and
- * nothing links to them — but a bookmarked one would otherwise return an empty
- * result set, so the old slug still resolves to the corrected province here.
+ * Province labels are canonical in `lib/iranLocations.json`, and `provinceId` is
+ * a slug of the label (with `cityId` as `<provinceId>-<city>`), so correcting a
+ * misspelt label moves every slug under that province. Finder URLs carry those
+ * slugs. Nothing links to a filtered finder URL and none are in the sitemap —
+ * they are only ever produced by the form — but a bookmarked one would
+ * otherwise return an empty result set, so retired slugs still resolve here.
+ *
+ * Add an entry whenever a province label is corrected, in the same commit as the
+ * data change. Drop one only when you are content for old bookmarks to that
+ * province to return nothing.
  */
-const LEGACY_PROVINCE_ID = 'کهکیلویه-و-بویر-احمد';
-const PROVINCE_ID = 'کهگیلویه-و-بویراحمد';
+const LEGACY_LOCATION_IDS: ReadonlyMap<string, string> = new Map([
+  // ک -> گ, and بویر احمد -> بویراحمد (corrected 2026-09-12)
+  ['کهکیلویه-و-بویر-احمد', 'کهگیلویه-و-بویراحمد'],
+  // missing و (corrected 2026-09-12)
+  ['سیستان-بلوچستان', 'سیستان-و-بلوچستان'],
+]);
 
 function resolveLegacyLocationId(value: string | undefined) {
   if (!value) {
     return value;
   }
 
-  if (value === LEGACY_PROVINCE_ID) {
-    return PROVINCE_ID;
-  }
+  for (const [legacyId, currentId] of LEGACY_LOCATION_IDS) {
+    if (value === legacyId) {
+      return currentId;
+    }
 
-  // City ids are `<provinceId>-<city>`, so the prefix moves with the province.
-  if (value.startsWith(`${LEGACY_PROVINCE_ID}-`)) {
-    return `${PROVINCE_ID}${value.slice(LEGACY_PROVINCE_ID.length)}`;
+    // City ids are `<provinceId>-<city>`, so the prefix moves with the province.
+    if (value.startsWith(`${legacyId}-`)) {
+      return `${currentId}${value.slice(legacyId.length)}`;
+    }
   }
 
   return value;
