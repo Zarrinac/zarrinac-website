@@ -82,12 +82,40 @@ function emptyToUndefined(value: string | undefined) {
   return value;
 }
 
+/**
+ * Kohgiluyeh and Boyer-Ahmad shipped under a misspelt province label until the
+ * 2026-09-12 cleanup. The label is the source of both `provinceId` and the
+ * `cityId` prefix, so correcting it moved every slug for that province. Finder
+ * URLs are produced only by the form itself — none are in the sitemap and
+ * nothing links to them — but a bookmarked one would otherwise return an empty
+ * result set, so the old slug still resolves to the corrected province here.
+ */
+const LEGACY_PROVINCE_ID = 'کهکیلویه-و-بویر-احمد';
+const PROVINCE_ID = 'کهگیلویه-و-بویراحمد';
+
+function resolveLegacyLocationId(value: string | undefined) {
+  if (!value) {
+    return value;
+  }
+
+  if (value === LEGACY_PROVINCE_ID) {
+    return PROVINCE_ID;
+  }
+
+  // City ids are `<provinceId>-<city>`, so the prefix moves with the province.
+  if (value.startsWith(`${LEGACY_PROVINCE_ID}-`)) {
+    return `${PROVINCE_ID}${value.slice(LEGACY_PROVINCE_ID.length)}`;
+  }
+
+  return value;
+}
+
 export function normalizeServiceCenterFilters(
   filters: ServiceCenterFilters,
 ): NormalizedServiceCenterFilters {
   return {
-    provinceId: emptyToUndefined(filters.provinceId),
-    cityId: emptyToUndefined(filters.cityId),
+    provinceId: resolveLegacyLocationId(emptyToUndefined(filters.provinceId)),
+    cityId: resolveLegacyLocationId(emptyToUndefined(filters.cityId)),
     serviceKind: isServiceKind(filters.serviceKind) ? filters.serviceKind : undefined,
   };
 }
