@@ -552,6 +552,21 @@ Each public page implements `generateMetadata` with:
 
 Hreflang is emitted as HTML `<link rel="alternate">` tags only. The next-intl HTTP Link-header hreflang was removed (it produced malformed headers that Google ignored).
 
+### Favicon (Search results + Search Console)
+
+The icon files live in `public/` (`favicon.ico` 48×48+32×32, `favicon-96x96.png`, `favicon.svg`, `apple-touch-icon.png` 180×180, `site.webmanifest`) and have always served 200 — but until 2026-09-14 **nothing declared them in the HTML**. Files under `public/` are served, not declared; Next.js only auto-emits `<link rel="icon">` for icon files placed inside `app/` or for `metadata.icons`. Browsers hid the problem by falling back to the implicit `/favicon.ico`, but Google requires the `<link>` element in the home page `<head>`, so it never indexed a favicon — Search Console showed the generic globe for `zarrinac.com` and `hisense-ir.com` while the other properties (non-Next sites, which declare the tag) showed their marks.
+
+Fixed by `export const metadata` in **`app/layout.tsx`** (root layout, so it propagates to every route including `/admin`, and to the znci.ir deployment built from this same tree; child `generateMetadata` overrides fields individually and never touches `icons`). It declares `icon` (ico + 96px png + svg), `shortcut`, `apple`, and `manifest: '/site.webmanifest'`.
+
+Rules to keep Google happy:
+
+- Keep the favicon URLs **stable** — Google re-checks them rarely; changing paths resets the indexing clock.
+- Square and a multiple of 48px (48/96/144). Keep `/favicon.ico` at 48×48 or larger.
+- Never `Disallow` the icon paths in `app/robots.ts`; Googlebot-Image must be able to fetch them.
+- Same favicon site-wide — declaring it once in the root layout guarantees that.
+- After a deploy, the icon only appears once Google **recrawls the home page**: URL Inspection → Request indexing on the home URL. Expect days-to-weeks, not minutes.
+- `app/layout.tsx` is byte-identical with the hisense repo — port any change there too. **Open point:** this repo still ships the _same_ `favicon.ico` as hisense, so zarrinac.com and znci.ir render the Hisense mark. Given the homepages were deliberately differentiated to stop Google folding them, a distinct icon per deployment is the matching follow-up.
+
 ### JSON-LD structured data
 
 All JSON-LD is rendered server-side via `components/seo/JsonLd.tsx`.
