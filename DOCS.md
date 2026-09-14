@@ -565,7 +565,11 @@ Rules to keep Google happy:
 - Never `Disallow` the icon paths in `app/robots.ts`; Googlebot-Image must be able to fetch them.
 - Same favicon site-wide — declaring it once in the root layout guarantees that.
 - After a deploy, the icon only appears once Google **recrawls the home page**: URL Inspection → Request indexing on the home URL. Expect days-to-weeks, not minutes.
-- `app/layout.tsx` is byte-identical with the hisense repo — port any change there too. **Open point:** this repo still ships the _same_ `favicon.ico` as hisense, so zarrinac.com and znci.ir render the Hisense mark. Given the homepages were deliberately differentiated to stop Google folding them, a distinct icon per deployment is the matching follow-up.
+- `app/layout.tsx` is byte-identical with the hisense repo — port any change there too.
+
+**Shared icon: an intentional temporary state, not an unfinished task.** This repo ships the _same_ `favicon.ico` as hisense (identical md5), so zarrinac.com and znci.ir will render the Hisense mark once Google indexes it. That is a deliberate decision taken on 2026-09-14: declaring _an_ icon beats declaring none, and the site owner is preparing dedicated zarrinac and znci marks to drop in later. Nothing in this repo blocks on it, and no ship is incomplete because of it.
+
+When the replacement icons arrive the swap is: replace `public/favicon.ico`, `public/favicon.svg`, `public/favicon-96x96.png`, `public/apple-touch-icon.png` and `public/web-app-manifest-{192,512}.png` — **keeping the filenames and paths exactly as they are** (Google re-checks favicon URLs rarely; moving them restarts the indexing clock) — then deploy and request a recrawl of the home page. Do **not** touch `app/layout.tsx`; it already points at these paths.
 
 ### JSON-LD structured data
 
@@ -765,7 +769,19 @@ Host-side specifics (Docker `bip` moved off the LAN range, SELinux contexts, por
 - **Security headers:** CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy set in `next.config.ts`.
 - **No `new PrismaClient()`** in pages/routes — always import the singleton from `lib/db.ts`.
 - **Input validation** at API boundaries: Zod schemas for complaints and surveys; never trust raw body data.
-- **PostCSS malware note (2026-06-06):** `postcss.config.mjs` was found to contain blockchain/C2 malware and was removed. If you inherit this repo, rotate all secrets and audit the upstream `Zarrinac` branch.
+- **PostCSS malware (2026-06-06; remediated here 2026-07-08 via PR #26; branches cleaned 2026-09-14):** `postcss.config.mjs` was found to contain blockchain/C2 malware. `main` is clean (116 B, blob `6a83185`) and a `prebuild` guard (`scripts/scan-build-config.mjs`, wired as npm `prebuild`) aborts the build if the signature reappears; `ops/deploy.sh` and `docker/deploy.sh` both scan as well.
+
+  **Branch sweep, 2026-09-14.** Cleaning `main` never touched the other refs, and three branches here were still hosting live payloads on `origin`:
+
+  | Branch                                         | Blob      | Why it was safe to delete                                                                                  |
+  | ---------------------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------- |
+  | `dev`                                          | `6c2e1fb` | stale since PR #3; `postcss.config.mjs` was its **only** diff vs `main` — the payload was the whole branch |
+  | `chore/gitignore-graphify-out`                 | `343f54f` | orphan, **no merge base** with `main`; its `.gitignore` line is already in `main`                          |
+  | `security/prebuild-guard-and-graphify-cleanup` | `343f54f` | orphan, no merge base; the `prebuild` guard it claims to add is already in `main`                          |
+
+  All three deleted from `origin` on 2026-09-14, the same pass that cleaned hisense-website and dcode-website. **This repo now has exactly one branch: `main`** — keep it that way; a stray long-lived branch is what let the payload survive two earlier remediations. Force-push and deletion are blocked on `main` (`enforce_admins=true`).
+
+  If you inherit this repo: rotate all secrets, keep the `prebuild` guard, and keep force-push and deletion blocked on `main`.
 
 ---
 
