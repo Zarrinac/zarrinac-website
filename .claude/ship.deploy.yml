@@ -1,0 +1,112 @@
+# Deploy procedure for the zarrinac tree, as used by the `ship` skill.
+# Discovered from CLAUDE.md + ops/deploy.sh + docker/deploy.sh on 2026-09-14 and
+# verified against both live servers. No secrets here — credentials live in each
+# server's .env and in ~/.ssh/config on the dev machine.
+#
+# ONE repo, TWO deployments. A single merge to main feeds both; there is no sync
+# step and no second repo. Deploy both unless told otherwise, or the two domains
+# drift apart in what they serve.
+
+targets:
+  - name: zarrinac.com
+    ssh_host: zarrin-ng-site # ~/.ssh/config alias -> reza@172.17.0.19 (Ubuntu)
+    app_dir: /var/www/zarrinac/app
+    branch: main # the server only ever sits on main, and only pulls
+    process_manager: pm2
+    process_name: zarrinac # confirm with `pm2 jlist` if a reload ever no-ops
+    web_server: apache
+    run:
+      command: /var/www/zarrinac/deploy.sh
+      # Non-interactive ssh does not source ~/.bashrc, so nvm is absent from PATH.
+      # deploy.sh sources nvm itself; anything run alongside it must do this:
+      shell_prelude: 'export NVM_DIR="$HOME/.nvm"; . "$NVM_DIR/nvm.sh"'
+      log: /var/log/zarrinac-deploy.log
+      timeout_seconds: 900 # cold `npm ci` + Next build runs ~5-8 min
+    steps:
+      - git restore public/sitemap-0.xml # legacy generated file blocks the pull
+      - git pull origin main
+      - malware signature scan of build config (aborts on hit)
+      - node ops/preflight.mjs # identity/config preflight
+      - npm ci # full install: the server build needs devDependencies
+      - npm run db:deploy # prisma migrate deploy
+      - rm -rf .next/cache # else ISR/Data Cache serves pre-deploy content
+      - link public/media -> /var/www/zarrinac/media
+      - npm run build
+      - pm2 reload ecosystem.config.cjs --update-env
+    health_check:
+      # zarrinac.com times out from an Iran vantage point while being perfectly
+      # healthy externally — never call it down from here. Probe on the box.
+      urls:
+        - http://127.0.0.1:3000/fa
+        - http://127.0.0.1:3000/en
+      data_source_probe: curl -sI localhost:3000/api/products | grep -i x-data-source
+      expect_status: 200
+      retries: 3
+
+  - name: znci.ir
+    ssh_host: sc1 # ~/.ssh/config alias -> reza@172.17.0.36 (also `znci-sc1`)
+    app_dir: /var/www/znci/app
+    branch: main
+    process_manager: docker-compose # container `znci-website`, host port 3010
+    web_server: apache # docker/znci-vhost.conf
+    run:
+      command: /var/www/znci/deploy.sh
+      log: /var/log/znci-deploy.log
+      timeout_seconds: 900 # image build from scratch
+    steps:
+      - git pull origin main
+      - malware signature scan of build config (aborts on hit)
+      - identity preflight — ABORTS unless docker/.env has
+        NEXT_PUBLIC_SITE_ID=znci and NEXT_PUBLIC_SITE_URL=https://znci.ir
+      - docker compose -f docker/compose.yaml up -d --build
+      - built-in health gate (~150s) on http://127.0.0.1:3010/fa
+      - docker image prune -f
+    health_check:
+      urls:
+        - http://127.0.0.1:3010/fa
+      expect_status: 200
+      retries: 3
+      note: >-
+        znci.ir has no public A record as of 2026-09-10 (NODATA, not NXDOMAIN) —
+        the zone and the app are both healthy, the DNS record is simply missing.
+        Do not treat a failed public probe as a failed deploy until that is fixed.
+
+migrations:
+  command: npm run db:deploy # zarrinac.com only; znci builds run it in-image
+  # ALWAYS check before deploying; stop and ask if anything destructive is pending.
+  preflight: npx prisma migrate status
+  # Postgres is SHARED with hisense-ir.com — a schema change hits both sites.
+  shared_with: hisense-ir.com
+
+seeds:
+  auto: false
+  manual: cd /var/www/zarrinac/app && npm run db:seed:representatives
+
+rollback:
+  # Snapshot `git rev-parse HEAD` in the app dir BEFORE deploying, then:
+  zarrinac: cd /var/www/zarrinac/app && git reset --hard <snapshot-sha> && /var/www/zarrinac/deploy.sh
+  znci: cd /var/www/znci/app && git reset --hard <snapshot-sha> && /var/www/znci/deploy.sh
+  note: >-
+    Confirm the rollback is healthy before reporting. PM2 caches injected env, so
+    if ecosystem.config.cjs changed, `pm2 reload` will NOT drop stale vars —
+    use `pm2 delete zarrinac && pm2 start ecosystem.config.cjs && pm2 save`.
+
+sync_script: |
+  # Only after a PR changed ops/deploy.sh or docker/deploy.sh — the live scripts
+  # sit OUTSIDE the repo so a pull can never rewrite a script mid-execution:
+  cp /var/www/zarrinac/app/ops/deploy.sh /var/www/zarrinac/deploy.sh && chmod +x /var/www/zarrinac/deploy.sh
+  cp /var/www/znci/app/docker/deploy.sh /var/www/znci/deploy.sh       && chmod +x /var/www/znci/deploy.sh
+
+gotchas:
+  - >-
+    ecosystem.config.cjs (server-only, gitignored) must hold ONLY NODE_ENV. Vars
+    duplicated there silently override .env and never travel through a PR.
+  - 'Run the deploy as `reza`, never root — a root-owned .next breaks PM2.'
+  - >-
+    Files that MUST stay byte-identical with the hisense repo — prisma/,
+    lib/siteId.ts, app/layout.tsx, and the 6 product-JSON-LD files. Port changes
+    to both repos in the same session or the two deploys drift.
+  - >-
+    The three homepages (zarrinac.com, znci.ir, hisense-ir.com) must stay
+    substantively different — identical homes on separate domains is the
+    duplicate-content condition that already cost hisense a canonical.
