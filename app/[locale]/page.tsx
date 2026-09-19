@@ -1,6 +1,7 @@
+import { resolvePageLocale, type LocalePageProps } from '@/i18n/pageLocale';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import HeroBanner from '@/components/hero/HeroBanner';
 import CategorySpotlights from '@/components/home/CategorySpotlights';
 import type { SpotlightCard } from '@/components/home/CategorySpotlights';
@@ -41,8 +42,8 @@ const SPOTLIGHT_SOURCES = [
   },
 ] as const satisfies ReadonlyArray<Pick<SpotlightCard, 'id' | 'href' | 'image' | 'mobileImage'>>;
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = await getLocale();
+export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const resolvedLocale: HomepageLocale = locale === 'en' ? 'en' : 'fa';
   const seoContent = getHomeSeoContent(resolvedLocale);
   const canonical = `/${resolvedLocale}`;
@@ -78,9 +79,9 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function HomePage() {
+export default async function HomePage({ params }: LocalePageProps) {
+  const locale = await resolvePageLocale(params);
   const categoryTranslations = await getTranslations('HomePage.categories');
-  const locale = await getLocale();
   const resolvedLocale: HomepageLocale = locale === 'en' ? 'en' : 'fa';
   const seoContent = getHomeSeoContent(resolvedLocale);
   const isRTL = resolvedLocale === 'fa';

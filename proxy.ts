@@ -138,6 +138,26 @@ export default async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // next-intl would otherwise intercept '/' with a temporary locale redirect,
+  // before app/page.tsx can issue its permanent canonical-home redirect.
+  if (pathname === '/') {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${routing.defaultLocale}`;
+    return NextResponse.redirect(url, 308);
+  }
+
+  // Normalize before Next's static-file lookup. On case-insensitive filesystems
+  // a prebuilt lowercase page can otherwise serve a mixed-case URL without
+  // reaching the page-level canonical redirect. Keep the query string intact.
+  if (
+    /^\/(fa|en)\/(?:products\/[^/]+(?:\/[^/]+)?|refrigerator\/[^/]+)\/?$/i.test(pathname) &&
+    pathname !== pathname.toLowerCase()
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.toLowerCase();
+    return NextResponse.redirect(url, 308);
+  }
+
   return intlMiddleware(request);
 }
 

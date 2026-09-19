@@ -1,3 +1,4 @@
+import { resolvePageLocale } from '@/i18n/pageLocale';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -42,7 +43,7 @@ function getImageAsset(key: AboutImageKey): string {
 }
 
 export async function generateMetadata(props: AboutPageProps): Promise<Metadata> {
-  const { locale } = await props.params;
+  const locale = await resolvePageLocale(props.params);
   const content = resolveAboutContent(locale);
   const metadataBase = new URL(SITE_URL);
   const localizedPath = `/${locale}/about`;
@@ -81,7 +82,7 @@ export async function generateMetadata(props: AboutPageProps): Promise<Metadata>
 }
 
 export default async function AboutPage({ params }: AboutPageProps) {
-  const { locale } = await params;
+  const locale = await resolvePageLocale(params);
   const content = resolveAboutContent(locale);
   const isRTL = locale === 'fa';
   const heroImage = content.hero.imageKey ? getImageAsset(content.hero.imageKey) : null;
@@ -110,7 +111,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
             {
               href: `/${locale}`,
               label: 'صفحه اصلی هایسنس ایران',
-              description: 'مرجع رسمی برند، دسته‌بندی محصولات و سیگنال اصلی جستجوی برند.',
+              description: 'مشاهده دسته‌بندی محصولات هایسنس و دسترسی به اطلاعات فروش و خدمات.',
             },
             {
               href: `/${locale}/contact-us`,
@@ -141,7 +142,8 @@ export default async function AboutPage({ params }: AboutPageProps) {
             {
               href: `/${locale}`,
               label: 'Hisense Iran homepage',
-              description: 'Official brand hub for products, categories, and core entity signals.',
+              description:
+                'Explore Hisense product categories and find sales and service information.',
             },
             {
               href: `/${locale}/contact-us`,

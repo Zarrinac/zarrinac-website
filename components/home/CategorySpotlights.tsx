@@ -1,8 +1,6 @@
-'use client';
-
 import Link from 'next/link';
-import Image, { type StaticImageData } from 'next/image';
-import { useEffect, useState } from 'react';
+import type { StaticImageData } from 'next/image';
+import ResponsiveImage from '@/components/ResponsiveImage';
 import { HiArrowLongRight } from 'react-icons/hi2';
 
 // Category spotlight grid linking to major product lines.
@@ -31,17 +29,6 @@ export default function CategorySpotlights({
   items,
   locale,
 }: CategorySpotlightsProps) {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 768px)');
-    const update = () => setIsMobile(mediaQuery.matches);
-    update();
-
-    mediaQuery.addEventListener('change', update);
-    return () => mediaQuery.removeEventListener('change', update);
-  }, []);
-
   if (!items.length) {
     return null;
   }
@@ -91,10 +78,10 @@ export default function CategorySpotlights({
               aria-label={`${item.cta} - ${item.title}`}
             >
               <div className="relative w-full overflow-hidden bg-black aspect-25/32 md:aspect-56/25">
-                <Image
-                  src={isMobile && item.mobileImage ? item.mobileImage : item.image}
+                <ResponsiveImage
+                  src={item.image}
+                  mobileSrc={item.mobileImage}
                   alt={item.title}
-                  fill
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 group-focus-visible:scale-105 motion-reduce:transform-none motion-reduce:transition-none"
                   sizes="100vw"
                 />

@@ -8,18 +8,18 @@ import {
   setRequestLocale,
 } from 'next-intl/server';
 import Header from '@/components/Header';
+import Document from '@/components/Document';
 import Footer from '@/components/Footer';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
 import StructuredData from '@/components/seo/StructuredData';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { routing, type Locale } from '@/i18n/routing';
 import { getSeoKeywords } from '@/lib/seo/keywords';
-import { toAbsoluteUrl } from '@/lib/seo/site';
+import { SITE_URL, toAbsoluteUrl } from '@/lib/seo/site';
 import { mediaUrl } from '@/lib/mediaUrl';
 
 // Locale layout validates the locale, wires translations/theme, and applies shared page chrome.
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zarrinac.com';
 // Build the share image through mediaUrl so it picks up NEXT_PUBLIC_MEDIA_BASE_URL;
 // hardcoding `${SITE_URL}/banner/...` drops the /media prefix and 404s.
 const OG_IMAGE_URL = toAbsoluteUrl(mediaUrl('/banner/Fix-Banner-07.webp'));
@@ -150,16 +150,18 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const pageContainerClass = 'mx-auto w-full max-w-[120rem] px-4 sm:px-6 lg:px-10';
 
   return (
-    <ThemeProvider>
-      <StructuredData locale={typedLocale} />
-      <NextIntlClientProvider locale={typedLocale} messages={messages}>
-        <Header />
-        <div className={pageContainerClass}>
-          <main>{children}</main>
-          <Footer />
-        </div>
-        <ScrollToTopButton />
-      </NextIntlClientProvider>
-    </ThemeProvider>
+    <Document locale={typedLocale}>
+      <ThemeProvider>
+        <StructuredData locale={typedLocale} />
+        <NextIntlClientProvider locale={typedLocale} messages={messages}>
+          <Header />
+          <div className={pageContainerClass}>
+            <main>{children}</main>
+            <Footer />
+          </div>
+          <ScrollToTopButton />
+        </NextIntlClientProvider>
+      </ThemeProvider>
+    </Document>
   );
 }

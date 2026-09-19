@@ -57,6 +57,7 @@ export type ApiExperienceSection = {
 export type ApiProduct = {
   id: string;
   slug: string;
+  updatedAt?: string;
   category: ProductCategory;
   sku?: string | null;
   size?: string | null;

@@ -1,3 +1,4 @@
+import { resolvePageLocale, type LocalePageProps } from '@/i18n/pageLocale';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
@@ -6,7 +7,7 @@ import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import RouteHero from '@/components/routes/RouteHero';
 import JsonLd from '@/components/seo/JsonLd';
 import OfficialLinksSection from '@/components/seo/OfficialLinksSection';
@@ -492,8 +493,8 @@ const SURVEY_CONTENT: Record<Locale, SurveyPageContent> = {
   },
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as Locale;
+export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.survey');
   const localizedPath = `/${locale}/survey`;
   const languageAlternates = getLanguageAlternates('/survey');
@@ -509,8 +510,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function SurveyPage() {
-  const locale = (await getLocale()) as Locale;
+export default async function SurveyPage({ params }: LocalePageProps) {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.survey');
   const content = SURVEY_CONTENT[locale];
   const breadcrumbItems = createBreadcrumbItems(locale, {

@@ -45,7 +45,7 @@ const ComparisonSections = ({ sections, comparisonLabels, lang }: ComparisonSect
                   />
                 </div>
                 <div className={`space-y-2.5 lg:space-y-4 ${textOrder}`}>
-                  <h3 className="text-xl font-bold sm:text-2xl md:text-3xl">{section.title}</h3>
+                  <h2 className="text-xl font-bold sm:text-2xl md:text-3xl">{section.title}</h2>
                   <p className="text-sm leading-relaxed text-(--text-muted-color) md:text-base">
                     {section.text}
                   </p>

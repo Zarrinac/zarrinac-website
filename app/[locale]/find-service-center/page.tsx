@@ -1,5 +1,6 @@
+import { resolvePageLocale, type LocalePageProps } from '@/i18n/pageLocale';
 import type { Metadata } from 'next';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import JsonLd from '@/components/seo/JsonLd';
 import OfficialLinksSection from '@/components/seo/OfficialLinksSection';
 import PageBreadcrumbs from '@/components/seo/PageBreadcrumbs';
@@ -142,7 +143,7 @@ const PAGE_CONTENT = {
   },
 } satisfies Record<Locale, unknown>;
 
-type FindServiceCenterPageProps = {
+type FindServiceCenterPageProps = LocalePageProps & {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
@@ -150,8 +151,8 @@ function firstSearchValue(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as Locale;
+export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.findServiceCenter');
   const localizedPath = `/${locale}/find-service-center`;
   const languageAlternates = getLanguageAlternates('/find-service-center');
@@ -178,8 +179,11 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function FindServiceCenterPage({ searchParams }: FindServiceCenterPageProps) {
-  const locale = (await getLocale()) as Locale;
+export default async function FindServiceCenterPage({
+  params,
+  searchParams,
+}: FindServiceCenterPageProps) {
+  const locale = await resolvePageLocale(params);
   const content = PAGE_CONTENT[locale];
   const routeTranslations = await getTranslations('Routes.findServiceCenter');
   const breadcrumbItems = createBreadcrumbItems(locale, {

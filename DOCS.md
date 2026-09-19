@@ -582,13 +582,55 @@ All JSON-LD is rendered server-side via `components/seo/JsonLd.tsx`.
 | `LocalBusiness`               | Contact page, service-center pages (`lib/seo/localBusiness.ts`)                                     |
 | `Product`                     | Product detail pages (`lib/seo/productSchema.ts`)                                                   |
 | `CollectionPage` + `ItemList` | Category listing pages                                                                              |
-| `BreadcrumbList`              | All product detail pages (`components/seo/PageBreadcrumbs.tsx`)                                     |
+| `BreadcrumbList`              | Content + listing pages via `components/seo/PageBreadcrumbs.tsx` (see note below)                   |
 | `FAQPage`                     | FAQ page + product detail pages (`components/seo/ProductFaqSection.tsx`)                            |
 | `VideoObject`                 | Product detail pages with a `heroVideoUrl` (`buildVideoObjectJsonLd` in `lib/seo/productSchema.ts`) |
 
-**Product `offers` rule:** No prices are published (rial volatility). `buildProductJsonLd` in `lib/seo/productSchema.ts` emits no `offers` by default. It auto-emits a valid `Offer` only when a positive `price` is passed. Never emit a price-less `Offer` — it's invalid for Google rich results.
+**Product `offers` rule:** No prices are published (rial volatility). `buildProductJsonLd` in `lib/seo/productSchema.ts` returns null by default (no `Product` node); `WebPage` and `Thing` describe the unpriced product. It auto-emits a valid `Offer` only when a positive `price` is passed. Never emit a price-less `Offer` — it's invalid for Google rich results.
+
+**Breadcrumbs are emitted two different ways.** `components/seo/PageBreadcrumbs.tsx` renders a
+JSON-LD `BreadcrumbList` and is used by the content and listing pages (about, contact-us,
+hisense-repair, find-service-center, category and refrigerator listings). **Product detail pages
+do not use it** — they render `components/tv/product-detail/Breadcrumbs.tsx`, which expresses the
+same `BreadcrumbList` as inline **microdata** (`itemScope` / `itemType="https://schema.org/BreadcrumbList"`),
+not JSON-LD. Both are valid to Google. Earlier revisions of this table listed
+detail pages under the JSON-LD component, which was inaccurate; the implementation is correct and
+was deliberately left alone.
 
 **Hero videos are self-hosted.** Product `heroVideoUrl`s point at first-party files under the product media folders (e.g. `products/tvs/U7K-Files/u7k-hero.mp4`), resolved via `mediaUrl()` — not third-party hotlinks. Self-hosting is what makes the `VideoObject`'s `contentUrl` a valid first-party claim for video rich results. Compress masters to web-optimized 1080p H.264 (`-crf 21 -movflags +faststart -an`, downscale 4K → 1080p) before placing them under `public/products/` (local) and the `media/` staging folder (promoted to the server via `ops/upload-media.ps1`). Keep the originals as backups outside the synced `media/` folder.
+
+### Rendering contract (ported from hisense, 2026-09-19)
+
+Ported from hisense PR #135 (`8b217e6`) to restore the shared-file invariant. **Read this first: every
+route the batch touches 308-redirects away on zarrinac.com and znci.ir**, so these fixes are latent
+here. They exist to keep the shared files byte-identical for future ports, not to change what either
+domain serves. The home page is the only 200 on either domain.
+
+Public pages seed next-intl from route params with `resolvePageLocale` (`i18n/pageLocale.ts`); shared
+html/body markup lives in `components/Document.tsx`. A root 404 must use explicit translations
+(`NotFoundContent`) without mutating the request locale — setting the default locale in that boundary
+turned English titles Persian during prerendering on hisense and was corrected before completion.
+
+Listings, detail pages and APIs read `lib/api/products/source.ts` directly, avoiding build-time HTTP
+requests to the application itself. Category listings and detail pages prerender with 3600-second
+ISR; detail static params enumerate **both** category and product ID, because category-page params
+are not inherited by a child route. The service-center page stays dynamic for query filtering.
+
+Product URL case normalization happens in `proxy.ts` before static-file lookup, and page-level
+redirects resolve product ID/slug aliases - keep direct catalog links lowercase. The footer points
+directly at the canonical `/products/rac` and `/products/cac` routes instead of the `/rac` and `/cac`
+permanent redirects. `ResponsiveImage` handles mobile/desktop art direction without client-side
+source replacement; only the first displayed carousel slide is prioritized. Product heading and
+breadcrumb markup is shared across viewport sizes, so a detail page emits exactly one `<h1>`.
+
+JSON-LD escapes `<` before script embedding, and an empty video thumbnail suppresses `VideoObject`.
+`buildProductJsonLd` still returns null without a genuine offer, so **no `@type: Product` node is
+emitted**. Visible FAQs and their markup are retained as semantic data; Google
+[retired FAQ rich results in May 2026](https://developers.google.com/search/updates#may-2026).
+
+**Not ported:** `app/sitemap.ts` (homepage-only here by design), `PRODUCT_CONTENT_LAST_MODIFIED` in
+`lib/seo/site.ts` (used only by hisense's catalog sitemap) and `seo/audit-2026-09-19.md` (an audit of
+hisense production, not this deployment).
 
 ### SEO copy for category pages
 

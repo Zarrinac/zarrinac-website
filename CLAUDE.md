@@ -18,7 +18,7 @@ Stack: Next.js 16 App Router · React 19 · TypeScript 6 · PostgreSQL + Prisma 
 - Preserve/extend per-page `generateMetadata` (title, description, `alternates.canonical`, `alternates.languages` hreflang).
 - Keep one — and only one — `<h1>` per page; use semantic heading order (h1 → h2 → h3).
 - Maintain JSON-LD: `Organization` + `WebSite` (global), `LocalBusiness` (contact/service-center), `Product` (detail pages), `CollectionPage`/`ItemList` (category pages), `BreadcrumbList`, `FAQPage` (FAQ + category copy).
-- **Product `offers` decision:** no prices are published (rial volatility), so `buildProductJsonLd` emits **no `offers`** by default. It auto-emits a valid `Offer` when a positive `price` is passed — add a `price` field to the Product model + `ApiProduct` and pass it through to unlock product rich results. Don't emit a price-less Offer (invalid for Google).
+- **Product `offers` decision:** no prices are published (rial volatility), so `buildProductJsonLd` returns **null (no Product node)** by default; the page retains `WebPage`/`Thing` information. It auto-emits a valid `Offer` when a positive `price` is passed — add a `price` field to the Product model + `ApiProduct` and pass it through to unlock product rich results. Don't emit a price-less Offer (invalid for Google).
 - Category SEO copy + FAQs live in `lib/seo/categorySeoContent.ts` (target purchase-intent long-tail: خرید/قیمت/نصب/قطعات یدکی). Keywords in `seo/keywords.txt`.
 - Every `<Image>` needs descriptive, localized `alt`. Hero/LCP images use `priority`.
 - **Favicon:** declared via `metadata.icons` in `app/layout.tsx` (root layout, propagates everywhere — and to znci.ir, which builds from this tree). Files in `public/` are served but never declared — Google requires a `<link rel="icon">` in the home page `<head>` or it indexes no favicon (GSC showed the generic globe until 2026-09-14). Keep the icon URLs stable; see DOCS.md → "Favicon".
@@ -100,6 +100,7 @@ D'code is a **separate TV brand** from Hisense, kept deliberately independent so
 
 ### Localization
 
+- **Public page/metadata entry points:** call `resolvePageLocale(params)` before translation APIs so static rendering does not read locale headers.
 - **Server components:** `getTranslations('Namespace')` → `t('key')`
 - **Client components:** `useTranslations('Namespace')`
 - Keys are namespaced by page/feature (e.g., `Routes.Complaint`, `Header`, `TvHisensePage`)
@@ -183,6 +184,35 @@ Printed-catalog code (`lib/catalog/catalogAssets.ts`, `components/catalog/*`) is
 8. **DB is primary, JSON is fallback** — `lib/serviceCenterSource.ts`, `lib/iranLocationSource.ts`, and `lib/dcode/source.ts` query the database first. The JSON/TS content files (`lib/*.json`, `content/DcodeProducts.ts`) are emergency fallbacks, not the authoritative data source.
 
 9. **`db:seed` runs through an orchestrator** — `npm run db:seed` invokes `scripts/seed-all.mjs`, not a plain `&&` chain. On Windows + Node the `tsx` + `@prisma/adapter-pg` + `pg` Pool teardown intermittently exits non-zero **after** the seed already committed. The runner keys success off each seed's completion sentinel (e.g. `"D'code seed complete."`) rather than the exit code, so a benign post-commit teardown crash doesn't abort the remaining seeds — but a real failure (no sentinel) still fails the run. Add new seeds to the `SEEDS` array with their sentinel string.
+
+## SEO rendering and catalog port (2026-09-19)
+
+Ported from the hisense repo (PR #135, `8b217e6`) to restore the shared-file invariant. **Every
+route this batch touches 308-redirects away on both deployments** (`HISENSE_SECTIONS` + `/dcode` in
+`next.config.ts`), so the rendering fixes are _latent_ here — they keep the shared files identical
+for future ports, they do not change what zarrinac.com or znci.ir serve. The home page is the only
+200 on either domain, and it is the one place the port has visible effect.
+
+- `app/layout.tsx` shares metadata/styles only. `components/Document.tsx` supplies html/body with an
+  explicit locale in the locale, admin and root-404 boundaries. Keep root 404 copy explicit via
+  `NotFoundContent`; **never call `setRequestLocale(defaultLocale)` there** — Next also prepares this
+  boundary during normal rendering and the mutation can turn English metadata Persian.
+- Public pages seed next-intl from route params via `resolvePageLocale` (`i18n/pageLocale.ts`)
+  instead of `getLocale()`, so static rendering never reads locale headers.
+- `lib/api/products/source.ts` is the shared DB-first catalog used by the API, pages, static params
+  and detail lookup, so a nonempty DB catalog cannot resurrect a deleted bundled model. Category and
+  detail routes each enumerate their own params — a parent **page** does not feed
+  `generateStaticParams` to a child route.
+- `proxy.ts` lowercases catalog paths before static-file lookup. Product banners render one
+  responsive h1/breadcrumb (previously two). `ResponsiveImage` does art direction without client-side
+  source swapping; only the first carousel slide is high priority. Feature sections stay visible
+  without an IntersectionObserver.
+- `buildProductJsonLd` still returns **null** without a genuine offer — the null-`Product` policy is
+  unchanged, and no `@type: Product` node is emitted on either site.
+
+**Deliberately not ported:** `app/sitemap.ts` (this repo's sitemap is homepage-only by design — see
+"Sitemap & robots"), `lib/seo/site.ts`'s `PRODUCT_CONTENT_LAST_MODIFIED` (only hisense's sitemap uses
+it) and `seo/audit-2026-09-19.md` (an audit of hisense production).
 
 ## Environment Variables
 

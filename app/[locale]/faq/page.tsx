@@ -1,3 +1,4 @@
+import { resolvePageLocale, type LocalePageProps } from '@/i18n/pageLocale';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
@@ -5,7 +6,7 @@ import AcUnitOutlinedIcon from '@mui/icons-material/AcUnitOutlined';
 import LiveTvOutlinedIcon from '@mui/icons-material/LiveTvOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import RouteHero from '@/components/routes/RouteHero';
 import JsonLd from '@/components/seo/JsonLd';
 import OfficialLinksSection from '@/components/seo/OfficialLinksSection';
@@ -402,8 +403,8 @@ const FAQ_CONTENT: Record<Locale, FaqPageContent> = {
   },
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as Locale;
+export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.faq');
   const localizedPath = `/${locale}/faq`;
   const languageAlternates = getLanguageAlternates('/faq');
@@ -434,8 +435,8 @@ function getFaqAnswerText(item: FaqItem) {
   return [...item.answer, ...(item.list ?? [])].join(' ');
 }
 
-export default async function FaqPage() {
-  const locale = (await getLocale()) as Locale;
+export default async function FaqPage({ params }: LocalePageProps) {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.faq');
   const content = FAQ_CONTENT[locale];
   const breadcrumbItems = createBreadcrumbItems(locale, {

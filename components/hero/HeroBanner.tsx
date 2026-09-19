@@ -1,8 +1,10 @@
 'use client';
 
-// Homepage hero carousel with image preloading and Embla autoplay controls.
-import Image, { type StaticImageData } from 'next/image';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+// Homepage hero carousel with responsive images and Embla autoplay controls.
+import type { StaticImageData } from 'next/image';
+import { useLocale } from 'next-intl';
+import ResponsiveImage from '@/components/ResponsiveImage';
+import { useCallback, useEffect, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
@@ -14,7 +16,7 @@ type Banner = {
   id: string;
   desktop: ImageSource;
   mobile?: ImageSource;
-  alt: string;
+  alt: { fa: string; en: string };
 };
 
 const bannerAsset = (path: string) => mediaUrl(`/banner/${path}`);
@@ -24,94 +26,63 @@ const BANNERS: Banner[] = [
     id: 'banner-08',
     desktop: bannerAsset('Fix-Banner-08.webp'),
     mobile: bannerAsset('Fix-Banner-08-mobile.webp'),
-    alt: 'Hisense RGB MiniLED television in a modern open-plan living room',
+    alt: {
+      fa: 'تلویزیون RGB MiniLED هایسنس در اتاق نشیمن مدرن',
+      en: 'Hisense RGB MiniLED television in a modern open-plan living room',
+    },
   },
   {
     id: 'banner-09',
     desktop: bannerAsset('Fix-Banner-09.webp'),
     mobile: bannerAsset('Fix-Banner-09-mobile.webp'),
-    alt: 'Hisense large-capacity refrigerator open in an orchard landscape',
+    alt: {
+      fa: 'یخچال‌های جادار سری Space هایسنس با فناوری بدون برفک',
+      en: 'Hisense Space refrigerator range with large capacity and Total No Frost',
+    },
   },
   {
     id: 'banner-1',
     desktop: bannerAsset('Fix-Banner-02-Back.webp'),
     mobile: bannerAsset('Fix-Banner-02-Back-mobile.webp'),
-    alt: 'Hisense flagship lineup hero 1',
+    alt: { fa: 'محصولات خانگی هایسنس؛ مجموعه اول', en: 'Hisense home appliance collection 1' },
   },
   {
     id: 'banner-2',
     desktop: bannerAsset('Fix-Banner-03-Back.webp'),
     mobile: bannerAsset('Fix-Banner-03-Back-mobile.webp'),
-    alt: 'Hisense flagship lineup hero 2',
+    alt: { fa: 'محصولات خانگی هایسنس؛ مجموعه دوم', en: 'Hisense home appliance collection 2' },
   },
   {
     id: 'banner-3',
     desktop: bannerAsset('Fix-Banner-04-Back.webp'),
     mobile: bannerAsset('Fix-Banner-04-Back-mobile.webp'),
-    alt: 'Hisense flagship lineup hero 3',
+    alt: { fa: 'محصولات خانگی هایسنس؛ مجموعه سوم', en: 'Hisense home appliance collection 3' },
   },
   {
     id: 'banner-4',
     desktop: bannerAsset('Fix-Banner-05-Back.webp'),
     mobile: bannerAsset('Fix-Banner-05-Back-mobile.webp'),
-    alt: 'Hisense flagship lineup hero 4',
+    alt: { fa: 'محصولات خانگی هایسنس؛ مجموعه چهارم', en: 'Hisense home appliance collection 4' },
   },
   {
     id: 'banner-5',
     desktop: bannerAsset('Fix-Banner-06-Back.webp'),
     mobile: bannerAsset('Fix-Banner-06-Back-mobile.webp'),
-    alt: 'Hisense flagship lineup hero 5',
+    alt: { fa: 'محصولات خانگی هایسنس؛ مجموعه پنجم', en: 'Hisense home appliance collection 5' },
   },
   {
     id: 'banner-7',
     desktop: bannerAsset('Fix-Banner-07.webp'),
     mobile: bannerAsset('Fix-Banner-07-mobile.webp'),
-    alt: 'Zarrin Namaye Caspian featured lineup',
+    alt: {
+      fa: 'محصولات منتخب صنایع زرین نمای کاسپین',
+      en: 'Zarrin Namaye Caspian featured lineup',
+    },
   },
 ];
 
-const getSrc = (imageData: ImageSource) =>
-  typeof imageData === 'string' ? imageData : imageData.src;
-
-function useImagePreloader(images: ImageSource[]) {
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    if (images.length === 0) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- set once when there is nothing to preload
-      setLoaded(true);
-      return;
-    }
-
-    let canceled = false;
-
-    const loadImage = (imageData: ImageSource) =>
-      new Promise<void>((resolve) => {
-        const img = new window.Image();
-        img.src = getSrc(imageData);
-        if (img.complete) {
-          resolve();
-          return;
-        }
-        img.onload = () => resolve();
-        img.onerror = () => resolve();
-      });
-
-    void Promise.all(images.map(loadImage)).then(() => {
-      if (!canceled) {
-        setLoaded(true);
-      }
-    });
-
-    return () => {
-      canceled = true;
-    };
-  }, [images]);
-
-  return loaded;
-}
-
 export default function HeroBanner() {
+  const lang = useLocale() === 'fa' ? 'fa' : 'en';
   const [autoplay] = useState(() =>
     Autoplay({
       delay: 6000,
@@ -121,25 +92,8 @@ export default function HeroBanner() {
   );
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [autoplay]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-  const preloadSources = useMemo(() => {
-    // Preload only the variant that will actually render so mobile devices
-    // don't download the heavier desktop images (and vice versa).
-    return BANNERS.map((banner) => (isMobile && banner.mobile ? banner.mobile : banner.desktop));
-  }, [isMobile]);
-  const bannersLoaded = useImagePreloader(preloadSources);
-
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 768px)');
-    const update = () => setIsMobile(mediaQuery.matches);
-    update();
-
-    mediaQuery.addEventListener('change', update);
-    return () => mediaQuery.removeEventListener('change', update);
-  }, []);
-
-  useEffect(() => {
-    if (!emblaApi || !bannersLoaded) {
+    if (!emblaApi) {
       return;
     }
 
@@ -150,58 +104,38 @@ export default function HeroBanner() {
     return () => {
       emblaApi.off('select', onSelect);
     };
-  }, [emblaApi, bannersLoaded]);
-
-  useEffect(() => {
-    if (emblaApi && bannersLoaded) {
-      emblaApi.reInit();
-    }
-  }, [emblaApi, bannersLoaded]);
+  }, [emblaApi]);
 
   const scrollPrev = useCallback(() => {
-    if (!bannersLoaded) {
-      return;
-    }
     autoplay.reset();
     emblaApi?.scrollPrev();
-  }, [autoplay, emblaApi, bannersLoaded]);
+  }, [autoplay, emblaApi]);
 
   const scrollNext = useCallback(() => {
-    if (!bannersLoaded) {
-      return;
-    }
     autoplay.reset();
     emblaApi?.scrollNext();
-  }, [autoplay, emblaApi, bannersLoaded]);
-
-  const slides = useMemo(() => {
-    return BANNERS.map((banner) => ({
-      ...banner,
-      source: isMobile && banner.mobile ? banner.mobile : banner.desktop,
-    }));
-  }, [isMobile]);
+  }, [autoplay, emblaApi]);
 
   return (
     <section
       className="relative isolate overflow-hidden bg-(--surface-color)"
-      aria-label="Featured Hisense campaigns"
+      aria-label={lang === 'fa' ? 'محصولات منتخب هایسنس' : 'Featured Hisense campaigns'}
       dir="ltr"
     >
-      <div className="relative" ref={emblaRef} aria-busy={!bannersLoaded}>
+      <div className="relative" ref={emblaRef}>
         {/* No opacity gate: the first slide must paint on first render so the
             priority hero image is the LCP. The section is overflow-hidden, so
             slides 2+ stay clipped before Embla hydrates. */}
         <div className="flex touch-pan-y select-none">
-          {slides.map((banner) => (
+          {BANNERS.map((banner, index) => (
             <div key={banner.id} className="relative min-w-0 flex-[0_0_100%]">
               <div className="relative aspect-9/16 w-full md:aspect-video lg:aspect-21/9">
-                <Image
-                  src={banner.source}
-                  alt={banner.alt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 100vw"
-                  priority
-                  loading="eager"
+                <ResponsiveImage
+                  src={banner.desktop}
+                  mobileSrc={banner.mobile}
+                  alt={banner.alt[lang]}
+                  sizes="100vw"
+                  priority={index === 0}
                   className="object-cover"
                 />
               </div>
@@ -214,8 +148,8 @@ export default function HeroBanner() {
         type="button"
         className="absolute left-4 top-1/2 hidden -translate-y-1/2 rounded-full border border-(--border-color) bg-white/60 p-3 text-(--default-black-font) shadow-lg transition hover:bg-white focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-(--brand-color) disabled:cursor-not-allowed disabled:opacity-60 md:inline-flex"
         onClick={scrollPrev}
-        aria-label="Previous banner"
-        disabled={!bannersLoaded}
+        aria-label={lang === 'fa' ? 'بنر قبلی' : 'Previous banner'}
+        disabled={!emblaApi}
       >
         <HiChevronLeft className="h-4 w-4 2xl:h-6 2xl:w-6" />
       </button>
@@ -223,27 +157,24 @@ export default function HeroBanner() {
         type="button"
         className="absolute right-4 top-1/2 hidden -translate-y-1/2 rounded-full border border-(--border-color) bg-white/60 p-3 text-(--default-black-font) shadow-lg transition hover:bg-white focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-(--brand-color) disabled:cursor-not-allowed disabled:opacity-60 md:inline-flex"
         onClick={scrollNext}
-        aria-label="Next banner"
-        disabled={!bannersLoaded}
+        aria-label={lang === 'fa' ? 'بنر بعدی' : 'Next banner'}
+        disabled={!emblaApi}
       >
         <HiChevronRight className="h-4 w-4 2xl:h-6 2xl:w-6" />
       </button>
 
       <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2 rounded-full bg-black/40 px-4 py-2 backdrop-blur-sm">
-        {slides.map((slide, index) => (
+        {BANNERS.map((slide, index) => (
           <button
             key={slide.id}
             type="button"
             className={`h-2 w-2 rounded-full transition disabled:cursor-not-allowed ${
               index === selectedIndex ? 'bg-white' : 'bg-white/40'
             }`}
-            aria-label={`Go to banner ${index + 1}`}
+            aria-label={lang === 'fa' ? `نمایش بنر ${index + 1}` : `Go to banner ${index + 1}`}
             aria-pressed={index === selectedIndex}
-            disabled={!bannersLoaded}
+            disabled={!emblaApi}
             onClick={() => {
-              if (!bannersLoaded) {
-                return;
-              }
               autoplay.reset();
               emblaApi?.scrollTo(index);
             }}

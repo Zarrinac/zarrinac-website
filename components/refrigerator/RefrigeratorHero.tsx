@@ -31,7 +31,6 @@ export default function RefrigeratorHero({
     [gallery],
   );
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeRatio, setActiveRatio] = useState('1 / 1');
   const activeImage = images[activeIndex] ?? images[0];
 
   return (
@@ -46,10 +45,7 @@ export default function RefrigeratorHero({
 
         <div className="mt-4 grid gap-6 sm:mt-6 sm:gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-10">
           <div>
-            <div
-              className="relative w-full overflow-hidden rounded-3xl bg-[linear-gradient(135deg,#fafafa,#eef1f4)] shadow-[0_18px_40px_rgba(15,23,42,0.12)]"
-              style={{ aspectRatio: activeRatio }}
-            >
+            <div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-[linear-gradient(135deg,#fafafa,#eef1f4)] shadow-[0_18px_40px_rgba(15,23,42,0.12)]">
               {activeImage && (
                 <Image
                   src={activeImage}
@@ -57,13 +53,7 @@ export default function RefrigeratorHero({
                   fill
                   sizes="(min-width: 1024px) 48vw, 90vw"
                   className="object-contain"
-                  priority
-                  onLoad={(event) => {
-                    const image = event.currentTarget;
-                    if (image.naturalWidth > 0 && image.naturalHeight > 0) {
-                      setActiveRatio(`${image.naturalWidth} / ${image.naturalHeight}`);
-                    }
-                  }}
+                  priority={activeIndex === 0}
                 />
               )}
             </div>
@@ -80,11 +70,18 @@ export default function RefrigeratorHero({
                       className={`relative h-12 w-12 overflow-hidden rounded-xl border sm:h-14 sm:w-14 ${
                         isActive ? 'border-(--brand-color)' : 'border-black/10'
                       }`}
-                      aria-label={`Select image ${idx + 1}`}
+                      aria-label={
+                        lang === 'fa' ? `انتخاب تصویر ${idx + 1}` : `Select image ${idx + 1}`
+                      }
+                      aria-pressed={isActive}
                     >
                       <Image
                         src={image}
-                        alt={`${productName} thumbnail ${idx + 1}`}
+                        alt={
+                          lang === 'fa'
+                            ? `${productName}؛ تصویر ${idx + 1}`
+                            : `${productName} image ${idx + 1}`
+                        }
                         fill
                         sizes="64px"
                         className="object-contain bg-white/80 p-2"

@@ -1,10 +1,11 @@
+import { resolvePageLocale, type LocalePageProps } from '@/i18n/pageLocale';
 import type { Metadata } from 'next';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import JsonLd from '@/components/seo/JsonLd';
 import OfficialLinksSection from '@/components/seo/OfficialLinksSection';
 import RouteHero from '@/components/routes/RouteHero';
@@ -146,8 +147,8 @@ const PORTAL_CONTENT: Record<Locale, PortalContent> = {
   },
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as Locale;
+export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.portal');
   const localizedPath = `/${locale}/portal`;
   const languageAlternates = getLanguageAlternates('/portal');
@@ -176,8 +177,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function PortalPage() {
-  const locale = (await getLocale()) as Locale;
+export default async function PortalPage({ params }: LocalePageProps) {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.portal');
   const content = PORTAL_CONTENT[locale];
   const breadcrumbItems = createBreadcrumbItems(locale, {

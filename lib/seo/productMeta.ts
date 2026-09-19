@@ -1,37 +1,22 @@
 import type { Locale } from '@/i18n/routing';
 
-// Buying-intent <title> and <meta description> templates for product detail pages.
-//
-// The product `name` already carries the category + brand (e.g. "تلویزیون Q6Q هایسنس",
-// "کولر گازی اینورتر هایسنس HIH-24TG") and is unique per SKU, so these templates wrap it
-// with purchase-intent terms (خرید/قیمت/مشخصات) + the site brand. This fixes three SEO issues
-// at once: titles under 30 chars, titles identical to the <h1>, and duplicate/short/
-// mislocalised meta descriptions.
-//
-// We deliberately DO NOT use the DB `tagline` for meta: many are duplicated across sibling
-// SKUs (all HID duct units share one tagline, all HRH/HIH/HRTC/HFH series likewise) and a
-// few are mislocalised (the q6q fa tagline is English) — both hurt SEO. The clean, visible
-// product name/<h1> on the page is unchanged; only the head metadata is enriched.
+// Product names already include the brand and model. Keep the useful model near
+// the front and describe the actual specification/price-enquiry experience.
+// Avoid shared/mislocalised DB taglines; there is no fixed Google character limit.
 
 export const buildProductMetaTitle = (locale: Locale, name: string): string =>
-  locale === 'fa' ? `${name} | خرید، قیمت و مشخصات | هایسنس ایران` : `${name} | Hisense Iran`;
+  locale === 'fa' ? `${name} | مشخصات و استعلام قیمت` : `${name} | Specs & Price Enquiry`;
 
 export const buildProductMetaDescription = (locale: Locale, name: string): string =>
   locale === 'fa'
     ? `خرید ${name} با گارانتی رسمی و خدمات پس از فروش سراسری از نمایندگی رسمی هایسنس ایران، زرین نمای کاسپین. مشخصات کامل و استعلام قیمت روز.`
-    : `Buy the ${name} from Hisense Iran's official distributor — genuine product, warranty, and nationwide after-sales service.`;
+    : `Explore ${name} specifications and features. Contact Hisense Iran for current pricing, official warranty information, and nationwide after-sales support.`;
 
-// Category listing pages: the route title (e.g. "ماشین لباسشویی هایسنس") is also reused as a
-// visible label/H1 elsewhere, so we wrap only the <title> field in `generateMetadata` — not
-// the translation value — to lengthen short category titles without any side effects.
+// Keep the visible category heading independent from the search-result title.
 export const buildCategoryMetaTitle = (locale: string, routeTitle: string): string =>
   locale === 'fa' ? `${routeTitle} | خرید و قیمت | هایسنس ایران` : `${routeTitle} | Hisense Iran`;
 
-// Bespoke <meta description> per category/page (both ~150-162 chars, fa+en in sync).
-// The route `description` that category & refrigerator listings render as a visible subtitle
-// is intentionally short, and a generic "append a suffix" approach can't map every base into
-// the 150-165 window without over/undershooting — so the meta field gets its own purpose-
-// written copy here (purchase-intent + official-distributor signals) without touching on-page text.
+// Describe the local catalog, without implying every model has the same features.
 type CategoryMetaKey = 'tvs' | 'wms' | 'rac' | 'cac' | 'refrigerator';
 
 const CATEGORY_META_DESCRIPTIONS: Record<CategoryMetaKey, Record<'fa' | 'en', string>> = {
@@ -40,20 +25,20 @@ const CATEGORY_META_DESCRIPTIONS: Record<CategoryMetaKey, Record<'fa' | 'en', st
     en: 'Shop Hisense ULED, Mini-LED, and QLED TVs with vivid picture and premium sound from the official Iran distributor, with warranty and nationwide service.',
   },
   wms: {
-    fa: 'خرید ماشین لباسشویی هایسنس با برنامه بخار ضدآلرژی، موتور اینورتر کم‌صدا و ظرفیت بالا از نمایندگی رسمی ایران؛ همراه با گارانتی و خدمات پس از فروش سراسری.',
-    en: 'Shop Hisense washing machines with Allergy Steam, quiet inverter motors, and large capacity from the official Iran distributor, with warranty and service.',
+    fa: 'مقایسه ماشین لباسشویی هایسنس مدل‌های 8010 و 8012 با ظرفیت ۸ کیلوگرم، برنامه‌های شست‌وشو و مشخصات فنی؛ استعلام قیمت، گارانتی و خدمات از زرین نمای کاسپین.',
+    en: 'Compare Hisense 8010 and 8012 washing machines: 8 kg capacity, spin speeds, wash programs and specifications. Contact Hisense Iran for pricing and warranty.',
   },
   rac: {
-    fa: 'خرید کولر گازی اسپلیت اینورتر هایسنس با کنترل هوشمند و سرمایش مطمئن و کم‌صدا از نمایندگی رسمی ایران؛ همراه با گارانتی، نصب و خدمات پس از فروش در سراسر کشور.',
-    en: 'Shop Hisense inverter split air conditioners with smart control and quiet cooling from the official Iran distributor, with warranty, install and service.',
+    fa: 'کولر گازی هایسنس در مدل‌های دیواری، اینورتر و ایستاده؛ مقایسه ظرفیت و مشخصات هر مدل و استعلام قیمت، شرایط گارانتی، نصب و خدمات پس از فروش از زرین نمای کاسپین.',
+    en: 'Compare Hisense wall-mounted, inverter and floor-standing air conditioners by capacity and specifications. Ask Hisense Iran about pricing, installation and warranty.',
   },
   cac: {
-    fa: 'خرید سیستم‌های تهویه مطبوع تجاری هایسنس شامل VRF و داکت اسپلیت برای پروژه‌های بزرگ از نمایندگی رسمی ایران؛ همراه با پشتیبانی فنی و خدمات پس از فروش سراسری.',
-    en: 'Hisense commercial HVAC: VRF and ducted split systems for hotels, malls, and large projects from the official Iran distributor with nationwide support.',
+    fa: 'داکت اسپلیت هایسنس سری HID برای تهویه مطبوع تجاری؛ مقایسه ظرفیت سرمایش و گرمایش، ابعاد و مشخصات فنی مدل‌ها و دریافت مشاوره و استعلام قیمت از زرین نمای کاسپین.',
+    en: 'Explore Hisense HID ducted air conditioners for commercial projects. Compare cooling and heating capacities, dimensions and specifications, and request a quote.',
   },
   refrigerator: {
-    fa: 'خرید یخچال و فریزر هایسنس در مدل‌های ساید بای ساید، کمبی و صندوقی با Total No-Frost از نمایندگی رسمی ایران؛ همراه با گارانتی و خدمات پس از فروش سراسری.',
-    en: 'Shop Hisense refrigerators and freezers — side-by-side, combi, and chest models with Total No-Frost from the official Iran distributor, with warranty.',
+    fa: 'مقایسه یخچال و فریزر هایسنس در مدل‌های ساید بای ساید، کمبی و صندوقی؛ بررسی ظرفیت، ابعاد و امکانات هر مدل و استعلام قیمت و گارانتی از نمایندگی زرین نمای کاسپین.',
+    en: 'Compare Hisense refrigerators and freezers, including side-by-side, combi and chest models. Check capacity, dimensions and features, then ask about pricing and warranty.',
   },
 };
 

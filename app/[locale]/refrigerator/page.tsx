@@ -1,6 +1,8 @@
-import { getLocale, getTranslations } from 'next-intl/server';
+import { resolvePageLocale, type LocalePageProps } from '@/i18n/pageLocale';
+import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import ResponsiveImage from '@/components/ResponsiveImage';
 import Link from 'next/link';
 import { Visibility } from '@mui/icons-material';
 import type { Locale } from '@/i18n/routing';
@@ -111,8 +113,8 @@ const REFRIGERATOR_PRODUCTS = [
   },
 ] satisfies readonly RefrigeratorProduct[];
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = await getLocale();
+export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.refrigerator');
   const languageAlternates = getLanguageAlternates('/refrigerator');
   const ogImage = HERO_BANNERS.desktop;
@@ -148,8 +150,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function RefrigeratorPage() {
-  const locale = await getLocale();
+export default async function RefrigeratorPage({ params }: LocalePageProps) {
+  const locale = await resolvePageLocale(params);
   const resolvedLocale: Locale = locale === 'fa' ? 'fa' : 'en';
   const routeTranslations = await getTranslations('Routes.refrigerator');
   const detailsLabel = (await getTranslations('TvHisensePage'))('actions.details');
@@ -222,8 +224,7 @@ export default async function RefrigeratorPage() {
             {
               href: `/${locale}`,
               label: 'Hisense Iran homepage',
-              description:
-                'Primary brand page for categories, products, and official company signals.',
+              description: 'Explore Hisense products and find sales and service information.',
             },
             {
               href: `/${locale}/about`,
@@ -251,21 +252,13 @@ export default async function RefrigeratorPage() {
       <div className="-mx-4 sm:-mx-6 lg:-mx-10 max-w-360 3xl:mx-auto">
         <div className="relative w-full overflow-hidden rounded-3xl shadow-(--panel-shadow)">
           <div className="relative w-full aspect-16/7">
-            <Image
+            <ResponsiveImage
               src={HERO_BANNERS.desktop}
+              mobileSrc={HERO_BANNERS.mobile}
               alt={routeTranslations('title')}
-              fill
               priority
-              sizes="(max-width: 768px) 100vw, 1200px"
-              className="hidden object-cover md:block"
-            />
-            <Image
-              src={HERO_BANNERS.mobile}
-              alt={routeTranslations('title')}
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 1200px"
-              className="object-cover md:hidden"
+              sizes="(max-width: 1200px) 100vw, 1200px"
+              className="object-cover"
             />
           </div>
         </div>
@@ -291,7 +284,7 @@ export default async function RefrigeratorPage() {
                 <div className="relative aspect-4/3 w-full bg-(--surface-color)">
                   <Image
                     src={product.image}
-                    alt={product.label}
+                    alt={product.title[resolvedLocale]}
                     fill
                     className="object-contain transition duration-700 group-hover:scale-105"
                     sizes="(max-width: 1024px) 100vw, 33vw"
@@ -318,11 +311,9 @@ export default async function RefrigeratorPage() {
                 <p className="text-xs font-semibold uppercase tracking-[0.35em] text-(--text-subtle-color)">
                   {product.label}
                 </p>
-                <h3 className="text-base font-bold text-(--default-black-font) sm:text-xl">
-                  {typeof product.title === 'object'
-                    ? (product.title?.[locale as keyof ProductTitle] ?? product.label)
-                    : (product.title ?? product.label)}
-                </h3>
+                <h2 className="text-base font-bold text-(--default-black-font) sm:text-xl">
+                  {product.title[resolvedLocale]}
+                </h2>
               </div>
             </Link>
           ))}
