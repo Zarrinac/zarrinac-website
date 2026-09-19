@@ -25,9 +25,9 @@ export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, Categor
     fa: {
       heading: 'خرید تلویزیون هایسنس؛ راهنمای مدل‌ها و فناوری‌ها',
       paragraphs: [
-        'تلویزیون‌های هایسنس با فناوری‌های ULED، Mini-LED و QLED و سیستم‌عامل VIDAA، تصویری روشن با کنتراست بالا را در اندازه‌های مختلف ارائه می‌دهند. در این صفحه می‌توانید جدیدترین مدل‌های تلویزیون هایسنس از جمله سری‌های U7، U8 و A را با مشخصات کامل مقایسه و بررسی کنید.',
+        'در این صفحه تلویزیون‌های هایسنس مدل‌های U7K، Q7Q، Q6Q، A4AN و A3Q را مقایسه کنید. فناوری پنل، وضوح تصویر، اندازه صفحه و امکانات هوشمند بین مدل‌ها متفاوت است؛ مشخصات هر مدل در صفحه محصول آمده است.',
         'زرین نمای کاسپین به عنوان نمایندگی رسمی هایسنس در ایران، عرضه تلویزیون اصل به همراه گارانتی رسمی و خدمات پس از فروش سراسری را تضمین می‌کند. برای انتخاب بهترین تلویزیون متناسب با بودجه و فضای خود، مشخصات فنی و امکانات هر مدل را در صفحه محصول مشاهده کنید.',
-        'برای خرید تلویزیون هایسنس و استعلام قیمت روز، از طریق نمایندگی رسمی و شبکه فروش مجاز زرین نمای کاسپین اقدام کنید تا اصالت کالا، گارانتی معتبر و خدمات پس از فروش تضمین شود. هنگام انتخاب به اندازه صفحه (اینچ)، رزولوشن (4K یا 8K)، نرخ نوسازی تصویر و امکانات هوشمند مانند سیستم‌عامل VIDAA و پشتیبانی از Dolby Vision توجه کنید.',
+        'برای خرید تلویزیون هایسنس و استعلام قیمت روز، با زرین نمای کاسپین یا شبکه فروش مجاز تماس بگیرید. هنگام انتخاب، اندازه صفحه، وضوح تصویر، نرخ نوسازی، ورودی‌ها و امکانات هوشمند هر مدل را بررسی کنید؛ قابلیت‌هایی مانند VIDAA و Dolby Vision در همه مدل‌ها یکسان نیستند.',
       ],
       faqHeading: 'سوالات متداول درباره تلویزیون هایسنس',
       faqs: [
@@ -66,9 +66,9 @@ export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, Categor
     en: {
       heading: 'Hisense TVs: models, technologies, and buying guide',
       paragraphs: [
-        'Hisense televisions use ULED, Mini-LED, and QLED technologies with the VIDAA operating system to deliver bright, high-contrast images across a wide range of sizes. Compare the latest Hisense TV models, including the U7, U8, and A series, with full specifications on this page.',
+        'Compare Hisense U7K, Q7Q, Q6Q, A4AN, and A3Q televisions in this catalog. Panel technology, resolution, screen sizes, and smart features vary by model; open each product page for its specifications.',
         'As the official Hisense representative in Iran, Zarrin Namaye Caspian supplies genuine TVs with an official warranty and nationwide after-sales service. Review the technical specs and features of each model to choose the best TV for your space and budget.',
-        'To buy a Hisense TV and check current pricing, order through Zarrin Namaye Caspian’s official representative and authorized sales network to guarantee a genuine product, a valid warranty, and after-sales service. When choosing, consider screen size (inches), resolution (4K or 8K), refresh rate, and smart features such as the VIDAA operating system and Dolby Vision support.',
+        'For current Hisense TV pricing and purchasing options, contact Zarrin Namaye Caspian or its authorized sales network. Compare screen size, resolution, refresh rate, inputs, and smart features for each model; VIDAA and Dolby Vision support are model-dependent.',
       ],
       faqHeading: 'Frequently asked questions about Hisense TVs',
       faqs: [
@@ -104,7 +104,7 @@ export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, Categor
     fa: {
       heading: 'کولر گازی و اسپلیت هایسنس؛ سرمایش کم‌مصرف',
       paragraphs: [
-        'کولرهای گازی و اسپلیت هایسنس با فناوری اینورتر، مصرف انرژی کمتر و سرمایش سریع را ارائه می‌دهند. در این صفحه مدل‌های سری HIH و HRH هایسنس را با ظرفیت‌های مختلف برای انتخاب متناسب با متراژ فضای خود مقایسه کنید.',
+        'در این صفحه کولر گازی هایسنس در سری‌های HIH، HRH، HRTC و HFH را مقایسه کنید. مدل‌های دیواری، اینورتر و ایستاده ظرفیت‌ها و مشخصات متفاوتی دارند؛ نوع کمپرسور و ظرفیت مناسب فضای خود را در مشخصات هر مدل بررسی کنید.',
         'تمامی اسپلیت‌های هایسنس از طریق زرین نمای کاسپین با گارانتی رسمی و خدمات پس از فروش سراسری عرضه می‌شوند. برای مشاهده مشخصات فنی، ظرفیت (BTU) و امکانات هر مدل، وارد صفحه محصول شوید.',
         'برای خرید کولر گازی هایسنس، استعلام قیمت و هماهنگی خدمات نصب، با نمایندگی رسمی زرین نمای کاسپین در ارتباط باشید. انتخاب ظرفیت مناسب (بر حسب BTU)، نوع گاز مبرد و کلاس انرژی دستگاه نقش مهمی در کاهش هزینه برق و کیفیت سرمایش دارد. قطعات یدکی اصل و خدمات پس از فروش نیز از طریق شبکه مجاز ارائه می‌شود.',
       ],
@@ -140,7 +140,7 @@ export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, Categor
     en: {
       heading: 'Hisense air conditioners and split units: efficient cooling',
       paragraphs: [
-        'Hisense residential air conditioners and split units use inverter technology for lower energy consumption and fast cooling. Compare the Hisense HIH and HRH series across capacities to match the size of your space.',
+        'Compare Hisense HIH, HRH, HRTC, and HFH air conditioners. Wall-mounted, inverter, and floor-standing models have different capacities and specifications; check each model’s compressor type and capacity against the needs of your space.',
         'All Hisense split units are supplied through Zarrin Namaye Caspian with an official warranty and nationwide after-sales service. Open a product page to see technical specs, BTU capacity, and features for each model.',
         'To buy a Hisense air conditioner, request a price quote, and arrange installation, contact the official Zarrin Namaye Caspian representative. Choosing the right capacity (BTU), refrigerant type, and energy class significantly affects electricity costs and cooling quality. Genuine spare parts and after-sales service are also available through the authorized network.',
       ],
@@ -180,7 +180,7 @@ export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, Categor
       paragraphs: [
         'راهکارهای تهویه مطبوع تجاری (CAC) هایسنس شامل سیستم‌های کانالی و داکت‌اسپلیت برای فضاهای اداری، تجاری و صنعتی است. این سیستم‌ها سرمایش و گرمایش یکنواخت را در فضاهای بزرگ با بازدهی بالا فراهم می‌کنند.',
         'زرین نمای کاسپین مشاوره، تأمین و خدمات پس از فروش سیستم‌های تهویه تجاری هایسنس را در سراسر ایران ارائه می‌دهد. برای انتخاب راهکار مناسب پروژه خود، مشخصات مدل‌های کانالی هایسنس را بررسی کنید.',
-        'برای دریافت مشاوره فنی، طراحی سیستم و استعلام قیمت تهویه مطبوع تجاری هایسنس، با کارشناسان زرین نمای کاسپین تماس بگیرید. انتخاب صحیح ظرفیت و نوع سیستم (کانالی، داکت‌اسپلیت یا VRF) بر اساس کاربری و متراژ پروژه، بازدهی انرژی و هزینه نگهداری را بهینه می‌کند.',
+        'برای دریافت مشاوره فنی و استعلام قیمت داکت اسپلیت هایسنس سری HID، با کارشناسان زرین نمای کاسپین تماس بگیرید. ظرفیت سرمایش و گرمایش، ابعاد نصب و نیازهای کانال‌کشی را متناسب با کاربری و متراژ پروژه بررسی کنید.',
       ],
       faqHeading: 'سوالات متداول درباره تهویه مطبوع تجاری هایسنس',
       faqs: [
@@ -206,7 +206,7 @@ export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, Categor
       paragraphs: [
         'Hisense commercial air conditioning (CAC) solutions include ducted and duct-split systems for office, retail, and industrial spaces, delivering uniform, high-efficiency cooling and heating across large areas.',
         'Zarrin Namaye Caspian provides consultation, supply, and after-sales service for Hisense commercial HVAC systems across Iran. Review the ducted model specifications to choose the right solution for your project.',
-        'For technical consultation, system design, and pricing of Hisense commercial air conditioning, contact the Zarrin Namaye Caspian team. Selecting the correct capacity and system type (ducted, duct-split, or VRF) based on your project’s use and area optimizes energy efficiency and maintenance costs.',
+        'Contact Zarrin Namaye Caspian for technical advice and pricing on Hisense HID ducted air conditioners. Review cooling and heating capacities, installation dimensions, and ductwork requirements against the use and size of your project.',
       ],
       faqHeading: 'Frequently asked questions about Hisense commercial HVAC',
       faqs: [
@@ -232,7 +232,7 @@ export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, Categor
     fa: {
       heading: 'ماشین لباسشویی هایسنس؛ شست‌وشوی کم‌مصرف و بی‌صدا',
       paragraphs: [
-        'ماشین‌های لباسشویی هایسنس با موتور اینورتر، برنامه‌های شست‌وشوی متنوع و فناوری بخار، شست‌وشویی مؤثر همراه با مصرف کم آب و انرژی ارائه می‌دهند. در این صفحه مدل‌های لباسشویی هایسنس را با ظرفیت و امکانات مختلف مقایسه کنید.',
+        'ماشین‌های لباسشویی هایسنس مدل‌های 8010 و 8012 در این فهرست ظرفیت ۸ کیلوگرم دارند. برای انتخاب متناسب با نیاز خود، دور موتور، برنامه‌های شست‌وشو، ابعاد و امکانات هر مدل را در صفحه محصول مقایسه کنید.',
         'تمامی ماشین‌های لباسشویی هایسنس از طریق زرین نمای کاسپین با گارانتی رسمی و خدمات پس از فروش سراسری عرضه می‌شوند. برای مشاهده ظرفیت، دور موتور و برنامه‌های شست‌وشوی هر مدل وارد صفحه محصول شوید.',
         'برای خرید ماشین لباسشویی هایسنس و استعلام قیمت، از نمایندگی رسمی و شبکه فروش مجاز زرین نمای کاسپین اقدام کنید. هنگام انتخاب به ظرفیت (کیلوگرم)، دور موتور در مرحله خشک‌کن، کلاس انرژی و برنامه‌های شست‌وشو مانند بخار ضدآلرژی و شست‌وشوی سریع توجه کنید. قطعات یدکی و خدمات پس از فروش نیز از طریق شبکه مجاز در دسترس است.',
       ],
@@ -251,7 +251,7 @@ export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, Categor
         {
           question: 'چه ظرفیتی از ماشین لباسشویی هایسنس مناسب خانواده من است؟',
           answer:
-            'ماشین‌های لباسشویی هایسنس در ظرفیت‌های مختلف (معمولاً ۷ تا ۱۰.۵ کیلوگرم) عرضه می‌شوند؛ برای خانوارهای پرجمعیت، ظرفیت بالاتر و دور موتور بیشتر توصیه می‌شود.',
+            'مدل‌های 8010 و 8012 این فهرست ظرفیت ۸ کیلوگرم دارند. حجم و نوع لباس‌های هر نوبت شست‌وشو و محدودیت ظرفیت هر برنامه را در نظر بگیرید و پیش از خرید مشخصات مدل را بررسی کنید.',
         },
         {
           question: 'خرید ماشین لباسشویی هایسنس با گارانتی از کجا انجام می‌شود؟',
@@ -263,7 +263,7 @@ export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, Categor
     en: {
       heading: 'Hisense washing machines: efficient, quiet laundry',
       paragraphs: [
-        'Hisense washing machines combine inverter motors, varied wash programs, and steam technology for effective cleaning with low water and energy use. Compare Hisense washer models across capacities and features on this page.',
+        'The Hisense 8010 and 8012 washing machines in this catalog both have an 8 kg capacity. Compare their spin speeds, wash programs, dimensions, and model-specific features on the product pages.',
         'All Hisense washing machines are supplied through Zarrin Namaye Caspian with an official warranty and nationwide after-sales service. Open a product page to see capacity, spin speed, and wash programs for each model.',
         'To buy a Hisense washing machine and request pricing, order through the official Zarrin Namaye Caspian representative and authorized sales network. When choosing, consider capacity (kg), spin speed, energy class, and wash programs such as anti-allergy steam and quick wash. Spare parts and after-sales service are also available through the authorized network.',
       ],
@@ -282,7 +282,7 @@ export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, Categor
         {
           question: 'Which Hisense washing machine capacity suits my family?',
           answer:
-            'Hisense washing machines come in various capacities (typically 7–10.5 kg); higher capacity and spin speed are recommended for larger households.',
+            'The 8010 and 8012 models listed here both have an 8 kg capacity. Consider your usual laundry load and fabric types, and check the capacity limits for individual wash programs before choosing.',
         },
         {
           question: 'Where can I buy a Hisense washing machine with a warranty?',
@@ -296,7 +296,7 @@ export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, Categor
     fa: {
       heading: 'یخچال فریزر هایسنس؛ فضای بیشتر و نگهداری بهتر',
       paragraphs: [
-        'یخچال فریزرهای هایسنس با فناوری No Frost، کمپرسور اینورتر و سیستم گردش هوای چندگانه، دمای یکنواخت و ماندگاری بیشتر مواد غذایی را تضمین می‌کنند. در این صفحه مدل‌های ساید بای ساید، دوقلو و کمبی هایسنس را با ظرفیت‌های مختلف مقایسه کنید.',
+        'در این صفحه یخچال و فریزر هایسنس در مدل‌های ساید بای ساید، کمبی و صندوقی را مقایسه کنید. ظرفیت، ابعاد و امکاناتی مانند No Frost، کمپرسور اینورتر و گردش هوای چندگانه به مدل بستگی دارند؛ وجود هر قابلیت را در مشخصات محصول بررسی کنید.',
         'یخچال فریزرهای هایسنس از طریق زرین نمای کاسپین با گارانتی رسمی و خدمات پس از فروش سراسری عرضه می‌شوند. برای مشاهده ظرفیت، ابعاد و امکانات هر مدل وارد صفحه محصول شوید.',
         'برای خرید یخچال فریزر هایسنس و استعلام قیمت، از نمایندگی رسمی زرین نمای کاسپین اقدام کنید. هنگام انتخاب به ظرفیت (لیتر)، ابعاد و فضای نصب، کلاس انرژی و امکاناتی مانند آب‌سردکن، یخ‌ساز و کنترل دما توجه کنید. قطعات یدکی اصل و خدمات پس از فروش این محصولات از طریق شبکه مجاز ارائه می‌شود.',
       ],
@@ -327,7 +327,7 @@ export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, Categor
     en: {
       heading: 'Hisense refrigerators: more space, fresher food',
       paragraphs: [
-        'Hisense refrigerators use No Frost technology, inverter compressors, and multi-air flow to keep temperatures even and food fresher for longer. Compare Hisense side-by-side, twin, and combi models across capacities on this page.',
+        'Compare Hisense side-by-side and combi refrigerators and chest freezers. Capacity, dimensions, and features such as No Frost, inverter compressors, and multi-air flow vary by model; check each product’s specifications for the features it includes.',
         'Hisense refrigerators are supplied through Zarrin Namaye Caspian with an official warranty and nationwide after-sales service. Open a product page to see capacity, dimensions, and features for each model.',
         'To buy a Hisense refrigerator and request pricing, order through the official Zarrin Namaye Caspian representative. When choosing, consider capacity (liters), dimensions and installation space, energy class, and features such as a water dispenser, ice maker, and temperature control. Genuine spare parts and after-sales service are available through the authorized network.',
       ],

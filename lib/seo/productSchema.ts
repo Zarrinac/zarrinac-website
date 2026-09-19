@@ -121,12 +121,15 @@ export const buildVideoObjectJsonLd = ({
   contentUrl,
   thumbnailUrl,
   uploadDate = SITE_CONTENT_LAST_MODIFIED.toISOString(),
-}: VideoObjectJsonLdInput) => ({
-  '@context': 'https://schema.org',
-  '@type': 'VideoObject',
-  name,
-  description,
-  thumbnailUrl: [toAbsoluteUrl(thumbnailUrl)],
-  contentUrl: toAbsoluteUrl(contentUrl),
-  uploadDate,
-});
+}: VideoObjectJsonLdInput) =>
+  contentUrl.trim() && thumbnailUrl.trim()
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'VideoObject',
+        name,
+        description,
+        thumbnailUrl: [toAbsoluteUrl(thumbnailUrl)],
+        contentUrl: toAbsoluteUrl(contentUrl),
+        uploadDate,
+      }
+    : null;

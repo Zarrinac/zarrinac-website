@@ -1,3 +1,4 @@
+import { resolvePageLocale, type LocalePageProps } from '@/i18n/pageLocale';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
@@ -8,7 +9,7 @@ import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import RouteHero from '@/components/routes/RouteHero';
 import JsonLd from '@/components/seo/JsonLd';
 import OfficialLinksSection from '@/components/seo/OfficialLinksSection';
@@ -252,8 +253,8 @@ const REPRESENTATION_CONTENT: Record<Locale, RepresentationContent> = {
   },
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as Locale;
+export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.requestRepresentation');
   const localizedPath = `/${locale}/request-representation`;
   const languageAlternates = getLanguageAlternates('/request-representation');
@@ -279,8 +280,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function RequestRepresentationPage() {
-  const locale = (await getLocale()) as Locale;
+export default async function RequestRepresentationPage({ params }: LocalePageProps) {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.requestRepresentation');
   const content = REPRESENTATION_CONTENT[locale];
   const breadcrumbItems = createBreadcrumbItems(locale, {

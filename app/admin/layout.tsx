@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import AdminShell from '@/components/admin/AdminShell';
+import Document from '@/components/Document';
 import { normalizeRole } from '@/lib/admin/access';
 import { getAdminDictionary } from '@/lib/admin/i18n';
 import { getAdminLocale } from '@/lib/admin/i18n.server';
@@ -32,14 +33,16 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
   const username = session?.sub ?? '';
 
   return (
-    <AdminShell
-      locale={locale}
-      dictionary={dictionary}
-      unread={unread}
-      role={role}
-      username={username}
-    >
-      {children}
-    </AdminShell>
+    <Document locale={locale}>
+      <AdminShell
+        locale={locale}
+        dictionary={dictionary}
+        unread={unread}
+        role={role}
+        username={username}
+      >
+        {children}
+      </AdminShell>
+    </Document>
   );
 }

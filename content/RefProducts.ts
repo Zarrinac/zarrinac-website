@@ -388,7 +388,7 @@ const rfc300Gallery = [
 
 // RS-370
 const rs370Hero = productAsset('rs-370/rs-370-1-lg.png');
-const rs370Poster = productAsset('rs-370/rs-370-2-lg.png');
+const rs370Poster = productAsset('rs-370/rs-370-2-lg.jpg');
 const rs370Gallery = [
   productAsset('rs-370/rs-370-1-lg.png'),
   productAsset('rs-370/rs-370-2-lg.jpg'),

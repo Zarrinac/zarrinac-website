@@ -1,5 +1,6 @@
+import { resolvePageLocale, type LocalePageProps } from '@/i18n/pageLocale';
 import type { Metadata } from 'next';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
@@ -341,8 +342,8 @@ const REPAIR_CONTENT: Record<Locale, RepairContent> = {
   },
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = await getLocale();
+export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.hisenseRepair');
   const localizedPath = `/${locale}/hisense-repair`;
   const languageAlternates = getLanguageAlternates('/hisense-repair');
@@ -368,8 +369,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function HisenseRepairPage() {
-  const locale = await getLocale();
+export default async function HisenseRepairPage({ params }: LocalePageProps) {
+  const locale = await resolvePageLocale(params);
   const resolvedLocale: Locale = locale === 'fa' ? 'fa' : 'en';
   const routeTranslations = await getTranslations('Routes.hisenseRepair');
   const content = REPAIR_CONTENT[resolvedLocale];

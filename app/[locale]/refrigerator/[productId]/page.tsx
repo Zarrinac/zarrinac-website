@@ -1,6 +1,7 @@
-import { notFound } from 'next/navigation';
+import { resolvePageLocale } from '@/i18n/pageLocale';
+import { notFound, permanentRedirect } from 'next/navigation';
 import Image from 'next/image';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 import type { ContentSectionData } from '@/components/tv/ContentSections';
 import FeatureIntro from '@/components/tv/product-detail/FeatureIntro';
@@ -295,13 +296,14 @@ const findProduct = (productId: string): RefProduct | null => {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolved = await params;
-  const localeParam = resolved?.locale ?? 'en';
+  const localeParam = await resolvePageLocale(params);
   const productId = resolved?.productId ?? '';
   if (!productId) return {};
 
   const product = findProduct(productId);
   if (!product) return {};
 
+  const canonicalId = product.id.toLowerCase();
   const lang = resolveLocale(localeParam);
   const copy = product.copy[lang];
   const imageUrl =
@@ -309,7 +311,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ? product.posterImage
       : (product.posterImage?.src ??
         (typeof product.image === 'string' ? product.image : product.image.src));
-  const languageAlternates = getLanguageAlternates(`/refrigerator/${productId}`);
+  const languageAlternates = getLanguageAlternates(`/refrigerator/${canonicalId}`);
 
   const metaDescription = buildProductMetaDescription(lang, copy.name);
   return {
@@ -319,12 +321,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: copy.name,
       description: metaDescription,
-      images: imageUrl ? [{ url: imageUrl }] : undefined,
-      url: `/${localeParam}/refrigerator/${productId}`,
+      images: imageUrl ? [{ url: imageUrl, alt: copy.name }] : undefined,
+      url: `/${localeParam}/refrigerator/${canonicalId}`,
       type: 'website',
     },
     alternates: {
-      canonical: `/${localeParam}/refrigerator/${productId}`,
+      canonical: `/${localeParam}/refrigerator/${canonicalId}`,
       languages: languageAlternates,
     },
     twitter: {
@@ -338,9 +340,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function RefrigeratorProductPage({ params }: PageProps) {
   const resolved = await params;
-  const locale = resolved?.locale ?? 'en';
+  const locale = await resolvePageLocale(params);
   const resolvedLocale: Locale = locale === 'fa' ? 'fa' : 'en';
-  setRequestLocale(resolvedLocale);
   const productId = resolved?.productId ?? '';
   const lang = resolveLocale(locale);
 
@@ -352,6 +353,11 @@ export default async function RefrigeratorProductPage({ params }: PageProps) {
 
   if (!product) {
     notFound();
+  }
+
+  const canonicalId = product.id.toLowerCase();
+  if (productId !== canonicalId) {
+    permanentRedirect(`/${resolvedLocale}/refrigerator/${canonicalId}`);
   }
 
   const routeTranslations = await getTranslations('Routes.refrigerator');

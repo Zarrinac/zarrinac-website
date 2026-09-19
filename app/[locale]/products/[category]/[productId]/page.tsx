@@ -1,8 +1,9 @@
-import { notFound } from 'next/navigation';
+import { resolvePageLocale } from '@/i18n/pageLocale';
+import { notFound, permanentRedirect } from 'next/navigation';
+import { cache } from 'react';
 import type { Metadata } from 'next';
 import ContentSections, { type ContentSectionData } from '@/components/tv/ContentSections';
 import BannerSection from '@/components/tv/product-detail/BannerSection';
-import MobileHeader from '@/components/tv/product-detail/MobileHeader';
 import FeatureIntro from '@/components/tv/product-detail/FeatureIntro';
 import HeroMedia from '@/components/tv/product-detail/HeroMedia';
 import FeatureCardsGrid from '@/components/tv/product-detail/FeatureCardsGrid';
@@ -26,7 +27,7 @@ import type {
 import type { ApiProduct } from '@/lib/api/products/types';
 import { categoryFromSlug, type ProductCategorySlug } from '@/lib/api/products/categories';
 import type { Locale } from '@/i18n/routing';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import {
   createBreadcrumbItems,
   getLanguageAlternates,
@@ -34,7 +35,7 @@ import {
   SITE_URL,
   toAbsoluteUrl,
 } from '@/lib/seo/site';
-import { createInternalApiUrl } from '@/lib/api/internalUrl';
+import { loadProduct, loadProducts } from '@/lib/api/products/source';
 import { buildProductJsonLd, buildVideoObjectJsonLd } from '@/lib/seo/productSchema';
 import { buildProductMetaDescription, buildProductMetaTitle } from '@/lib/seo/productMeta';
 import { buildProductFaqs, getProductFaqHeading } from '@/lib/seo/productFaq';
@@ -121,6 +122,21 @@ const COPY_BLOCK_KEYS_SET = new Set(COPY_BLOCK_KEYS);
 // ISR: cache the rendered page (and its DB-backed product fetch) and refresh
 // hourly instead of re-querying the database on every request/crawl.
 export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  // A sibling category page's generateStaticParams does not supply params to
+  // this route. Enumerate both segments here; the locale comes from the layout.
+  const catalogs = await Promise.all(
+    (['tvs', 'rac', 'cac', 'wms'] as const).map(async (category) => {
+      const { products } = await loadProducts(categoryFromSlug(category));
+      return products.map((product) => ({
+        category,
+        productId: (product.slug || product.id).toLowerCase(),
+      }));
+    }),
+  );
+  return catalogs.flat();
+}
 
 const resolveLocale = (locale?: string): 'fa' | 'en' => (locale === 'fa' ? 'fa' : 'en');
 
@@ -327,26 +343,19 @@ const buildBreadcrumbItems = (
   ),
 ];
 
-const productApiUrl = (categorySlug: ProductCategorySlug, id: string) =>
-  createInternalApiUrl(`/api/products/${id}?category=${categorySlug}`);
-
-const fetchProduct = async (
-  categorySlug: ProductCategorySlug,
-  productId: string,
-): Promise<NormalizedProduct | null> => {
-  try {
-    const response = await fetch(productApiUrl(categorySlug, productId), {
-      next: { revalidate: 3600 },
-    });
-    if (!response.ok) {
-      return null;
-    }
-    const product = (await response.json()) as NormalizedProduct;
+// Share the same DB-first lookup between metadata and page rendering. Calling the
+// data source directly also works during builds and internal HTTP outages.
+const fetchProduct = cache(
+  async (
+    categorySlug: ProductCategorySlug,
+    productId: string,
+  ): Promise<NormalizedProduct | null> => {
+    const category = categoryFromSlug(categorySlug);
+    if (!category) return null;
+    const { product } = await loadProduct(productId, category);
     return product;
-  } catch {
-    return null;
-  }
-};
+  },
+);
 
 const getCategoryCopy = async (categorySlug: ProductCategorySlug) => {
   if (categorySlug === 'tvs') {
@@ -415,8 +424,7 @@ const getCategoryCopy = async (categorySlug: ProductCategorySlug) => {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolved = await params;
-  const localeParam = resolved?.locale ?? 'en';
-  setRequestLocale(resolveLocale(localeParam));
+  const localeParam = await resolvePageLocale(params);
   const categorySlug = (resolved?.category ?? '').toLowerCase() as ProductCategorySlug;
   const productId = resolved?.productId ?? '';
   if (!productId) return {};
@@ -425,10 +433,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const product = await fetchProduct(categorySlug, productId);
   if (!product) return {};
 
+  const canonicalId = (product.slug || product.id).toLowerCase();
+  const canonicalPath = `/products/${categorySlug}/${canonicalId}`;
   const lang = resolveLocale(localeParam);
   const copy = product.copy[lang];
-  const imageUrl = toSrc(product.posterImageUrl ?? product.imageUrl);
-  const languageAlternates = getLanguageAlternates(`/products/${categorySlug}/${productId}`);
+  const imageUrl = toSrc(
+    product.posterImageUrl === '' ? product.imageUrl : (product.posterImageUrl ?? product.imageUrl),
+  );
+  const languageAlternates = getLanguageAlternates(canonicalPath);
   const categoryCopy = await getCategoryCopy(categorySlug);
 
   const metaDescription = buildProductMetaDescription(lang, copy.name);
@@ -439,12 +451,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: copy.name,
       description: metaDescription,
-      images: [{ url: imageUrl }],
-      url: `/${localeParam}/products/${categorySlug}/${productId}`,
+      images: [{ url: imageUrl, alt: copy.name }],
+      url: `/${localeParam}${canonicalPath}`,
       type: 'website',
     },
     alternates: {
-      canonical: `/${localeParam}/products/${categorySlug}/${productId}`,
+      canonical: `/${localeParam}${canonicalPath}`,
       languages: languageAlternates,
     },
     twitter: {
@@ -458,9 +470,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProductDetailPage({ params }: PageProps) {
   const resolved = await params;
-  const locale = resolved?.locale ?? 'en';
+  const locale = await resolvePageLocale(params);
   const resolvedLocale: Locale = locale === 'fa' ? 'fa' : 'en';
-  setRequestLocale(resolvedLocale);
   const categorySlug = (resolved?.category ?? '').toLowerCase() as ProductCategorySlug;
   const productId = resolved?.productId ?? '';
   const lang = resolveLocale(locale);
@@ -469,10 +480,19 @@ export default async function ProductDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  if (categoryFromSlug(categorySlug) === 'REFRIGERATOR') {
+    permanentRedirect(`/${resolvedLocale}/refrigerator/${productId.toLowerCase()}`);
+  }
+
   const product = await fetchProduct(categorySlug, productId);
 
   if (!product) {
     notFound();
+  }
+
+  const canonicalId = (product.slug || product.id).toLowerCase();
+  if (resolved?.category !== categorySlug || productId !== canonicalId) {
+    permanentRedirect(`/${resolvedLocale}/products/${categorySlug}/${canonicalId}`);
   }
 
   const copy = product.copy[lang];
@@ -510,7 +530,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
     productId,
     categorySlug,
   );
-  const comparisonLabels = { before: 'Before', after: 'After' };
+  const comparisonLabels =
+    lang === 'fa' ? { before: 'قبل', after: 'بعد' } : { before: 'Before', after: 'After' };
   const productPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
@@ -523,7 +544,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
     },
     primaryImageOfPage: {
       '@type': 'ImageObject',
-      url: toAbsoluteUrl(toSrc(product.posterImageUrl ?? product.imageUrl)),
+      url: toAbsoluteUrl(
+        toSrc(
+          product.posterImageUrl === ''
+            ? product.imageUrl
+            : (product.posterImageUrl ?? product.imageUrl),
+        ),
+      ),
     },
     about: {
       '@type': 'Thing',
@@ -539,7 +566,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
     name: copy.name,
     description: copy.tagline,
     url: `${SITE_URL}/${resolvedLocale}/products/${categorySlug}/${productId}`,
-    image: toSrc(product.posterImageUrl ?? product.imageUrl),
+    image: toSrc(
+      product.posterImageUrl === ''
+        ? product.imageUrl
+        : (product.posterImageUrl ?? product.imageUrl),
+    ),
     sku: product.sku ?? product.id,
     mpn: product.id,
     category: categoryCopy.label,
@@ -554,7 +585,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
         name: lang === 'fa' ? `ویدیو معرفی ${copy.name}` : `${copy.name} overview video`,
         description: copy.tagline || copy.name,
         contentUrl: heroVideoUrl,
-        thumbnailUrl: toSrc(product.posterImageUrl ?? product.imageUrl),
+        thumbnailUrl: toSrc(
+          product.posterImageUrl === ''
+            ? product.imageUrl
+            : (product.posterImageUrl ?? product.imageUrl),
+        ),
       })
     : null;
 
@@ -573,14 +608,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
         seriesDisplay={seriesDisplay}
         availableSizes={availableSizes}
         copyName={copy.name}
-      />
-
-      <MobileHeader
-        breadcrumbItems={breadcrumbItems}
-        lang={lang}
-        seriesDisplay={seriesDisplay}
-        copyName={copy.name}
-        availableSizes={availableSizes}
       />
 
       {specDetails.length > 0 && <SpecsJumpButton targetId="product-specs" lang={lang} />}

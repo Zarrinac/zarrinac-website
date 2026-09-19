@@ -1,8 +1,9 @@
-import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
+import { resolvePageLocale } from '@/i18n/pageLocale';
+import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { Visibility } from '@mui/icons-material';
 import TvHeroCarousel from '@/components/tv/TvHeroCarousel';
 import RouteHero from '@/components/routes/RouteHero';
@@ -10,7 +11,7 @@ import JsonLd from '@/components/seo/JsonLd';
 import OfficialLinksSection from '@/components/seo/OfficialLinksSection';
 import CategorySeoSection from '@/components/seo/CategorySeoSection';
 import PageBreadcrumbs from '@/components/seo/PageBreadcrumbs';
-import { FALLBACK_PRODUCTS } from '@/lib/api/products/normalizers';
+import { loadProducts } from '@/lib/api/products/source';
 import type { ApiProduct } from '@/lib/api/products/types';
 import {
   categoryFromSlug,
@@ -26,13 +27,16 @@ import {
   SITE_URL,
   toAbsoluteUrl,
 } from '@/lib/seo/site';
-import { createInternalApiUrl } from '@/lib/api/internalUrl';
 import { CATEGORY_SEO_CONTENT } from '@/lib/seo/categorySeoContent';
 import { buildCategoryMetaDescription, buildCategoryMetaTitle } from '@/lib/seo/productMeta';
 
 // ISR: cache category listings (and their DB-backed product fetch) and refresh
 // hourly instead of re-querying the database on every request/crawl.
 export const revalidate = 3600;
+
+export function generateStaticParams() {
+  return ['tvs', 'rac', 'cac', 'wms'].map((category) => ({ category }));
+}
 
 const bannerAsset = (path: string) => mediaUrl(`/tv-banner/${path}`);
 
@@ -52,27 +56,9 @@ type PageProps = {
   params: PageParams | Promise<PageParams>;
 };
 
-const fetchProducts = async (
-  categorySlug: ProductCategorySlug,
-  category: ProductCategory,
-): Promise<ApiProduct[]> => {
-  const fallback = FALLBACK_PRODUCTS.filter((product) => product.category === category);
-  const apiUrl = createInternalApiUrl(`/api/products?category=${categorySlug}`);
-  try {
-    const response = await fetch(apiUrl, { next: { revalidate: 3600 } });
-    if (!response.ok) {
-      return fallback;
-    }
-    let data: ApiProduct[];
-    try {
-      data = (await response.json()) as ApiProduct[];
-    } catch {
-      return fallback;
-    }
-    return Array.isArray(data) && data.length > 0 ? data : fallback;
-  } catch {
-    return fallback;
-  }
+const fetchProducts = async (category: ProductCategory): Promise<ApiProduct[]> => {
+  const { products } = await loadProducts(category);
+  return products;
 };
 
 const buildProductListJsonLd = ({
@@ -101,7 +87,7 @@ const buildProductListJsonLd = ({
     name: title,
     itemListElement: products.map((product, index) => {
       const copy = product.copy[lang] ?? product.copy.en;
-      const slug = (product.slug ?? product.id).toLocaleLowerCase();
+      const slug = (product.slug || product.id).toLowerCase();
 
       return {
         '@type': 'ListItem',
@@ -122,8 +108,7 @@ const buildProductListJsonLd = ({
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolved = await params;
-  const locale = resolved?.locale ?? (await getLocale());
-  setRequestLocale(locale);
+  const locale = await resolvePageLocale(params);
   const categorySlug = (resolved?.category ?? '').toLowerCase() as ProductCategorySlug;
   const category = categoryFromSlug(categorySlug);
 
@@ -262,8 +247,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProductsCategoryPage({ params }: PageProps) {
   const resolved = await params;
-  const locale = resolved?.locale ?? (await getLocale());
-  setRequestLocale(locale);
+  const locale = await resolvePageLocale(params);
   const categorySlug = (resolved?.category ?? '').toLowerCase() as ProductCategorySlug;
   const category = categoryFromSlug(categorySlug);
 
@@ -271,12 +255,19 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
     notFound();
   }
 
+  if (category === 'REFRIGERATOR') {
+    permanentRedirect(`/${locale}/refrigerator`);
+  }
+  if (resolved?.category !== categorySlug) {
+    permanentRedirect(`/${locale}/products/${categorySlug}`);
+  }
+
   if (category === 'TVS') {
     const [routeTranslations, pageTranslations] = await Promise.all([
       getTranslations('Routes.tvHisense'),
       getTranslations('TvHisensePage'),
     ]);
-    const products = await fetchProducts(categorySlug, category);
+    const products = await fetchProducts(category);
     const detailsLabel = pageTranslations('actions.details');
     const lang: 'fa' | 'en' = locale === 'fa' ? 'fa' : 'en';
     const resolvedLocale: Locale = locale === 'fa' ? 'fa' : 'en';
@@ -301,7 +292,7 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
               {
                 href: `/${locale}`,
                 label: 'صفحه اصلی هایسنس ایران',
-                description: 'مرجع رسمی برند، دسته‌بندی محصولات و سیگنال اصلی جستجوی برند.',
+                description: 'مشاهده دسته‌بندی محصولات هایسنس و دسترسی به اطلاعات فروش و خدمات.',
               },
               {
                 href: `/${locale}/about`,
@@ -328,7 +319,7 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
                 href: `/${locale}`,
                 label: 'Hisense Iran homepage',
                 description:
-                  'Primary brand hub for official products, categories, and entity signals.',
+                  'Explore Hisense product categories and find sales and service information.',
               },
               {
                 href: `/${locale}/about`,
@@ -384,7 +375,7 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
               return (
                 <Link
                   key={product.id}
-                  href={`/${locale}/products/${categorySlug}/${(product.slug ?? product.id).toLocaleLowerCase()}`}
+                  href={`/${locale}/products/${categorySlug}/${(product.slug || product.id).toLowerCase()}`}
                   className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-(--border-color) bg-(--surface-color) shadow-(--panel-shadow) transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_color-mix(in_srgb,var(--overlay-color) 55%,transparent)] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-(--brand-color)"
                 >
                   <div className="relative w-full overflow-hidden">
@@ -426,9 +417,9 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
                     <p className="text-xs font-semibold uppercase tracking-[0.35em] text-(--text-subtle-color)">
                       {product.series}
                     </p>
-                    <h3 className="text-base font-bold text-(--default-black-font) sm:text-xl">
+                    <h2 className="text-base font-bold text-(--default-black-font) sm:text-xl">
                       {copy.name}
-                    </h3>
+                    </h2>
                   </div>
                 </Link>
               );
@@ -464,7 +455,7 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
       getTranslations(routeKey),
       getTranslations('TvHisensePage'),
     ]);
-    const products = await fetchProducts(categorySlug, category);
+    const products = await fetchProducts(category);
     const lang: 'fa' | 'en' = locale === 'fa' ? 'fa' : 'en';
     const resolvedLocale: Locale = locale === 'fa' ? 'fa' : 'en';
     const detailsLabel = pageTranslations('actions.details');
@@ -525,8 +516,7 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
               {
                 href: `/${locale}`,
                 label: 'Hisense Iran homepage',
-                description:
-                  'Official brand hub for categories, products, and core company signals.',
+                description: 'Explore Hisense products and find sales and service information.',
               },
               {
                 href: `/${locale}/about`,
@@ -585,7 +575,7 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
               return (
                 <Link
                   key={product.id}
-                  href={`/${locale}/products/${categorySlug}/${(product.slug ?? product.id).toLocaleLowerCase()}`}
+                  href={`/${locale}/products/${categorySlug}/${(product.slug || product.id).toLowerCase()}`}
                   className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-(--border-color) bg-(--surface-color) shadow-(--panel-shadow) transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_color-mix(in_srgb,var(--overlay-color) 55%,transparent)] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-(--brand-color)"
                 >
                   <div className="relative w-full overflow-hidden">
@@ -627,9 +617,9 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
                     <p className="text-xs font-semibold uppercase tracking-[0.35em] text-(--text-subtle-color)">
                       <span dir={seriesLabelDir}>{seriesLabel}</span>
                     </p>
-                    <h3 className="text-base font-bold text-(--default-black-font) sm:text-xl">
+                    <h2 className="text-base font-bold text-(--default-black-font) sm:text-xl">
                       {copy.name}
-                    </h3>
+                    </h2>
                     <p className="text-xs text-(--text-muted-color) sm:text-sm">{copy.tagline}</p>
                   </div>
                 </Link>

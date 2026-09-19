@@ -1,3 +1,4 @@
+import { resolvePageLocale, type LocalePageProps } from '@/i18n/pageLocale';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
@@ -11,7 +12,7 @@ import RuleOutlinedIcon from '@mui/icons-material/RuleOutlined';
 import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import RouteHero from '@/components/routes/RouteHero';
 import JsonLd from '@/components/seo/JsonLd';
 import OfficialLinksSection from '@/components/seo/OfficialLinksSection';
@@ -412,8 +413,8 @@ const WARRANTY_CONTENT: Record<Locale, WarrantyContent> = {
   },
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as Locale;
+export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.warranty');
   const localizedPath = `/${locale}/warranty-and-guarantee`;
   const languageAlternates = getLanguageAlternates('/warranty-and-guarantee');
@@ -477,8 +478,8 @@ async function getDownloadItems(locale: Locale, fallback: DownloadItem[]) {
   }
 }
 
-export default async function WarrantyAndGuaranteePage() {
-  const locale = (await getLocale()) as Locale;
+export default async function WarrantyAndGuaranteePage({ params }: LocalePageProps) {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.warranty');
   const content = WARRANTY_CONTENT[locale];
   const breadcrumbItems = createBreadcrumbItems(locale, {

@@ -41,8 +41,8 @@ const FOOTER_SECTIONS: Array<{
     titleKey: 'products.title',
     linkKeys: [
       { key: 'dcode', href: '/dcode' },
-      { key: 'ventilation', href: '/rac' },
-      { key: 'industrialVentilation', href: '/cac' },
+      { key: 'ventilation', href: '/products/rac' },
+      { key: 'industrialVentilation', href: '/products/cac' },
       { key: 'refrigerator', href: '/refrigerator' },
       { key: 'television', href: '/products/tvs' },
       { key: 'washingMachine', href: '/products/wms' },
@@ -108,7 +108,6 @@ export default function Footer() {
               alt={t('branding.title')}
               className="h-auto w-[80%] max-w-55"
               sizes="(max-width: 1024px) 60vw, 240px"
-              priority
             />
           </Link>
           <p className="text-sm text-(--text-muted-color)">{t('branding.tagline')}</p>

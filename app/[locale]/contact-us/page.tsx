@@ -1,7 +1,8 @@
+import { resolvePageLocale, type LocalePageProps } from '@/i18n/pageLocale';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
@@ -294,8 +295,8 @@ const CONTACT_CONTENT: Record<Locale, ContactContent> = {
   },
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = await getLocale();
+export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.contact');
   const localizedPath = `/${locale}/contact-us`;
   const languageAlternates = getLanguageAlternates('/contact-us');
@@ -332,8 +333,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function ContactUsPage() {
-  const locale = await getLocale();
+export default async function ContactUsPage({ params }: LocalePageProps) {
+  const locale = await resolvePageLocale(params);
   const resolvedLocale: Locale = locale === 'fa' ? 'fa' : 'en';
   const routeTranslations = await getTranslations('Routes.contact');
   const content = CONTACT_CONTENT[resolvedLocale];

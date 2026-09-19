@@ -1,3 +1,4 @@
+import { resolvePageLocale, type LocalePageProps } from '@/i18n/pageLocale';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
@@ -5,7 +6,7 @@ import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurned
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import ComplaintForm, { type ComplaintFormCopy } from '@/components/complaint/ComplaintForm';
 import RouteHero from '@/components/routes/RouteHero';
 import JsonLd from '@/components/seo/JsonLd';
@@ -441,8 +442,8 @@ const COMPLAINT_CONTENT: Record<Locale, ComplaintPageContent> = {
   },
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as Locale;
+export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.complaint');
   const localizedPath = `/${locale}/complaint`;
   const languageAlternates = getLanguageAlternates('/complaint');
@@ -458,8 +459,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function ComplaintPage() {
-  const locale = (await getLocale()) as Locale;
+export default async function ComplaintPage({ params }: LocalePageProps) {
+  const locale = await resolvePageLocale(params);
   const routeTranslations = await getTranslations('Routes.complaint');
   const content = COMPLAINT_CONTENT[locale];
   const breadcrumbItems = createBreadcrumbItems(locale, {

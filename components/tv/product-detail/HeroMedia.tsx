@@ -24,7 +24,8 @@ const HeroMedia = ({ image, posterImage, heroVideo, alt }: HeroMediaProps) =>
               muted
               playsInline
               preload="auto"
-              poster={toSrc(posterImage ?? image)}
+              poster={toSrc(posterImage === '' ? image : (posterImage ?? image))}
+              aria-label={alt}
             >
               <source src={heroVideo} type="video/mp4" />
             </video>

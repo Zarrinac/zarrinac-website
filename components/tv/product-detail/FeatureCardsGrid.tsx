@@ -46,9 +46,9 @@ const FeatureCardsGrid = ({ featureCards, linkTargets }: FeatureCardsGridProps) 
                   className="max-h-12 w-auto max-w-[80%] object-contain"
                 />
               </div>
-              <h4 className="text-[11px] font-medium leading-snug text-slate-100/90 md:text-sm">
+              <p className="text-[11px] font-medium leading-snug text-slate-100/90 md:text-sm">
                 {block.title}
-              </h4>
+              </p>
             </>
           );
 
