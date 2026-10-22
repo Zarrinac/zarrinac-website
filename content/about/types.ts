@@ -78,6 +78,14 @@ export type AboutCSR = {
   highlights: AboutCSRHighlight[];
 };
 
+export type AboutVideo = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  /** Describes the footage for assistive tech; <video> has no alt attribute. */
+  label: string;
+};
+
 export type AboutPageContent = {
   hero: AboutHero;
   meta: AboutMeta;
@@ -88,4 +96,5 @@ export type AboutPageContent = {
   timeline?: AboutTimelineEntry[];
   values?: AboutValue[];
   csr?: AboutCSR;
+  video?: AboutVideo;
 };

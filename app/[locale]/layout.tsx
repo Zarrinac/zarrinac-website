@@ -16,6 +16,7 @@ import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { routing, type Locale } from '@/i18n/routing';
 import { getSeoKeywords } from '@/lib/seo/keywords';
 import { SITE_URL, toAbsoluteUrl } from '@/lib/seo/site';
+import { SITE_APPLICATION_NAME, SITE_OG_NAME } from '@/lib/seo/siteBrand';
 import { mediaUrl } from '@/lib/mediaUrl';
 
 // Locale layout validates the locale, wires translations/theme, and applies shared page chrome.
@@ -87,7 +88,7 @@ export async function generateMetadata(
     title: t('title'),
     description: t('description'),
     keywords: combinedKeywords.length > 0 ? combinedKeywords : undefined,
-    applicationName: 'Hisense Iran',
+    applicationName: SITE_APPLICATION_NAME,
     alternates: {
       canonical: localizedPath,
       languages: languageAlternates,
@@ -114,7 +115,7 @@ export async function generateMetadata(
       title: t('title'),
       description: t('description'),
       url: canonicalUrl,
-      siteName: 'Zarrin Namaye caspian | Hisense Iran',
+      siteName: SITE_OG_NAME,
       locale: openGraphLocale,
       type: 'website',
       images: [

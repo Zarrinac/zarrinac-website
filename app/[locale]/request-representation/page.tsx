@@ -20,6 +20,7 @@ import {
   getLocaleLanguage,
   SITE_URL,
 } from '@/lib/seo/site';
+import { siteBrandName } from '@/lib/seo/siteBrand';
 
 type IconType = typeof StorefrontOutlinedIcon;
 
@@ -144,7 +145,7 @@ const REPRESENTATION_CONTENT: Record<Locale, RepresentationContent> = {
       items: [
         {
           href: '/contact-us',
-          label: 'تماس با هایسنس ایران',
+          label: `تماس با ${siteBrandName('fa')}`,
           description: 'شماره‌ها، آدرس دفتر مرکزی و مسیرهای ارتباط با بخش فروش و خدمات.',
         },
         {
@@ -234,7 +235,7 @@ const REPRESENTATION_CONTENT: Record<Locale, RepresentationContent> = {
       items: [
         {
           href: '/contact-us',
-          label: 'Contact Hisense Iran',
+          label: `Contact ${siteBrandName('en')}`,
           description:
             'Verified phone numbers, head office address, and sales or service channels.',
         },

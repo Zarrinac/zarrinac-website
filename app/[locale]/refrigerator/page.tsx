@@ -20,6 +20,7 @@ import {
 } from '@/lib/seo/site';
 import { CATEGORY_SEO_CONTENT } from '@/lib/seo/categorySeoContent';
 import { buildCategoryMetaDescription, buildCategoryMetaTitle } from '@/lib/seo/productMeta';
+import { siteBrandName } from '@/lib/seo/siteBrand';
 
 const bannerAsset = (path: string) => mediaUrl(`/products/refrigerator/banner/${path}`);
 const productAsset = (path: string) => mediaUrl(`/products/refrigerator/${path}`);
@@ -193,11 +194,11 @@ export default async function RefrigeratorPage({ params }: LocalePageProps) {
     locale === 'fa'
       ? {
           eyebrow: 'مسیرهای رسمی',
-          title: 'لینک‌های رسمی هایسنس ایران',
+          title: `لینک‌های رسمی ${siteBrandName('fa')}`,
           items: [
             {
               href: `/${locale}`,
-              label: 'صفحه اصلی هایسنس ایران',
+              label: `صفحه اصلی ${siteBrandName('fa')}`,
               description: 'معرفی رسمی برند و دسته‌بندی اصلی محصولات هایسنس در ایران.',
             },
             {
@@ -208,7 +209,7 @@ export default async function RefrigeratorPage({ params }: LocalePageProps) {
             {
               href: `/${locale}/contact-us`,
               label: 'تماس و مشاوره خرید',
-              description: 'دریافت مشاوره، استعلام و ارتباط با دفتر مرکزی هایسنس ایران.',
+              description: `دریافت مشاوره، استعلام و ارتباط با دفتر مرکزی ${siteBrandName('fa')}.`,
             },
             {
               href: `/${locale}/warranty-and-guarantee`,
@@ -219,11 +220,11 @@ export default async function RefrigeratorPage({ params }: LocalePageProps) {
         }
       : {
           eyebrow: 'Official paths',
-          title: 'Official Hisense Iran links',
+          title: `Official ${siteBrandName('en')} links`,
           items: [
             {
               href: `/${locale}`,
-              label: 'Hisense Iran homepage',
+              label: `${siteBrandName('en')} homepage`,
               description: 'Explore Hisense products and find sales and service information.',
             },
             {

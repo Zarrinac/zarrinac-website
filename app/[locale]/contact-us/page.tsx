@@ -22,6 +22,7 @@ import {
 } from '@/lib/seo/site';
 import { buildLocalBusinessJsonLd } from '@/lib/seo/localBusiness';
 import { buildSupportMetaDescription } from '@/lib/seo/productMeta';
+import { IS_ZARRINAC_SITE, siteBrandName } from '@/lib/seo/siteBrand';
 
 const HERO_IMAGE = mediaUrl('/contact-us/contactUs-support-hero.jpg');
 const SUPPORT_IMAGE = mediaUrl('/contact-us/contactUs-box1.jpg');
@@ -85,7 +86,10 @@ const CONTACT_CONTENT: Record<Locale, ContactContent> = {
   fa: {
     hero: {
       eyebrow: 'نماینده رسمی هایسنس در ایران',
-      title: 'ارتباط با صنایع زرین نمای کاسپین',
+      // zarrinac.com serves this page too, under its own H1.
+      title: IS_ZARRINAC_SITE
+        ? 'با زرین نمای کاسپین در تماس باشید'
+        : 'ارتباط با صنایع زرین نمای کاسپین',
       description:
         'برای دریافت مشاوره خرید، پیگیری سفارش، پشتیبانی محصولات Hisense و همچنین برقراری ارتباط با بخش‌های مختلف مجموعه صنایع زرین نمای کاسپین، از طریق اطلاعات تماس زیر با ما در ارتباط باشید. زرین نمای کاسپین، تنها نماینده رسمی هایسنس در ایران، آماده پاسخگویی به مشتریان و نمایندگان فروش و خدمات در سراسر کشور است.',
       actions: [
@@ -102,7 +106,7 @@ const CONTACT_CONTENT: Record<Locale, ContactContent> = {
       description:
         'برای مشاوره خرید، پیگیری سفارش و خدمات پس از فروش، از مسیرهای رسمی زرین نمای کاسپین استفاده کنید.',
       topics: ['مشاوره خرید', 'پیگیری سفارش', 'پشتیبانی Hisense', 'شبکه نمایندگان'],
-      imageAlt: 'پشتیبانی رسمی هایسنس ایران',
+      imageAlt: `پشتیبانی رسمی ${siteBrandName('fa')}`,
     },
     groups: [
       {
@@ -190,7 +194,9 @@ const CONTACT_CONTENT: Record<Locale, ContactContent> = {
   en: {
     hero: {
       eyebrow: 'Official Hisense Representative in Iran',
-      title: 'Contact Zarrin Namaye Caspian',
+      title: IS_ZARRINAC_SITE
+        ? 'Get in touch with Zarrin Namaye Caspian'
+        : 'Contact Zarrin Namaye Caspian',
       description:
         'For purchase advice, order follow-ups, Hisense support, or to reach different departments of Zarrin Namaye Caspian Industries, use the contact details below. We are ready to support customers, sales partners, and service teams nationwide.',
       actions: [
@@ -207,7 +213,7 @@ const CONTACT_CONTENT: Record<Locale, ContactContent> = {
       description:
         'Get purchase consulting, order tracking, and after-sales support through our official channels.',
       topics: ['Purchase advice', 'Order tracking', 'Hisense support', 'Dealer network'],
-      imageAlt: 'Hisense Iran support team',
+      imageAlt: `${siteBrandName('en')} support team`,
     },
     groups: [
       {
@@ -350,11 +356,11 @@ export default async function ContactUsPage({ params }: LocalePageProps) {
     resolvedLocale === 'fa'
       ? {
           eyebrow: 'صفحات رسمی',
-          title: 'صفحات اصلی هایسنس ایران',
+          title: `صفحات اصلی ${siteBrandName('fa')}`,
           items: [
             {
               href: `/${resolvedLocale}`,
-              label: 'صفحه اصلی هایسنس ایران',
+              label: `صفحه اصلی ${siteBrandName('fa')}`,
               description: 'معرفی رسمی برند، محصولات و مسیرهای اصلی ارتباط با زرین نمای کاسپین.',
             },
             {
@@ -381,11 +387,11 @@ export default async function ContactUsPage({ params }: LocalePageProps) {
         }
       : {
           eyebrow: 'Official pages',
-          title: 'Primary Hisense Iran pages',
+          title: `Primary ${siteBrandName('en')} pages`,
           items: [
             {
               href: `/${resolvedLocale}`,
-              label: 'Hisense Iran homepage',
+              label: `${siteBrandName('en')} homepage`,
               description:
                 'Primary brand page for products, company signals, and official channels.',
             },
@@ -585,7 +591,9 @@ export default async function ContactUsPage({ params }: LocalePageProps) {
                   href={`/${resolvedLocale}`}
                   className="text-sm font-semibold text-(--brand-color) transition hover:text-(--brand-color-dark)"
                 >
-                  {resolvedLocale === 'fa' ? 'صفحه اصلی هایسنس ایران' : 'Hisense Iran homepage'}
+                  {resolvedLocale === 'fa'
+                    ? `صفحه اصلی ${siteBrandName('fa')}`
+                    : `${siteBrandName('en')} homepage`}
                 </Link>
                 <Link
                   href={`/${resolvedLocale}/about`}

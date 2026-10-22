@@ -6,8 +6,10 @@ import type { Locale } from '@/i18n/routing';
 import { getAboutContent } from '@/content/about';
 import type { AboutImageKey, AboutPageContent } from '@/content/about/types';
 import JsonLd from '@/components/seo/JsonLd';
+import { buildVideoObjectJsonLd } from '@/lib/seo/productSchema';
 import OfficialLinksSection from '@/components/seo/OfficialLinksSection';
 import PageBreadcrumbs from '@/components/seo/PageBreadcrumbs';
+import MediaVideoSection from '@/components/video/MediaVideoSection';
 import { mediaUrl } from '@/lib/mediaUrl';
 import {
   createBreadcrumbItems,
@@ -15,6 +17,7 @@ import {
   getLocaleLanguage,
   SITE_URL,
 } from '@/lib/seo/site';
+import { SITE_OG_NAME, siteBrandName } from '@/lib/seo/siteBrand';
 
 // About page hydrates structured content from locale-specific JSON files.
 const OG_LOCALE_MAP: Record<Locale, string> = {
@@ -23,6 +26,12 @@ const OG_LOCALE_MAP: Record<Locale, string> = {
 };
 
 const aboutAsset = (path: string) => mediaUrl(`/images/${path}`);
+
+// Self-hosted brand film: first-party media-store paths, so the page can claim it
+// in VideoObject JSON-LD. Click-to-play with audio — it is a 100s narrative film,
+// not a decorative loop, so it never autoplays.
+const BRAND_FILM_SRC = '/images/hisense-brand-film.mp4';
+const BRAND_FILM_POSTER = '/images/hisense-brand-film-poster.webp';
 
 const ABOUT_IMAGES: Record<AboutImageKey, string> = {
   factory: aboutAsset('factory.png'),
@@ -64,7 +73,7 @@ export async function generateMetadata(props: AboutPageProps): Promise<Metadata>
       title: content.meta.title,
       description: content.meta.description,
       url: `${SITE_URL}${localizedPath}`,
-      siteName: 'Zarrin Namaye Caspian | Hisense Iran',
+      siteName: SITE_OG_NAME,
       locale: OG_LOCALE_MAP[locale],
       images: [
         {
@@ -102,15 +111,23 @@ export default async function AboutPage({ params }: AboutPageProps) {
       '@id': `${SITE_URL}#organization`,
     },
   };
+  const videoJsonLd = content.video
+    ? buildVideoObjectJsonLd({
+        name: content.video.title,
+        description: content.video.description,
+        contentUrl: mediaUrl(BRAND_FILM_SRC),
+        thumbnailUrl: mediaUrl(BRAND_FILM_POSTER),
+      })
+    : null;
   const officialLinks =
     locale === 'fa'
       ? {
           eyebrow: 'مسیرهای رسمی برند',
-          title: 'صفحات کلیدی هایسنس ایران',
+          title: `صفحات کلیدی ${siteBrandName('fa')}`,
           items: [
             {
               href: `/${locale}`,
-              label: 'صفحه اصلی هایسنس ایران',
+              label: `صفحه اصلی ${siteBrandName('fa')}`,
               description: 'مشاهده دسته‌بندی محصولات هایسنس و دسترسی به اطلاعات فروش و خدمات.',
             },
             {
@@ -137,11 +154,11 @@ export default async function AboutPage({ params }: AboutPageProps) {
         }
       : {
           eyebrow: 'Official brand paths',
-          title: 'Key Hisense Iran pages',
+          title: `Key ${siteBrandName('en')} pages`,
           items: [
             {
               href: `/${locale}`,
-              label: 'Hisense Iran homepage',
+              label: `${siteBrandName('en')} homepage`,
               description:
                 'Explore Hisense product categories and find sales and service information.',
             },
@@ -174,6 +191,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
   return (
     <div className="space-y-16 bg-(--background-color) pb-20 pt-10">
       <JsonLd data={aboutSchema} />
+      {videoJsonLd && <JsonLd data={videoJsonLd} />}
       <PageBreadcrumbs items={breadcrumbItems} locale={locale} className="-mt-5 pt-0" />
       <section className="relative isolate overflow-hidden px-6 py-16 text-(--hero-title-color) sm:py-24">
         {heroImage && (
@@ -205,7 +223,9 @@ export default async function AboutPage({ params }: AboutPageProps) {
                 href={`/${locale}`}
                 className="inline-flex items-center justify-center rounded-full border border-white/70 px-6 py-3 text-base font-semibold text-white transition hover:bg-white hover:text-(--brand-color) focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-white"
               >
-                {locale === 'fa' ? 'صفحه اصلی هایسنس ایران' : 'Hisense Iran homepage'}
+                {locale === 'fa'
+                  ? `صفحه اصلی ${siteBrandName('fa')}`
+                  : `${siteBrandName('en')} homepage`}
               </Link>
             </div>
           )}
@@ -260,6 +280,18 @@ export default async function AboutPage({ params }: AboutPageProps) {
             </div>
           </div>
         </section>
+      )}
+
+      {content.video && (
+        <MediaVideoSection
+          mode="feature"
+          src={BRAND_FILM_SRC}
+          poster={BRAND_FILM_POSTER}
+          eyebrow={content.video.eyebrow}
+          title={content.video.title}
+          description={content.video.description}
+          label={content.video.label}
+        />
       )}
 
       {content.sections.map((section, index) => {
@@ -317,7 +349,9 @@ export default async function AboutPage({ params }: AboutPageProps) {
                 {locale === 'fa' ? 'جدول زمانی' : 'Timeline'}
               </p>
               <h2 className="mt-2 text-2xl font-bold sm:text-3xl">
-                {locale === 'fa' ? 'نقاط عطف هایسنس ایران' : 'Key milestones of Hisense Iran'}
+                {locale === 'fa'
+                  ? `نقاط عطف ${siteBrandName('fa')}`
+                  : `Key milestones of ${siteBrandName('en')}`}
               </h2>
             </div>
             <div

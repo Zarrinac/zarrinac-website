@@ -1,4 +1,6 @@
 import type { Locale } from '@/i18n/routing';
+import { SITE_ID } from '@/lib/siteId';
+import { ZARRINAC_CATEGORY_SEO_CONTENT } from '@/lib/seo/categorySeoContent.zarrinac';
 
 // Keyword-targeted SEO copy + FAQs for product category pages. The site ranks for
 // brand/company terms; this indexable copy + FAQPage schema targets product-intent
@@ -20,7 +22,7 @@ export type CategorySeoContent = {
 
 export type CategorySeoKey = 'tvs' | 'rac' | 'cac' | 'wms' | 'refrigerator';
 
-export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, CategorySeoContent>> = {
+const DEFAULT_CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, CategorySeoContent>> = {
   tvs: {
     fa: {
       heading: 'خرید تلویزیون هایسنس؛ راهنمای مدل‌ها و فناوری‌ها',
@@ -357,3 +359,10 @@ export const CATEGORY_SEO_CONTENT: Record<CategorySeoKey, Record<Locale, Categor
     },
   },
 };
+
+// zarrinac.com serves these same category pages as hisense-ir.com, so it publishes its
+// own copy (categorySeoContent.zarrinac.ts) instead of a duplicate of this one.
+export const CATEGORY_SEO_CONTENT: Record<
+  CategorySeoKey,
+  Record<Locale, CategorySeoContent>
+> = SITE_ID === 'zarrinac' ? ZARRINAC_CATEGORY_SEO_CONTENT : DEFAULT_CATEGORY_SEO_CONTENT;
