@@ -5,9 +5,11 @@ Stack: Next.js 16 App Router · React 19 · TypeScript 6 · PostgreSQL + Prisma 
 
 > This codebase is a replica of the Hisense Iran (`hisense-ir.com`) site, rebranded to zarrinac.com and extended with the D'code brand section. The package is named `zarrinac` and the **dev server runs on port 3001** (not 3000) so it can run alongside the Hisense site locally.
 >
-> **Click forwarding:** Every Hisense-replica section is 308-redirected to `https://www.hisense-ir.com` (see `next.config.ts` → `HISENSE_SECTIONS`) to consolidate SEO and funnel traffic to the canonical Hisense site. The D'code section (`/[locale]/dcode/*`) is likewise 308-redirected to its own standalone site **dcode.co.ir** (`next.config.ts` → `DCODE_SITE_URL`), stripping the `/dcode` segment (`/fa/dcode/tvs/r6d` → `dcode.co.ir/fa/tvs/r6d`). NOT redirected: the home (`/[locale]`) and the functional `/admin` + `/api` routes. The sitemap (`app/sitemap.ts`) therefore lists only the home; `robots.ts` keeps the redirected sections crawlable so Google sees the 308 and transfers equity.
+> **zarrinac.com serves its own sections (policy change 2026-10-22).** From 2026-06-20 to 2026-10-22 every Hisense-replica section (`next.config.ts` → `HISENSE_SECTIONS`) was 308-forwarded to `https://www.hisense-ir.com`. That is now **off for zarrinac** (`SERVES_HISENSE_SECTIONS = NEXT_PUBLIC_SITE_ID === 'zarrinac'`): about, products/\*, refrigerator, FAQ, warranty, contact, repair, complaint, survey, service centers, representation and portal all render here, self-canonical, and `app/sitemap.ts` lists them plus the full product catalog (106 URLs at launch). Every other build — **znci.ir** — still forwards them and keeps a home-only sitemap. The D'code section (`/[locale]/dcode/*`) is still 308-redirected to its standalone site **dcode.co.ir** on every deployment (`DCODE_SITE_URL`), stripping the `/dcode` segment (`/fa/dcode/tvs/r6d` → `dcode.co.ir/fa/tvs/r6d`).
 >
-> **Homepage differentiation (do NOT re-sync to Hisense):** because the home (`/[locale]`) is the only non-redirected marketing page and was byte-identical to `hisense-ir.com`'s home, Google folded the two homepages cross-domain and selected `zarrinac.com` as canonical over hisense — surfacing in hisense GSC as 26× "Duplicate, Google chose different canonical than user" (2026-07). Fix: the home copy (now `content/homeSeoContent.ts`, consumed by `app/[locale]/page.tsx`) is intentionally distinct — title/H1/description/body framed around **Zarrin Namaye Caspian (the company) + the D'code brand**, not a clone "Official Hisense Distributor" page, and targeting its own keywords so the two sites stop cannibalizing. Keep this homepage content diverged from the Hisense repo; only nav-chrome differences (e.g. a menu tab) do NOT break duplicate clustering — main content (title/H1/body) must differ. To give Google a targeted recrawl signal after that differentiation, the home carries its own fresher sitemap `<lastmod>` (`HOME_CONTENT_LAST_MODIFIED` in `lib/seo/site.ts`), separate from the site-wide `SITE_CONTENT_LAST_MODIFIED` baseline and applied only to `path === ''` in `app/sitemap.ts`; bump it again on any future home-content change. The Hisense repo mirrors this same pattern.
+> **Per-site copy layer (do NOT paste hisense copy over it).** Serving the same pages as hisense-ir.com on a second domain is the duplicate-content condition described below, so zarrinac's pages carry their own wording, all behind `SITE_ID`: `messages/sites/zarrinac/{fa,en}.json` (overlay deep-merged in `i18n/request.ts` — route eyebrows, H1 titles, descriptions, `Metadata`), `lib/seo/siteBrand.ts` (`siteBrandName()` — "Zarrin Namaye Caspian" instead of "Hisense Iran" in visible copy; og:site_name, application-name), `lib/seo/productMeta.ts` (zarrinac product/category/support titles + descriptions), `lib/seo/categorySeoContent.zarrinac.ts` (category intro copy + FAQs), `content/about/index.ts` (About meta + hero), WebSite/LocalBusiness JSON-LD names, and the hard-coded H1s of contact-us / hisense-repair / find-service-center. Product detail bodies and specs stay shared (same products) — the residual duplicate risk; watch "Duplicate, Google chose different canonical" in **both** GSC properties. Each of these files keeps the hisense wording as its non-zarrinac branch, so it can be ported to the hisense repo verbatim.
+>
+> **Homepage differentiation (do NOT re-sync to Hisense):** because the home (`/[locale]`) was then the only non-redirected marketing page and was byte-identical to `hisense-ir.com`'s home, Google folded the two homepages cross-domain and selected `zarrinac.com` as canonical over hisense — surfacing in hisense GSC as 26× "Duplicate, Google chose different canonical than user" (2026-07). Fix: the home copy (now `content/homeSeoContent.ts`, consumed by `app/[locale]/page.tsx`) is intentionally distinct — title/H1/description/body framed around **Zarrin Namaye Caspian (the company) + the D'code brand**, not a clone "Official Hisense Distributor" page, and targeting its own keywords so the two sites stop cannibalizing. Keep this homepage content diverged from the Hisense repo; only nav-chrome differences (e.g. a menu tab) do NOT break duplicate clustering — main content (title/H1/body) must differ. To give Google a targeted recrawl signal after that differentiation, the home carries its own fresher sitemap `<lastmod>` (`HOME_CONTENT_LAST_MODIFIED` in `lib/seo/site.ts`), separate from the site-wide `SITE_CONTENT_LAST_MODIFIED` baseline and applied only to `path === ''` in `app/sitemap.ts`; bump it again on any future home-content change. The Hisense repo mirrors this same pattern.
 >
 > **Two deployments, one tree.** The same repo also builds **znci.ir** (Docker on SC1 — see Deployment & Ops). It is a second deployment, not a fork: `NEXT_PUBLIC_SITE_ID` (`lib/siteId.ts`, values `hisense | zarrinac | znci`) picks which home copy block `content/homeSeoContent.ts` builds in, and `HOME_CONTENT_LAST_MODIFIED` in `lib/seo/site.ts` is keyed the same way. The two home blocks must stay **substantively different** (title/H1/body, different keyword targets: zarrinac.com is consumer/brand, znci.ir is trade/corporate) for exactly the reason above — two identical homes on two domains is the duplicate-content condition, whichever domains they are. Anything else that must differ between the deployments belongs behind `SITE_ID` or in env, never in a divergent file.
 
@@ -111,7 +113,7 @@ D'code is a **separate TV brand** from Hisense, kept deliberately independent so
 
 Always use the `mediaUrl(path)` helper from `lib/mediaUrl.ts`. It switches between `/` (local) and `NEXT_PUBLIC_MEDIA_BASE_URL` (CDN) based on env. Never hardcode `/media/` paths.
 
-Printed-catalog code (`lib/catalog/catalogAssets.ts`, `components/catalog/*`) is **mirrored from the hisense repo** — keep it byte-identical there. Only `catalog-general-full.pdf` ships to this server's media: the per-series spreads are unreachable here because `products/*` and `refrigerator/*` 308-redirect to hisense. The homepage catalog copy must stay worded differently from hisense's. Details in DOCS.md → "Printed catalog pages".
+Printed-catalog code (`lib/catalog/catalogAssets.ts`, `components/catalog/*`) is **mirrored from the hisense repo** — keep it byte-identical there. Since 2026-10-22 the per-series spreads (`media/catalog/catalog-*.jpg`) ship to this server too, because `products/*` and `refrigerator/*` render here now; zarrinac's media store was brought level with hisense's that day (catalog spreads, the About brand film, the RAC hero video). The homepage catalog copy must stay worded differently from hisense's. Details in DOCS.md → "Printed catalog pages".
 
 ## Code Conventions
 
@@ -187,11 +189,10 @@ Printed-catalog code (`lib/catalog/catalogAssets.ts`, `components/catalog/*`) is
 
 ## SEO rendering and catalog port (2026-09-19)
 
-Ported from the hisense repo (PR #135, `8b217e6`) to restore the shared-file invariant. **Every
-route this batch touches 308-redirects away on both deployments** (`HISENSE_SECTIONS` + `/dcode` in
-`next.config.ts`), so the rendering fixes are _latent_ here — they keep the shared files identical
-for future ports, they do not change what zarrinac.com or znci.ir serve. The home page is the only
-200 on either domain, and it is the one place the port has visible effect.
+Ported from the hisense repo (PR #135, `8b217e6`) to restore the shared-file invariant. At the time
+every route this batch touches 308-redirected away on both deployments, so the fixes were latent.
+**Since 2026-10-22 zarrinac.com serves those routes itself** (see the top of this file), so they are
+live there now; on znci.ir they are still latent.
 
 - `app/layout.tsx` shares metadata/styles only. `components/Document.tsx` supplies html/body with an
   explicit locale in the locale, admin and root-404 boundaries. Keep root 404 copy explicit via
@@ -210,9 +211,15 @@ for future ports, they do not change what zarrinac.com or znci.ir serve. The hom
 - `buildProductJsonLd` still returns **null** without a genuine offer — the null-`Product` policy is
   unchanged, and no `@type: Product` node is emitted on either site.
 
-**Deliberately not ported:** `app/sitemap.ts` (this repo's sitemap is homepage-only by design — see
-"Sitemap & robots"), `lib/seo/site.ts`'s `PRODUCT_CONTENT_LAST_MODIFIED` (only hisense's sitemap uses
-it) and `seo/audit-2026-09-19.md` (an audit of hisense production).
+**Deliberately not ported:** `seo/audit-2026-09-19.md` (an audit of hisense production). The
+sitemap was ported later, on 2026-10-22, as a SITE_ID-aware version: full catalog for zarrinac,
+home-only for znci, with `SECTIONS_CONTENT_LAST_MODIFIED` in `lib/seo/site.ts` as its baseline.
+
+**Also ported 2026-10-22** (hisense features never mirrored while the routes redirected): the About
+brand film and the RAC listing video (`components/video/MediaVideoSection.tsx` + `VideoObject`
+JSON-LD), and the find-service-center working-hours notice. From now on, hisense changes to any
+public page **are visible on zarrinac.com** — port them with the hisense-sync skill like any other
+shared file, then re-apply the zarrinac branch of the per-site layer where a ported file touches it.
 
 ## Environment Variables
 

@@ -19,6 +19,7 @@ import {
   getLocaleLanguage,
   SITE_URL,
 } from '@/lib/seo/site';
+import { siteBrandName } from '@/lib/seo/siteBrand';
 
 type SurveyPageContent = {
   highlightsTitle: string;
@@ -110,11 +111,11 @@ const SURVEY_CONTENT: Record<Locale, SurveyPageContent> = {
     ],
     officialLinks: {
       eyebrow: 'مسیرهای رسمی',
-      title: 'لینک‌های رسمی خدمات و ارتباط با هایسنس ایران',
+      title: `لینک‌های رسمی خدمات و ارتباط با ${siteBrandName('fa')}`,
       items: [
         {
           href: '/contact-us',
-          label: 'تماس با هایسنس ایران',
+          label: `تماس با ${siteBrandName('fa')}`,
           description: 'شماره‌ها، آدرس دفتر مرکزی و راه‌های رسمی ارتباط با تیم پشتیبانی و فروش.',
         },
         {
@@ -329,11 +330,11 @@ const SURVEY_CONTENT: Record<Locale, SurveyPageContent> = {
     ],
     officialLinks: {
       eyebrow: 'Official paths',
-      title: 'Official service and support pages for Hisense Iran',
+      title: `Official service and support pages for ${siteBrandName('en')}`,
       items: [
         {
           href: '/contact-us',
-          label: 'Contact Hisense Iran',
+          label: `Contact ${siteBrandName('en')}`,
           description:
             'Verified numbers, head-office address, and official support or sales channels.',
         },

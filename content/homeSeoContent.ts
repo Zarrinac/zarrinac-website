@@ -2,9 +2,9 @@ import { SITE_ID, type SiteId } from '@/lib/siteId';
 
 // Per-site home page copy.
 //
-// The home is the only marketing page this codebase serves on more than one domain:
-// zarrinac.com and znci.ir build from the SAME tree (see docker/) and 308-forward every
-// other section away. If both homes carried the same title/H1/body, Google would fold
+// zarrinac.com and znci.ir build from the SAME tree (see docker/). znci.ir 308-forwards
+// every other section away; zarrinac.com serves them too since 2026-10-22, with their own
+// copy (see i18n/request.ts and lib/seo/siteBrand.ts). If both homes carried the same title/H1/body, Google would fold
 // them into one cluster and pick the canonical itself — exactly what happened between
 // zarrinac.com and hisense-ir.com in 2026-07 (26x "Duplicate, Google chose different
 // canonical than user"). So the two blocks below are deliberately DIVERGENT content, not

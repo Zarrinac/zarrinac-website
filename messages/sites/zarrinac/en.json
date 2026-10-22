@@ -1,0 +1,89 @@
+{
+  "Metadata": {
+    "title": "Zarrin Namaye Caspian | Official Hisense Distributor in Iran",
+    "description": "Zarrin Namaye Caspian is the official Hisense distributor in Iran, supplying Hisense TVs, air conditioners, refrigerators and washing machines with the official warranty and a nationwide sales and service network."
+  },
+  "Routes": {
+    "tvHisense": {
+      "eyebrow": "Televisions",
+      "title": "Hisense TVs: Mini-LED, QLED and ULED models",
+      "description": "The Hisense TVs Zarrin Namaye Caspian supplies with the official warranty, from bright Mini-LED to QLED and ULED for every room and budget."
+    },
+    "rac": {
+      "eyebrow": "Air conditioners",
+      "title": "Hisense air conditioners: wall-mounted, inverter and floor-standing",
+      "description": "Hisense split units installed and serviced by Zarrin Namaye Caspian’s authorized representatives, with efficient, quiet cooling for every Iranian climate.",
+      "video": {
+        "eyebrow": "Video",
+        "title": "A Hisense air conditioner at work",
+        "description": "Air is directed toward the ceiling when cooling and toward the floor when heating; see the smart louvres and temperature display up close before you buy.",
+        "label": "Short clip of a Hisense split air conditioner running in cooling and heating modes"
+      }
+    },
+    "cac": {
+      "eyebrow": "Project HVAC",
+      "title": "Hisense ducted splits and commercial air conditioning",
+      "description": "Hisense ducted systems for office, retail and industrial buildings, with technical consultation and project support from Zarrin Namaye Caspian."
+    },
+    "refrigerator": {
+      "eyebrow": "Refrigerators & freezers",
+      "title": "Hisense refrigerators: side-by-side, combi and chest freezers",
+      "description": "Hisense refrigerators and freezers in a range of capacities and sizes, supplied with the official warranty and after-sales service by Zarrin Namaye Caspian."
+    },
+    "washingMachine": {
+      "eyebrow": "Laundry",
+      "title": "Hisense 8 kg washing machines",
+      "description": "The Hisense 8010 and 8012 with a broad choice of wash programs, backed by the official warranty and Zarrin Namaye Caspian’s nationwide service."
+    },
+    "about": {
+      "eyebrow": "Company",
+      "title": "Zarrin Namaye Caspian Industries",
+      "description": "The official Hisense distributor in Iran since 2009, with a network of more than 1,300 sales and service representatives nationwide."
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "title": "Contact Zarrin Namaye Caspian",
+      "description": "Zarrin Namaye Caspian’s Tehran head office and regional teams can help with purchases, installation, service and trade partnerships."
+    },
+    "hisenseRepair": {
+      "eyebrow": "Repairs",
+      "title": "Hisense repair and servicing",
+      "description": "Book a repair or service for your Hisense TV, air conditioner or home appliance, handled by Zarrin Namaye Caspian’s authorized representatives with genuine parts."
+    },
+    "complaint": {
+      "eyebrow": "Customer care",
+      "title": "Submit and track a customer complaint",
+      "description": "Report a complaint or suggestion about a product or service; Zarrin Namaye Caspian’s customer relations team reviews and follows it up."
+    },
+    "survey": {
+      "eyebrow": "Your opinion",
+      "title": "Customer satisfaction survey",
+      "description": "Take a few minutes to tell Zarrin Namaye Caspian about your purchase and after-sales service experience."
+    },
+    "faq": {
+      "eyebrow": "Guides",
+      "title": "Hisense air conditioner and TV questions answered",
+      "description": "Guidance on split AC installation, copper piping, gas charging, TV mounting, warranty and repairs for Hisense products, from Zarrin Namaye Caspian’s specialists."
+    },
+    "warranty": {
+      "eyebrow": "Guarantee",
+      "title": "Hisense warranty at Zarrin Namaye Caspian",
+      "description": "Warranty and guarantee coverage for Hisense products supplied by Zarrin Namaye Caspian, exclusions, after-sales service, and the warranty terms PDF."
+    },
+    "portal": {
+      "eyebrow": "Representatives",
+      "title": "Zarrin Namaye Caspian service representatives portal",
+      "description": "Sign-in for Zarrin Namaye Caspian’s authorized after-sales service representatives to the official Hisense service portal."
+    },
+    "findServiceCenter": {
+      "eyebrow": "Service network",
+      "title": "Authorized after-sales service representatives",
+      "description": "Find the nearest Zarrin Namaye Caspian service representative by city and service type."
+    },
+    "requestRepresentation": {
+      "eyebrow": "Partnership",
+      "title": "Become a Zarrin Namaye Caspian sales or service representative",
+      "description": "Apply to join the sales network or the installation and after-sales service network of Zarrin Namaye Caspian, the official Hisense distributor in Iran."
+    }
+  }
+}

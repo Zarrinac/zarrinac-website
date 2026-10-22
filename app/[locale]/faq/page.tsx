@@ -12,6 +12,7 @@ import JsonLd from '@/components/seo/JsonLd';
 import OfficialLinksSection from '@/components/seo/OfficialLinksSection';
 import type { Locale } from '@/i18n/routing';
 import { createBreadcrumbItems, getLanguageAlternates, SITE_URL } from '@/lib/seo/site';
+import { siteBrandName } from '@/lib/seo/siteBrand';
 
 type IconType = typeof LocalPhoneOutlinedIcon;
 
@@ -184,8 +185,7 @@ const FAQ_CONTENT: Record<Locale, FaqPageContent> = {
     ],
     contact: {
       title: 'پاسخ خود را پیدا نکردید؟',
-      description:
-        'اگر پاسخ سؤال شما در این صفحه نبود، از مسیرهای رسمی زیر با تیم هایسنس ایران تماس بگیرید.',
+      description: `اگر پاسخ سؤال شما در این صفحه نبود، از مسیرهای رسمی زیر با تیم ${siteBrandName('fa')} تماس بگیرید.`,
       items: [
         {
           label: 'امور مشتریان و نمایندگان',
@@ -215,11 +215,11 @@ const FAQ_CONTENT: Record<Locale, FaqPageContent> = {
     },
     officialLinks: {
       eyebrow: 'مسیرهای رسمی',
-      title: 'لینک‌های مرتبط با خدمات و پشتیبانی هایسنس ایران',
+      title: `لینک‌های مرتبط با خدمات و پشتیبانی ${siteBrandName('fa')}`,
       items: [
         {
           href: '/contact-us',
-          label: 'تماس با هایسنس ایران',
+          label: `تماس با ${siteBrandName('fa')}`,
           description: 'شماره‌ها، آدرس دفتر مرکزی و راه‌های رسمی ارتباط با پشتیبانی و فروش.',
         },
         {
@@ -349,8 +349,7 @@ const FAQ_CONTENT: Record<Locale, FaqPageContent> = {
     ],
     contact: {
       title: 'Still have questions?',
-      description:
-        'If your question is not answered here, contact Hisense Iran through the official channels below.',
+      description: `If your question is not answered here, contact ${siteBrandName('en')} through the official channels below.`,
       items: [
         {
           label: 'Customer Service',
@@ -380,11 +379,11 @@ const FAQ_CONTENT: Record<Locale, FaqPageContent> = {
     },
     officialLinks: {
       eyebrow: 'Official paths',
-      title: 'Related Hisense Iran service and support links',
+      title: `Related ${siteBrandName('en')} service and support links`,
       items: [
         {
           href: '/contact-us',
-          label: 'Contact Hisense Iran',
+          label: `Contact ${siteBrandName('en')}`,
           description:
             'Verified numbers, head-office address, and official support or sales channels.',
         },

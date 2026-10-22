@@ -50,15 +50,21 @@ const securityHeaders = [
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
 ];
 
-// Zarrinac is a 1:1 replica of the Hisense Iran site plus the D'code brand.
-// To consolidate SEO signals and funnel visitors to the canonical Hisense site,
-// every Hisense-replica section is permanently (308) forwarded to
-// https://www.hisense-ir.com, preserving locale + sub-path. Intentionally NOT
-// redirected: the Zarrinac home (`/[locale]`) and the functional `/admin` +
-// `/api` routes. The D'code section (`/[locale]/dcode/*`) is now forwarded to
-// its own standalone site (see DCODE_SITE_URL below). Keep this list in sync
-// with the public routes under `app/[locale]/` whenever a Hisense section is
-// added or renamed.
+// Hisense-replica sections and which deployment serves them.
+//
+// zarrinac.com serves these sections itself (policy change 2026-10-22). Until then
+// every one of them was 308-forwarded to https://www.hisense-ir.com to consolidate
+// SEO on the Hisense site; zarrinac now runs them as its own pages, self-canonical,
+// listed in its sitemap and differentiated from hisense-ir.com through the per-site
+// copy layer (messages/sites/zarrinac/*, lib/seo/siteBrand.ts) so the two domains do
+// not fold into one duplicate cluster.
+//
+// znci.ir (the second deployment of this tree) still forwards them: it publishes only
+// its own home, so its sitemap stays home-only and nothing else resolves there. Any
+// build that is not explicitly zarrinac keeps forwarding — the safe default, because a
+// replica served without the differentiation layer is a straight duplicate of
+// hisense-ir.com. Keep this list in sync with the public routes under `app/[locale]/`.
+const SERVES_HISENSE_SECTIONS = process.env.NEXT_PUBLIC_SITE_ID === 'zarrinac';
 const HISENSE_SITE_URL = 'https://www.hisense-ir.com';
 const HISENSE_SECTIONS = [
   'about',
@@ -110,14 +116,16 @@ const nextConfig: NextConfig = {
   redirects() {
     // `:path*` matches the section root AND any nested path (zero-or-more
     // segments), so each entry covers e.g. `/fa/products` and
-    // `/fa/products/tvs/u7k` in one rule. `permanent: true` emits a 308, which
+    // `/fa/products/tvs/u7k` in one rule (on deployments that still forward them). `permanent: true` emits a 308, which
     // Google treats identically to a 301 for canonicalization/equity transfer.
     return Promise.resolve([
-      ...HISENSE_SECTIONS.map((section) => ({
-        source: `/:locale(fa|en)/${section}/:path*`,
-        destination: `${HISENSE_SITE_URL}/:locale/${section}/:path*`,
-        permanent: true,
-      })),
+      ...(SERVES_HISENSE_SECTIONS
+        ? []
+        : HISENSE_SECTIONS.map((section) => ({
+            source: `/:locale(fa|en)/${section}/:path*`,
+            destination: `${HISENSE_SITE_URL}/:locale/${section}/:path*`,
+            permanent: true,
+          }))),
       // D'code → standalone site, dropping the `/dcode` segment. `:path*` is
       // zero-or-more, so this single rule covers `/fa/dcode` (→ dcode.co.ir/fa)
       // and any nested path (`/fa/dcode/tvs/r6d` → dcode.co.ir/fa/tvs/r6d).

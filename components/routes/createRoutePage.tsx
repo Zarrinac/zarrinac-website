@@ -2,6 +2,7 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import RouteHero from '@/components/routes/RouteHero';
 import OfficialLinksSection from '@/components/seo/OfficialLinksSection';
 import UnderConstruction, { type UnderConstructionAction } from '@/components/UnderConstruction';
+import { siteBrandName } from '@/lib/seo/siteBrand';
 
 // Factory that produces a locale-aware route page with optional under-construction content.
 
@@ -38,11 +39,11 @@ export default function createRoutePage(routeKey: string, options?: RoutePageOpt
       locale === 'fa'
         ? {
             eyebrow: 'مسیرهای رسمی',
-            title: 'صفحات رسمی هایسنس ایران',
+            title: `صفحات رسمی ${siteBrandName('fa')}`,
             items: [
               {
                 href: `/${locale}`,
-                label: 'صفحه اصلی هایسنس ایران',
+                label: `صفحه اصلی ${siteBrandName('fa')}`,
                 description: 'مرجع اصلی برند، دسته‌بندی محصولات و مسیرهای رسمی ارتباط.',
               },
               {
@@ -52,7 +53,7 @@ export default function createRoutePage(routeKey: string, options?: RoutePageOpt
               },
               {
                 href: `/${locale}/contact-us`,
-                label: 'تماس با هایسنس ایران',
+                label: `تماس با ${siteBrandName('fa')}`,
                 description: 'شماره‌های تماس، آدرس دفتر مرکزی و کانال‌های رسمی پشتیبانی.',
               },
               {
@@ -64,11 +65,11 @@ export default function createRoutePage(routeKey: string, options?: RoutePageOpt
           }
         : {
             eyebrow: 'Official paths',
-            title: 'Official Hisense Iran pages',
+            title: `Official ${siteBrandName('en')} pages`,
             items: [
               {
                 href: `/${locale}`,
-                label: 'Hisense Iran homepage',
+                label: `${siteBrandName('en')} homepage`,
                 description: 'Primary brand page for products, categories, and official channels.',
               },
               {
@@ -79,7 +80,7 @@ export default function createRoutePage(routeKey: string, options?: RoutePageOpt
               },
               {
                 href: `/${locale}/contact-us`,
-                label: 'Contact Hisense Iran',
+                label: `Contact ${siteBrandName('en')}`,
                 description: 'Verified contact details, head office address, and support channels.',
               },
               {

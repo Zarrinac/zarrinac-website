@@ -19,6 +19,7 @@ import {
   getLocaleLanguage,
   SITE_URL,
 } from '@/lib/seo/site';
+import { siteBrandName } from '@/lib/seo/siteBrand';
 
 type ComplaintPageContent = {
   highlightsTitle: string;
@@ -110,11 +111,11 @@ const COMPLAINT_CONTENT: Record<Locale, ComplaintPageContent> = {
     ],
     officialLinks: {
       eyebrow: 'مسیرهای رسمی',
-      title: 'لینک‌های رسمی پشتیبانی هایسنس ایران',
+      title: `لینک‌های رسمی پشتیبانی ${siteBrandName('fa')}`,
       items: [
         {
           href: '/contact-us',
-          label: 'تماس با هایسنس ایران',
+          label: `تماس با ${siteBrandName('fa')}`,
           description: 'شماره‌ها، آدرس دفتر مرکزی و کانال‌های رسمی ارتباط با تیم پشتیبانی.',
         },
         {
@@ -303,11 +304,11 @@ const COMPLAINT_CONTENT: Record<Locale, ComplaintPageContent> = {
     ],
     officialLinks: {
       eyebrow: 'Official paths',
-      title: 'Verified Hisense Iran support links',
+      title: `Verified ${siteBrandName('en')} support links`,
       items: [
         {
           href: '/contact-us',
-          label: 'Contact Hisense Iran',
+          label: `Contact ${siteBrandName('en')}`,
           description:
             'Verified phone numbers, HQ address, and official customer support channels.',
         },

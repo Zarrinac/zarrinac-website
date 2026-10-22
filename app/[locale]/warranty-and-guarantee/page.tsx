@@ -25,6 +25,7 @@ import {
   getLocaleLanguage,
   SITE_URL,
 } from '@/lib/seo/site';
+import { siteBrandName } from '@/lib/seo/siteBrand';
 
 type IconType = typeof ShieldOutlinedIcon;
 
@@ -111,7 +112,7 @@ const DOWNLOADS: Record<Locale, DownloadItem[]> = {
     },
     {
       label: 'Download Persian PDF',
-      description: 'Persian warranty and guarantee terms for Hisense Iran customers.',
+      description: `Persian warranty and guarantee terms for ${siteBrandName('en')} customers.`,
       href: '/media/downloads/warranty-and-guarantee-fa.pdf',
     },
   ],
@@ -243,7 +244,7 @@ const WARRANTY_CONTENT: Record<Locale, WarrantyContent> = {
     },
     officialLinks: {
       eyebrow: 'مسیرهای رسمی',
-      title: 'لینک‌های مرتبط با گارانتی و خدمات هایسنس ایران',
+      title: `لینک‌های مرتبط با گارانتی و خدمات ${siteBrandName('fa')}`,
       items: [
         {
           href: '/faq',
@@ -257,7 +258,7 @@ const WARRANTY_CONTENT: Record<Locale, WarrantyContent> = {
         },
         {
           href: '/contact-us',
-          label: 'تماس با هایسنس ایران',
+          label: `تماس با ${siteBrandName('fa')}`,
           description: 'شماره‌ها، آدرس دفتر مرکزی و کانال‌های رسمی ارتباط با تیم پشتیبانی.',
         },
       ],
@@ -389,7 +390,7 @@ const WARRANTY_CONTENT: Record<Locale, WarrantyContent> = {
     },
     officialLinks: {
       eyebrow: 'Official paths',
-      title: 'Related Hisense Iran warranty and service links',
+      title: `Related ${siteBrandName('en')} warranty and service links`,
       items: [
         {
           href: '/faq',
@@ -404,7 +405,7 @@ const WARRANTY_CONTENT: Record<Locale, WarrantyContent> = {
         },
         {
           href: '/contact-us',
-          label: 'Contact Hisense Iran',
+          label: `Contact ${siteBrandName('en')}`,
           description:
             'Verified numbers, head-office address, and official customer support channels.',
         },

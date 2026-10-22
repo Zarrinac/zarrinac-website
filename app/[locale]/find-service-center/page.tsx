@@ -1,5 +1,6 @@
 import { resolvePageLocale, type LocalePageProps } from '@/i18n/pageLocale';
 import type { Metadata } from 'next';
+import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import { getTranslations } from 'next-intl/server';
 import JsonLd from '@/components/seo/JsonLd';
 import OfficialLinksSection from '@/components/seo/OfficialLinksSection';
@@ -15,12 +16,22 @@ import {
 } from '@/lib/seo/site';
 import { buildLocalBusinessJsonLd } from '@/lib/seo/localBusiness';
 import { buildSupportMetaDescription } from '@/lib/seo/productMeta';
+import { IS_ZARRINAC_SITE } from '@/lib/seo/siteBrand';
 
 const PAGE_CONTENT = {
   fa: {
-    title: 'نزدیک‌ترین نماینده خدمات به خود را پیدا کنید',
+    // zarrinac.com serves this page too; its H1 is worded for the company's own network.
+    title: IS_ZARRINAC_SITE
+      ? 'شبکه نمایندگان مجاز خدمات زرین نمای کاسپین'
+      : 'نزدیک‌ترین نماینده خدمات به خود را پیدا کنید',
     description:
       'لیست نمایندگان رسمی خدمات پس از فروش صنایع زرین نمای کاسپین شامل اطلاعات تماس و آدرس نمایندگان مجاز در سراسر کشور است. با انتخاب شهر و نوع فعالیت، نزدیک‌ترین نمایندگی خدمات هایسنس را پیدا کنید.',
+    // Temporary announcement — remove this block (and the matching `en` one plus the
+    // highlighted section in the JSX) when the working hours are no longer provisional.
+    workingHours: {
+      title: 'ساعت کاری نمایندگان خدمات',
+      hours: 'از ساعت ۹ الی ۱۹',
+    },
     table: {
       provinceLabel: 'استان',
       cityLabel: 'شهر',
@@ -80,9 +91,15 @@ const PAGE_CONTENT = {
     },
   },
   en: {
-    title: 'Find the nearest service representative',
+    title: IS_ZARRINAC_SITE
+      ? 'The Zarrin Namaye Caspian authorized service network'
+      : 'Find the nearest service representative',
     description:
       'Find official Zarrin Namaye Caspian after-sales service representatives across Iran. Filter by city and service type to locate the nearest authorized Hisense service center.',
+    workingHours: {
+      title: 'Service representative working hours',
+      hours: 'From 9:00 to 19:00',
+    },
     table: {
       provinceLabel: 'Province',
       cityLabel: 'City',
@@ -230,6 +247,33 @@ export default async function FindServiceCenterPage({
         <p className="mx-auto mt-5 max-w-4xl text-sm leading-7 text-(--text-muted-color) sm:text-base sm:leading-8">
           {content.description}
         </p>
+      </section>
+
+      {/* Temporary highlighted working-hours notice — see PAGE_CONTENT.workingHours. */}
+      <section
+        className="mx-auto max-w-5xl px-4 sm:px-6"
+        aria-labelledby="representative-working-hours"
+      >
+        {/* Stacked and centered on mobile; one row with the hours pushed to the far edge on sm+. */}
+        <div className="flex flex-col items-center gap-3 rounded-3xl border-2 border-(--brand-color) bg-(--brand-color-light) px-5 py-6 text-center shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-8 sm:py-5 sm:text-start">
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-4">
+            <span
+              aria-hidden
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-(--brand-color) text-(--default-white-font) sm:h-12 sm:w-12"
+            >
+              <AccessTimeOutlinedIcon />
+            </span>
+            <h2
+              id="representative-working-hours"
+              className="text-sm leading-7 font-bold text-(--default-black-font) sm:text-base"
+            >
+              {content.workingHours.title}
+            </h2>
+          </div>
+          <p className="text-lg leading-7 font-extrabold text-(--brand-color-dark) sm:text-xl">
+            {content.workingHours.hours}
+          </p>
+        </div>
       </section>
 
       <ServiceCenterFinder

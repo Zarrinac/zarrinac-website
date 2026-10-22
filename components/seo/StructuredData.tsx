@@ -2,6 +2,7 @@
 import type { Locale } from '@/i18n/routing';
 import JsonLd from './JsonLd';
 import { SITE_URL, getLocaleLanguage } from '@/lib/seo/site';
+import { IS_ZARRINAC_SITE } from '@/lib/seo/siteBrand';
 
 // Google renders the Organization `logo` in search results / the knowledge
 // panel. Use the full Hisense wordmark (transparent background) rather than the
@@ -21,7 +22,7 @@ const ORGANIZATION_CONTENT = {
   },
 };
 
-const WEBSITE_CONTENT = {
+const DEFAULT_WEBSITE_CONTENT = {
   fa: {
     name: 'هایسنس ایران | زرین نمای کاسپین',
     description:
@@ -33,6 +34,23 @@ const WEBSITE_CONTENT = {
       'Official Hisense Iran website for products, warranty details, and verified support channels operated by Zarrin Namaye Caspian.',
   },
 };
+
+// zarrinac.com is the company's own site (it serves the same sections as hisense-ir.com,
+// so it names itself as the company rather than as "Hisense Iran").
+const ZARRINAC_WEBSITE_CONTENT = {
+  fa: {
+    name: 'زرین نمای کاسپین | توزیع‌کننده رسمی هایسنس',
+    description:
+      'وب‌سایت صنایع زرین نمای کاسپین، توزیع‌کننده رسمی هایسنس در ایران؛ محصولات، گارانتی، شبکه نمایندگان و مسیرهای ارتباط با شرکت.',
+  },
+  en: {
+    name: 'Zarrin Namaye Caspian | Official Hisense Distributor',
+    description:
+      'Website of Zarrin Namaye Caspian, the official Hisense distributor in Iran: products, warranty, the representative network and ways to reach the company.',
+  },
+};
+
+const WEBSITE_CONTENT = IS_ZARRINAC_SITE ? ZARRINAC_WEBSITE_CONTENT : DEFAULT_WEBSITE_CONTENT;
 
 type StructuredDataProps = {
   locale: Locale;

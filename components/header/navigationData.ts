@@ -1,4 +1,5 @@
 import type { Locale } from '@/i18n/routing';
+import { siteBrandName } from '@/lib/seo/siteBrand';
 
 // Navigation structure and localized submenu copy used by Header.
 
@@ -130,8 +131,8 @@ export const SUB_MENU_CONTENT: Record<NavKey, SubMenuItem[]> = {
     {
       title: { en: 'Request representation', fa: 'درخواست نمایندگی' },
       description: {
-        en: 'Apply for sales or after-sales service representation with Hisense Iran.',
-        fa: 'درخواست نمایندگی فروش یا نمایندگی خدمات پس از فروش هایسنس ایران.',
+        en: `Apply for sales or after-sales service representation with ${siteBrandName('en')}.`,
+        fa: `درخواست نمایندگی فروش یا نمایندگی خدمات پس از فروش ${siteBrandName('fa')}.`,
       },
       href: '/request-representation',
     },

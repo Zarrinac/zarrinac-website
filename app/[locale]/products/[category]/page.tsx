@@ -7,6 +7,7 @@ import { notFound, permanentRedirect } from 'next/navigation';
 import { Visibility } from '@mui/icons-material';
 import TvHeroCarousel from '@/components/tv/TvHeroCarousel';
 import RouteHero from '@/components/routes/RouteHero';
+import MediaVideoSection from '@/components/video/MediaVideoSection';
 import JsonLd from '@/components/seo/JsonLd';
 import OfficialLinksSection from '@/components/seo/OfficialLinksSection';
 import CategorySeoSection from '@/components/seo/CategorySeoSection';
@@ -28,7 +29,9 @@ import {
   toAbsoluteUrl,
 } from '@/lib/seo/site';
 import { CATEGORY_SEO_CONTENT } from '@/lib/seo/categorySeoContent';
+import { buildVideoObjectJsonLd } from '@/lib/seo/productSchema';
 import { buildCategoryMetaDescription, buildCategoryMetaTitle } from '@/lib/seo/productMeta';
+import { siteBrandName } from '@/lib/seo/siteBrand';
 
 // ISR: cache category listings (and their DB-backed product fetch) and refresh
 // hourly instead of re-querying the database on every request/crawl.
@@ -39,6 +42,12 @@ export function generateStaticParams() {
 }
 
 const bannerAsset = (path: string) => mediaUrl(`/tv-banner/${path}`);
+
+// Ambient loop for the residential-AC listing, which otherwise has no visual hero.
+// Trimmed to the model-agnostic product footage on purpose — the source clip ends
+// on a "Fresh Master X700" card, and that model is not sold in Iran.
+const RAC_VIDEO_SRC = '/products/rac/video/rac-airflow-hero.mp4';
+const RAC_VIDEO_POSTER = '/products/rac/video/rac-airflow-poster.webp';
 
 const HERO_SLIDES = [
   { id: 'rgb', image: bannerAsset('tv04.tv-rgb-ban.jpg') },
@@ -287,11 +296,11 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
       locale === 'fa'
         ? {
             eyebrow: 'مسیرهای رسمی',
-            title: 'صفحات اصلی هایسنس ایران',
+            title: `صفحات اصلی ${siteBrandName('fa')}`,
             items: [
               {
                 href: `/${locale}`,
-                label: 'صفحه اصلی هایسنس ایران',
+                label: `صفحه اصلی ${siteBrandName('fa')}`,
                 description: 'مشاهده دسته‌بندی محصولات هایسنس و دسترسی به اطلاعات فروش و خدمات.',
               },
               {
@@ -313,11 +322,11 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
           }
         : {
             eyebrow: 'Official paths',
-            title: 'Primary Hisense Iran pages',
+            title: `Primary ${siteBrandName('en')} pages`,
             items: [
               {
                 href: `/${locale}`,
-                label: 'Hisense Iran homepage',
+                label: `${siteBrandName('en')} homepage`,
                 description:
                   'Explore Hisense product categories and find sales and service information.',
               },
@@ -459,6 +468,15 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
     const lang: 'fa' | 'en' = locale === 'fa' ? 'fa' : 'en';
     const resolvedLocale: Locale = locale === 'fa' ? 'fa' : 'en';
     const detailsLabel = pageTranslations('actions.details');
+    const racVideoJsonLd =
+      category === 'RAC'
+        ? buildVideoObjectJsonLd({
+            name: routeTranslations('video.title'),
+            description: routeTranslations('video.description'),
+            contentUrl: mediaUrl(RAC_VIDEO_SRC),
+            thumbnailUrl: mediaUrl(RAC_VIDEO_POSTER),
+          })
+        : null;
     const breadcrumbItems = createBreadcrumbItems(resolvedLocale, {
       label: routeTranslations('title'),
       href: `/${resolvedLocale}/products/${categorySlug}`,
@@ -475,11 +493,11 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
       locale === 'fa'
         ? {
             eyebrow: 'مسیرهای رسمی',
-            title: 'صفحات اصلی هایسنس ایران',
+            title: `صفحات اصلی ${siteBrandName('fa')}`,
             items: [
               {
                 href: `/${locale}`,
-                label: 'صفحه اصلی هایسنس ایران',
+                label: `صفحه اصلی ${siteBrandName('fa')}`,
                 description: 'مرجع رسمی برند و دسته‌بندی محصولات هایسنس در ایران.',
               },
               {
@@ -490,7 +508,7 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
               {
                 href: `/${locale}/contact-us`,
                 label: 'تماس و مشاوره',
-                description: 'مشاوره خرید، استعلام و ارتباط با تیم رسمی هایسنس ایران.',
+                description: `مشاوره خرید، استعلام و ارتباط با تیم رسمی ${siteBrandName('fa')}.`,
               },
               ...(category === 'CAC'
                 ? [
@@ -511,11 +529,11 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
           }
         : {
             eyebrow: 'Official paths',
-            title: 'Primary Hisense Iran pages',
+            title: `Primary ${siteBrandName('en')} pages`,
             items: [
               {
                 href: `/${locale}`,
-                label: 'Hisense Iran homepage',
+                label: `${siteBrandName('en')} homepage`,
                 description: 'Explore Hisense products and find sales and service information.',
               },
               {
@@ -552,6 +570,7 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
     return (
       <div className="pb-16 space-y-12 lg:space-y-16 lg:pb-24">
         <JsonLd data={listSchema} />
+        {racVideoJsonLd && <JsonLd data={racVideoJsonLd} />}
         <RouteHero
           eyebrow={routeTranslations('eyebrow')}
           title={routeTranslations('title')}
@@ -559,6 +578,18 @@ export default async function ProductsCategoryPage({ params }: PageProps) {
           locale={resolvedLocale}
           breadcrumbItems={breadcrumbItems}
         />
+
+        {category === 'RAC' && (
+          <MediaVideoSection
+            mode="ambient"
+            src={RAC_VIDEO_SRC}
+            poster={RAC_VIDEO_POSTER}
+            eyebrow={routeTranslations('video.eyebrow')}
+            title={routeTranslations('video.title')}
+            description={routeTranslations('video.description')}
+            label={routeTranslations('video.label')}
+          />
+        )}
 
         <div className="w-full px-4 mx-auto max-w-480 sm:px-6 lg:px-10">
           <div className="grid gap-4 sm:gap-6 lg:grid-cols-3">

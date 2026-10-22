@@ -274,7 +274,13 @@
     "rac": {
       "eyebrow": "Residential Air Conditioning",
       "title": "Hisense Residential Air Conditioners",
-      "description": "Smart inverter splits with AI airflow, silent comfort, and efficient cooling for every home across Iran."
+      "description": "Smart inverter splits with AI airflow, silent comfort, and efficient cooling for every home across Iran.",
+      "video": {
+        "eyebrow": "Product video",
+        "title": "Hisense air conditioning in action",
+        "description": "Ceiling airflow in cooling and ground airflow in heating, with smart louvres and a clear temperature display — see how a Hisense split performs before you buy.",
+        "label": "Short clip showing a Hisense split air conditioner's cooling and heating airflow"
+      }
     },
     "cac": {
       "eyebrow": "Commercial HVAC",

@@ -33,6 +33,12 @@ const HOME_CONTENT_LAST_MODIFIED_BY_SITE: Partial<Record<SiteId, Date>> = {
 export const HOME_CONTENT_LAST_MODIFIED =
   HOME_CONTENT_LAST_MODIFIED_BY_SITE[SITE_ID] ?? ZARRINAC_HOME_LAST_MODIFIED;
 
+// zarrinac.com began serving the Hisense-replica sections itself on this date, with its
+// own per-site copy (before it, every one of them 308-forwarded to hisense-ir.com). It is
+// the sitemap <lastmod> baseline for those sections and for the product catalog; a DB
+// row's own updatedAt advances an individual product past it.
+export const SECTIONS_CONTENT_LAST_MODIFIED = new Date('2026-10-22T00:00:00Z');
+
 export type SeoBreadcrumbItem = {
   label: string;
   href: string;

@@ -14,6 +14,7 @@ import type { Locale } from '@/i18n/routing';
 import JsonLd from '@/components/seo/JsonLd';
 import PageBreadcrumbs from '@/components/seo/PageBreadcrumbs';
 import { createBreadcrumbItems, getLanguageAlternates, SITE_URL } from '@/lib/seo/site';
+import { IS_ZARRINAC_SITE } from '@/lib/seo/siteBrand';
 
 type IconType = typeof LocalPhoneOutlinedIcon;
 
@@ -86,7 +87,10 @@ const REPAIR_CONTENT: Record<Locale, RepairContent> = {
   fa: {
     hero: {
       eyebrow: 'خدمات رسمی تعمیر و نگهداری',
-      title: 'خدمات تعمیر و پشتیبانی محصولات هایسنس',
+      // zarrinac.com serves this page too; its H1 names the company doing the repairs.
+      title: IS_ZARRINAC_SITE
+        ? 'تعمیر محصولات هایسنس با تکنسین‌های زرین نمای کاسپین'
+        : 'خدمات تعمیر و پشتیبانی محصولات هایسنس',
       description:
         'اگر به دنبال تعمیرکار هایسنس برای تلویزیون، کولرگازی، یخچال یا ماشین لباسشویی هستید، تیم فنی زرین نمای کاسپین آماده پاسخگویی است. خدمات تعمیر و پشتیبانی محصولات Hisense با قطعات اصلی و تکنسین‌های آموزش‌دیده انجام می‌شود.',
       highlights: ['اعزام سریع تکنسین', 'پوشش سراسری', 'قطعات اصلی', 'گارانتی خدمات'],
@@ -214,7 +218,9 @@ const REPAIR_CONTENT: Record<Locale, RepairContent> = {
   en: {
     hero: {
       eyebrow: 'Official repair & maintenance service',
-      title: 'Official Hisense Repair and Support',
+      title: IS_ZARRINAC_SITE
+        ? 'Hisense repairs by Zarrin Namaye Caspian technicians'
+        : 'Official Hisense Repair and Support',
       description:
         'If you need a trained Hisense repair technician for TVs, air conditioners, refrigerators, or washing machines, Zarrin Namaye Caspian is here to help. We provide official service for Hisense with genuine parts and certified technicians.',
       highlights: [

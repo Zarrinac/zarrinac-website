@@ -411,7 +411,7 @@ A canonical product detail page (`app/[locale]/products/[category]/[productId]/p
 
 Mirrored from the hisense repo (2026-07-26) so the two shared detail pages stay byte-identical. `lib/catalog/catalogAssets.ts` resolves a printed catalog spread per product (by `series` first, `id` second, separators stripped) and `components/catalog/ProductCatalogSection.tsx` renders it between `SpecsSection` and `ProductFaqSection` on both detail-page implementations. One spread deliberately serves a whole series or a pair of models; products with no spread (U7K) render no section. Spreads are capped at 2048×1483 by `ops/optimize-media.mjs`, which `CATALOG_PAGE_WIDTH`/`CATALOG_PAGE_HEIGHT` must match.
 
-**Zarrinac-specific:** every `products/*` and `refrigerator/*` route here is 308-forwarded to `www.hisense-ir.com` (`next.config.ts`), so those spreads are **never requested on this domain** — that code exists for lockstep parity with hisense, not for rendering. Only `catalog-general-full.pdf` is therefore promoted to this server's media (`<media>/catalog/`); the 17 per-series JPEG spreads live on the hisense server only. If a Hisense section ever stops redirecting, sync the spreads here too.
+**Zarrinac-specific:** until 2026-10-22 every `products/*` and `refrigerator/*` route here was 308-forwarded to `www.hisense-ir.com`, so only `catalog-general-full.pdf` was promoted to this server's media. zarrinac.com now renders those routes itself, so the 17 per-series JPEG spreads were synced into `<media>/catalog/` the same day and must stay in step with hisense's media store. znci.ir still forwards these routes; its media mount does not need the spreads.
 
 What does render on this domain is the full-catalog download: the homepage CTA (`components/catalog/CatalogDownloadSection.tsx`, copy in `HOME_SEO_CONTENT.catalog`) and the footer "download product catalog" link (`Footer.links.catalog`, flagged `download: true` so it renders as a plain anchor and skips the locale prefix). **The homepage catalog copy is deliberately worded differently from the hisense homepage's — keep it that way**, per the cross-domain duplicate-canonical fix, and bump `HOME_CONTENT_LAST_MODIFIED` on any home-content change.
 
@@ -430,7 +430,7 @@ curl -sS https://zarrinac.com/fa | grep -oE '<meta property="og:image" content="
 
 ### Homepage hero banners
 
-`components/hero/HeroBanner.tsx` holds the carousel's `BANNERS` array; array order is slide order and every slide is `priority`, so **slide 1 is the LCP**. The home is the only Hisense-replica surface that still renders on zarrinac.com and znci.ir — every other section 308-forwards to hisense-ir.com — so banner changes are the one part of a hisense hero update that is worth porting here.
+`components/hero/HeroBanner.tsx` holds the carousel's `BANNERS` array; array order is slide order and every slide is `priority`, so **slide 1 is the LCP**. On znci.ir the home is the only Hisense-replica surface that renders (every other section 308-forwards to hisense-ir.com); zarrinac.com serves all sections since 2026-10-22. Either way the hero carousel is home-only, so port banner changes from hisense.
 
 **Zarrinac keeps its own final slide** (`banner-7`, `Fix-Banner-07`, alt "Zarrin Namaye Caspian featured lineup") which hisense does not carry. Port hero changes as a _delta_, never by copying hisense's array wholesale.
 
@@ -601,10 +601,10 @@ was deliberately left alone.
 
 ### Rendering contract (ported from hisense, 2026-09-19)
 
-Ported from hisense PR #135 (`8b217e6`) to restore the shared-file invariant. **Read this first: every
-route the batch touches 308-redirects away on zarrinac.com and znci.ir**, so these fixes are latent
-here. They exist to keep the shared files byte-identical for future ports, not to change what either
-domain serves. The home page is the only 200 on either domain.
+Ported from hisense PR #135 (`8b217e6`) to restore the shared-file invariant. When ported, every
+route the batch touches 308-redirected away on both deployments, so the fixes were latent. **Since
+2026-10-22 zarrinac.com serves those routes** (see "Per-site section copy" below) and they are live
+there; on znci.ir they are still latent.
 
 Public pages seed next-intl from route params with `resolvePageLocale` (`i18n/pageLocale.ts`); shared
 html/body markup lives in `components/Document.tsx`. A root 404 must use explicit translations
@@ -628,17 +628,39 @@ JSON-LD escapes `<` before script embedding, and an empty video thumbnail suppre
 emitted**. Visible FAQs and their markup are retained as semantic data; Google
 [retired FAQ rich results in May 2026](https://developers.google.com/search/updates#may-2026).
 
-**Not ported:** `app/sitemap.ts` (homepage-only here by design), `PRODUCT_CONTENT_LAST_MODIFIED` in
-`lib/seo/site.ts` (used only by hisense's catalog sitemap) and `seo/audit-2026-09-19.md` (an audit of
-hisense production, not this deployment).
+**Not ported:** `seo/audit-2026-09-19.md` (an audit of hisense production, not this deployment). The
+catalog sitemap followed on 2026-10-22 in a SITE_ID-aware form (see "Per-site section copy").
 
 ### SEO copy for category pages
 
-`lib/seo/categorySeoContent.ts` contains long-form SEO copy and FAQ entries for each category page. Targets purchase-intent long-tail keywords: خرید/قیمت/نصب/قطعات یدکی. Rendered by `components/seo/CategorySeoSection.tsx`.
+`lib/seo/categorySeoContent.ts` contains long-form SEO copy and FAQ entries for each category page. Targets purchase-intent long-tail keywords: خرید/قیمت/نصب/قطعات یدکی. Rendered by `components/seo/CategorySeoSection.tsx`. On zarrinac.com the exported `CATEGORY_SEO_CONTENT` resolves to `lib/seo/categorySeoContent.zarrinac.ts` instead — same facts and models, its own wording and questions.
+
+### Per-site section copy (zarrinac.com serves its own sections, 2026-10-22)
+
+From 2026-06-20 to 2026-10-22 zarrinac.com 308-forwarded every Hisense-replica section to hisense-ir.com. On 2026-10-22 the policy changed: zarrinac.com serves them itself as a separate site — self-canonical, in its own sitemap. `next.config.ts` keeps the forwarding only for builds that are not `NEXT_PUBLIC_SITE_ID=zarrinac` (in practice znci.ir); `/dcode` still forwards to dcode.co.ir everywhere.
+
+Two domains serving the same pages is the duplicate-content condition described in "Per-site home copy" below, so zarrinac's copy is differentiated through one layer, all keyed on `SITE_ID`:
+
+| Surface                                              | Where                                                                                                  | What differs on zarrinac.com                                                        |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| Route eyebrow / H1 / description, `Metadata`         | `messages/sites/zarrinac/{fa,en}.json`, deep-merged over `messages/<locale>.json` in `i18n/request.ts` | every section's H1 + meta description                                               |
+| Brand name in visible copy                           | `lib/seo/siteBrand.ts` → `siteBrandName(locale)`                                                       | "زرین نمای کاسپین / Zarrin Namaye Caspian" instead of "هایسنس ایران / Hisense Iran" |
+| og:site_name, application-name                       | `SITE_OG_NAME`, `SITE_APPLICATION_NAME` (same file)                                                    | company name                                                                        |
+| Product / category / support titles and descriptions | `lib/seo/productMeta.ts` (`IS_ZARRINAC_SITE` branches)                                                 | own suffixes and snippets                                                           |
+| Category intro copy + FAQs                           | `lib/seo/categorySeoContent.zarrinac.ts`                                                               | rewritten                                                                           |
+| About meta + hero (H1)                               | `content/about/index.ts`                                                                               | company page framing                                                                |
+| WebSite / LocalBusiness JSON-LD names                | `components/seo/StructuredData.tsx`, `lib/seo/localBusiness.ts`                                        | company name                                                                        |
+| Hard-coded H1s                                       | contact-us, hisense-repair, find-service-center pages                                                  | `IS_ZARRINAC_SITE` ternaries                                                        |
+
+Product detail bodies (names, specs, galleries — DB/content data) stay shared: that is the residual duplicate risk, and the reason to watch _"Duplicate, Google chose different canonical than user"_ in both GSC properties after this change. Every file above keeps the hisense wording as its non-zarrinac branch, so it can be ported to the hisense repo verbatim without changing hisense-ir.com. When porting a hisense page change here, keep the zarrinac branch intact.
+
+`app/sitemap.ts` lists the home, nine static sections and the full catalog (category listings, every product detail from `loadProducts`, refrigerator detail pages) for zarrinac — 106 URLs at launch — and only the home for any other site id. Inner URLs carry `SECTIONS_CONTENT_LAST_MODIFIED` (2026-10-22) unless a DB row's `updatedAt` is newer. Alias routes (`/rac`, `/cac`, `/tv-hisense`, `/washing-machine`, `/support/*`) stay out of the sitemap — they permanently redirect to the canonical paths — and `/portal` is noindex.
+
+Visitors who hit a zarrinac section URL while the 308 was live may have it cached in their browser (308 is cacheable indefinitely); they keep landing on hisense-ir.com until their cache clears. Nothing server-side can undo that.
 
 ### Per-site home copy (zarrinac.com vs znci.ir)
 
-This tree is deployed on two domains: **zarrinac.com** (PM2, `zarrin-ng-site`) and **znci.ir** (Docker, `SC1` — see Ops & Deployment). Both 308-forward every section except the home, so the home is the only page either domain serves with a 200. If the two homes carried the same title/H1/body, Google would fold them into one cluster and pick the canonical itself — which is exactly what happened between zarrinac.com and hisense-ir.com in 2026-07 (26 URLs reported as _"Duplicate, Google chose different canonical than user"_).
+This tree is deployed on two domains: **zarrinac.com** (PM2, `zarrin-ng-site`) and **znci.ir** (Docker, `SC1` — see Ops & Deployment). znci.ir 308-forwards every section except the home, so the home is the only page it serves with a 200 (zarrinac.com serves every section since 2026-10-22 — see "Per-site section copy"). If the two homes carried the same title/H1/body, Google would fold them into one cluster and pick the canonical itself — which is exactly what happened between zarrinac.com and hisense-ir.com in 2026-07 (26 URLs reported as _"Duplicate, Google chose different canonical than user"_).
 
 `content/homeSeoContent.ts` therefore holds **one copy block per deployment**, selected by `NEXT_PUBLIC_SITE_ID` (`lib/siteId.ts`) through `getHomeSeoContent(locale)`:
 
@@ -656,7 +678,7 @@ Rules when editing:
 
 ### Sitemap & robots
 
-- `app/sitemap.ts` — native Next.js sitemap generator. Covers all locale × product URLs + static routes. Uses `SITE_CONTENT_LAST_MODIFIED` from `lib/seo/site.ts` as a stable `lastmod` baseline (bump it only when content meaningfully changes).
+- `app/sitemap.ts` — native Next.js sitemap generator, SITE_ID-aware: on zarrinac.com it covers home + static sections + every category and product URL in both locales; on znci.ir only the home (its other sections 308 away). Inner URLs use `SECTIONS_CONTENT_LAST_MODIFIED` and the home `HOME_CONTENT_LAST_MODIFIED` from `lib/seo/site.ts` as stable `lastmod` baselines (bump them only when content meaningfully changes; a product's DB `updatedAt` advances its own entry).
 - `app/robots.ts` — robots.txt generator.
 - **No `next-sitemap`** — the old `next-sitemap.config.js` approach was replaced by the native route.
 
