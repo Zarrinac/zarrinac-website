@@ -14,7 +14,8 @@ import {
 // What each deployment of this tree publishes (see next.config.ts):
 // - zarrinac.com serves the Hisense-replica sections itself (since 2026-10-22), so its
 //   sitemap lists the home, the static sections and the full product catalog.
-// - znci.ir still 308-forwards those sections to hisense-ir.com and /dcode to
+// - znci.ir still 308-forwards those sections to zarrinac.com (was hisense-ir.com until
+//   2026-10-24) and /dcode to
 //   dcode.co.ir, so it lists only its home. Advertising a redirected URL here would
 //   be a mixed signal (sitemap says "index me", server says "308 elsewhere").
 

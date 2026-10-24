@@ -4,7 +4,7 @@
 #
 # Auth: the SSH key must be in the server's ~/.ssh/authorized_keys
 # for $ServerUser. Verify once with:
-#   ssh -i $HOME\.ssh\zarrin_ng_site_ed25519 -o BatchMode=yes reza@172.17.0.19 hostname
+#   ssh -i $HOME\.ssh\zarrin_ng_site_ed25519_2026-10-14 -o BatchMode=yes reza@172.17.0.19 hostname
 #
 # One-time server setup (see ops/README.md): install sync-media.sh to /usr/local/bin
 # and add the NOPASSWD sudoers rule, so the final step runs unattended.
@@ -21,7 +21,7 @@ $LocalMedia = if ($env:ZARRINAC_LOCAL_MEDIA) { $env:ZARRINAC_LOCAL_MEDIA } else 
 $ServerUser = if ($env:ZARRINAC_SERVER_USER) { $env:ZARRINAC_SERVER_USER } else { "reza" }
 $ServerHost = if ($env:ZARRINAC_SERVER_HOST) { $env:ZARRINAC_SERVER_HOST } else { "172.17.0.19" }   # zarrin-ng-site
 $ServerPort = if ($env:ZARRINAC_SERVER_PORT) { $env:ZARRINAC_SERVER_PORT } else { "22" }
-$KeyFile    = if ($env:ZARRINAC_SSH_KEY) { $env:ZARRINAC_SSH_KEY } else { Join-Path $HOME ".ssh\zarrin_ng_site_ed25519" }
+$KeyFile    = if ($env:ZARRINAC_SSH_KEY) { $env:ZARRINAC_SSH_KEY } else { Join-Path $HOME ".ssh\zarrin_ng_site_ed25519_2026-10-14" }
 # ==================
 
 $ErrorActionPreference = "Stop"

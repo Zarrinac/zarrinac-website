@@ -162,17 +162,17 @@ sudo chmod 440 /etc/sudoers.d/zarrinac-media
 ```
 
 **Usage from the Windows PC:** run `pwsh ops/upload-media.ps1`. It uses Windows OpenSSH
-(`ssh`/`scp`) with key auth (`~/.ssh/zarrin_ng_site_ed25519` by default, `BatchMode`) — no password — so it can
+(`ssh`/`scp`) with key auth (`~/.ssh/zarrin_ng_site_ed25519_2026-10-14` by default, `BatchMode`) — no password — so it can
 run unattended. It clears staging → `scp` uploads the whole media folder → `ssh` runs
 `sudo sync-media.sh` (rsync `--delete` mirror + owner/perms). The key's public half must be in
 the server's `~/.ssh/authorized_keys` for `reza`; verify with
-`ssh -i $HOME\.ssh\zarrin_ng_site_ed25519 -o BatchMode=yes reza@172.17.0.19 hostname`.
+`ssh -i $HOME\.ssh\zarrin_ng_site_ed25519_2026-10-14 -o BatchMode=yes reza@172.17.0.19 hostname`.
 
 Tip: optimize images first — `node ops/optimize-media.mjs --apply` — since the upload mirrors
 with `--delete` on the server.
 
 Manual equivalent (no PS script):
-`scp -i ~/.ssh/zarrin_ng_site_ed25519 -r media/ reza@172.17.0.19:/home/reza/`, then on the server
+`scp -i ~/.ssh/zarrin_ng_site_ed25519_2026-10-14 -r media/ reza@172.17.0.19:/home/reza/`, then on the server
 `sudo /usr/local/bin/sync-media.sh`.
 
 ## TLS / HTTPS
@@ -219,9 +219,13 @@ and port `443` open through any firewall.
   Claude CLI and its API key have been removed from this host. Keep server automation
   deterministic. `ops/cron/zarrinac-monitor.sh` mirrors `ops/cron/hisense-monitor.sh` from the
   hisense repo — that copy is the reference; port changes from there.
-- The monitor cron is **currently disabled** on `zarrin-ng-site` (entry removed alongside the
-  Claude CLI cleanup). Re-enable by copying the script to `/usr/local/bin`, `chmod +x`, and
-  adding the daily crontab line above — it needs no credentials now.
+- The monitor cron is **enabled** on `zarrin-ng-site` (daily 07:00, reza's crontab; the
+  deterministic script, installed 2026-10-24). Until then the live copy was still the old
+  `claude -p` version running hourly, which could only dump raw stats into the log. Check it
+  with `tail /var/log/zarrinac-monitor.log` — a healthy run ends with "All clear".
+- `weekly-backup.sh` failed every Sunday from 2026-06 to 2026-10-24 (`mkdir /backup: Permission
+denied` — it ran `mkdir` as `reza` without `sudo`). Fixed 2026-10-24; verify with
+  `sudo ls -l /backup` after a run. It now also covers the local DB copy (see above).
 - `deploy.sh` runs as `reza` (never root): a root-owned `.next` breaks PM2.
 - Deploy/DB/media workflow context lives in the repo root `CLAUDE.md` (Deployment & Ops,
   DB & Media Workflow sections).

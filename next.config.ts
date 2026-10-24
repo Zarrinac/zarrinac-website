@@ -63,9 +63,11 @@ const securityHeaders = [
 // its own home, so its sitemap stays home-only and nothing else resolves there. Any
 // build that is not explicitly zarrinac keeps forwarding — the safe default, because a
 // replica served without the differentiation layer is a straight duplicate of
-// hisense-ir.com. Keep this list in sync with the public routes under `app/[locale]/`.
+// hisense-ir.com. Since 2026-10-24 the forward goes to zarrinac.com (the canonical home
+// of these sections for this tree), no longer to hisense-ir.com. Keep this list in sync
+// with the public routes under `app/[locale]/`.
 const SERVES_HISENSE_SECTIONS = process.env.NEXT_PUBLIC_SITE_ID === 'zarrinac';
-const HISENSE_SITE_URL = 'https://www.hisense-ir.com';
+const FORWARD_SECTIONS_TO_URL = 'https://zarrinac.com';
 const HISENSE_SECTIONS = [
   'about',
   'cac',
@@ -123,7 +125,7 @@ const nextConfig: NextConfig = {
         ? []
         : HISENSE_SECTIONS.map((section) => ({
             source: `/:locale(fa|en)/${section}/:path*`,
-            destination: `${HISENSE_SITE_URL}/:locale/${section}/:path*`,
+            destination: `${FORWARD_SECTIONS_TO_URL}/:locale/${section}/:path*`,
             permanent: true,
           }))),
       // D'code → standalone site, dropping the `/dcode` segment. `:path*` is
