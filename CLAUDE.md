@@ -265,6 +265,8 @@ Workflow: **develop locally (Windows) → push branch → PR → merge to `main`
 | `.husky/pre-commit`                                 | `lint-staged` (lint + format)                                                                                                                                                                                                                                                     |
 | `.husky/pre-push`                                   | **Not in the repo** — never tracked, and absent locally. Was a `git diff origin/main...HEAD \| claude -p` review. Don't count on it gating pushes, and don't re-add an LLM call to it (see the Anthropic-API note in Deploy gotchas)                                              |
 
+**Standalone DB copy (2026-10-24):** `zarrin-ng-site` keeps a nightly, row-count-verified logical copy of the shared `zarrin` DB in its own local Postgres 18 (`ops/cron/db-local-copy.sh`, cron 02:30) so nexzarrin can be stopped or the sites split. The app still uses nexzarrin; switching is an explicit opt-in (`ZARRINAC_DB_STANDALONE=1` + `DATABASE_URL` → localhost) — runbook in `ops/README.md` → "Standalone DB copy".
+
 Deploy gotchas: (a) server runs `git restore public/sitemap-0.xml` before pull (legacy generated file causes conflicts) — the native `app/sitemap.ts` route is the source of truth now; (b) `deploy.sh` uses a **full** `npm ci` (not `--omit=dev`) because building Next on the server needs devDependencies (typescript, `@tailwindcss/postcss`, dotenv); (c) it clears `.next/cache` before building so stale ISR/Data-Cache content isn't served after a deploy; (d) it must run as `reza`, never root (a root-owned `.next` breaks PM2).
 
 ### znci.ir (second deployment, Docker on SC1)
