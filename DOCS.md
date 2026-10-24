@@ -737,7 +737,7 @@ Media lives outside git (`C:\Users\r.saberifard\Documents\IT-Hisense\zarrin\medi
 **Local → server:**
 
 1. Run `node ops/optimize-media.mjs --apply` to compress images first.
-2. Run `pwsh ops/upload-media.ps1` — uses OpenSSH key auth (`~/.ssh/zarrin_ng_site_ed25519` by default, override with `ZARRINAC_SSH_KEY`) to `scp` upload then trigger `sudo sync-media.sh` on the server.
+2. Run `pwsh ops/upload-media.ps1` — uses OpenSSH key auth (`~/.ssh/zarrin_ng_site_ed25519_2026-10-14` by default, override with `ZARRINAC_SSH_KEY`) to `scp` upload then trigger `sudo sync-media.sh` on the server.
 3. `ops/sync-media.sh` rsync-mirrors staging → live dir and applies `chmod -R a+rX` (mandatory — the Next app runs as `reza`, so `www-data`-only permissions cause `EACCES` and a 503 crash loop).
 
 Key auth setup: the public half of the selected SSH key must be in `~/.ssh/authorized_keys` on the server for `reza`.
@@ -754,7 +754,7 @@ Stores to `/backup`, keeps the last 4 weeks, deletes older runs.
 
 ### Monitor
 
-`ops/cron/zarrinac-monitor.sh` runs hourly. Pipes `df`, `free`, and `pm2 jlist` output to `claude -p` for anomaly detection. Logs to `/var/log/zarrinac-monitor.log`.
+`ops/cron/zarrinac-monitor.sh` runs daily at 07:00. Checks `df`, `free`, and `pm2 jlist` against fixed thresholds (disk >80%, memory >90%, PM2 not online) — no LLM call, `api.anthropic.com` is unreachable from the server. Logs to `/var/log/zarrinac-monitor.log`.
 
 SEO audit is disabled on `zarrin-ng-site` for now: `/usr/local/bin/seo-audit.sh` is
 non-executable and there is no cron entry.

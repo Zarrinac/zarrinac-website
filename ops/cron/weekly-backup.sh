@@ -16,7 +16,10 @@ DATE="$(date +%F)"
 HOST="$(hostname -s)"
 BACKUP_DIR="/backup"
 APP_DIR="${ZARRINAC_APP_DIR:-/var/www/zarrinac/app}"
-mkdir -p "$BACKUP_DIR"
+# /backup is root-owned and holds .env + /etc, so it is created and read with sudo
+# (a plain mkdir as reza failed every week from 2026-06 to 2026-10-24: "Permission denied").
+sudo mkdir -p "$BACKUP_DIR"
+sudo chmod 700 "$BACKUP_DIR"
 
 PG_GZ="${BACKUP_DIR}/${HOST}-postgres-${DATE}.sql.gz"
 CONFIG_TAR="${BACKUP_DIR}/${HOST}-config-${DATE}.tar.gz"
@@ -54,4 +57,4 @@ sudo find "$BACKUP_DIR" -maxdepth 1 -type f \
 
 echo "DONE. Current /backup:"
 sudo du -sh "$BACKUP_DIR"
-ls -lh "$BACKUP_DIR" | tail -n +2
+sudo ls -lh "$BACKUP_DIR" | tail -n +2

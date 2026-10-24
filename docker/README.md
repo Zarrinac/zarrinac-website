@@ -3,7 +3,7 @@
 A Docker image of **this exact tree**, configured to serve **znci.ir** with the same
 behaviour zarrinac.com has today: the home page (`/fa`, `/en`) is the only marketing
 page served from the domain, every Hisense-replica section 308-forwards to
-`https://www.hisense-ir.com`, and `/[locale]/dcode/*` 308-forwards to `https://dcode.co.ir`.
+`https://zarrinac.com` (changed from `https://www.hisense-ir.com` on 2026-10-24), and `/[locale]/dcode/*` 308-forwards to `https://dcode.co.ir`.
 `/admin` and `/api` stay functional.
 
 The one thing that is **not** a copy of zarrinac.com is the home copy itself. znci.ir builds
@@ -160,7 +160,7 @@ HTTP `/fa` 301 → `https://znci.ir/fa`; HTTPS `/fa` and `www.znci.ir/fa` both 2
 `ssl_verify_result=0` — i.e. the served chain validates against the system trust store
 with no `-k`, confirming the intermediates are present and correctly ordered (3 certs on
 the wire); `Strict-Transport-Security: max-age=63072000; includeSubDomains` present;
-canonical `https://znci.ir/fa`, one `<h1>`; `/fa/products` 308 → www.hisense-ir.com and
+canonical `https://znci.ir/fa`, one `<h1>`; `/fa/products` 308 → zarrinac.com (www.hisense-ir.com before 2026-10-24) and
 `/fa/dcode/tvs/r6d` 308 → dcode.co.ir still intact over TLS; `/media/*` and
 `/_next/image` 200.
 
@@ -203,7 +203,7 @@ Built and run on Docker 29.7.2 / Windows, image `znci-website:latest`, 503 MB:
 | `/fa`, `/en`                                   | 200, single `<h1>`                               |
 | `<link rel=canonical>` / `hreflang` / `og:url` | all `https://znci.ir/...`                        |
 | `/robots.txt`, `/sitemap.xml`                  | `Host`/`Sitemap`/`<loc>` all znci.ir; home only  |
-| `/fa/products`, `/en/about`, `/fa/support` …   | 308 → `www.hisense-ir.com/<same path>`           |
+| `/fa/products`, `/en/about`, `/fa/support` …   | 308 → `zarrinac.com/<same path>`                 |
 | `/fa/dcode`, `/fa/dcode/tvs/r6d`               | 308 → `dcode.co.ir/fa`, `dcode.co.ir/fa/tvs/r6d` |
 | Security headers                               | X-Frame-Options, nosniff, HSTS, Referrer-Policy  |
 | `/media/banner/*.webp` (bind mount)            | 200 image/webp                                   |
