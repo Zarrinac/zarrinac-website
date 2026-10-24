@@ -248,3 +248,20 @@ It pulls `main`, scans the build config for the malware signature that hit origi
 ~6 min), waits for `/fa` to answer 200, and prunes the dangling image the rebuild leaves
 behind. Any merge to `main` therefore reaches znci.ir the same way it reaches
 zarrinac.com — one command per host, no sync step, no second repo.
+
+### If the build fails fetching `node:24-bookworm-slim` (403 from `production.cloudfront.docker.com`)
+
+SC1's IP gets `403 Forbidden` on Docker Hub's blob CDN (the manifest still resolves, the
+layers do not), so a rebuild fails whenever the base image is not already in the local
+store — seen 2026-10-24. The running container is not affected; the build just stops.
+Do **not** pull the base from a third-party registry mirror on the production host. Pull the
+official image on a PC that can reach Docker Hub and stream it over ssh instead:
+
+```bash
+docker pull --platform linux/amd64 node:24-bookworm-slim
+docker save node:24-bookworm-slim | gzip -1 | ssh znci-sc1 'gunzip | docker load'
+# image ID and RepoDigest on SC1 must equal the PC's (docker image inspect), then:
+/var/www/znci/deploy.sh
+```
+
+Before a risky rebuild, keep a rollback tag: `docker tag znci-website:latest znci-website:rollback-<sha>`.
