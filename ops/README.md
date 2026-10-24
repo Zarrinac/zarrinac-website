@@ -11,16 +11,17 @@ The app reads the shared `zarrin` database on `nexzarrin` and must set
 
 ## Files
 
-| Repo file                      | Live location on server              | Purpose                                                                                        |
-| ------------------------------ | ------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| `ops/deploy.sh`                | `/var/www/zarrinac/deploy.sh`        | Pull → `npm ci` → `db:deploy` → `build` → `pm2 reload`                                         |
-| `ops/cron/zarrinac-monitor.sh` | `/usr/local/bin/zarrinac-monitor.sh` | Daily health check, deterministic thresholds (disk/mem/PM2), no external API calls             |
-| `ops/cron/weekly-backup.sh`    | `/usr/local/bin/weekly-backup.sh`    | Weekly lean backup: `pg_dumpall` + `/etc` + app secrets, keeps 4 weeks                         |
-| `ops/sync-media.sh`            | `/usr/local/bin/sync-media.sh`       | Mirror staged media → live dir + fix owner/perms (`a+rX`)                                      |
-| `ops/upload-media.ps1`         | (runs on the Windows dev PC)         | scp upload + trigger `sync-media.sh` over ssh (key auth)                                       |
-| `ops/preflight.mjs`            | (runs from deploy on the server)     | Validates Zarrinac env identity and the shared nexzarrin DB target without printing secrets    |
-| `ops/seo-audit.mjs`            | (runs from the repo on the server)   | Deterministic SEO checker: title/desc/canonical/hreflang/h1/size/JSON-LD over the live sitemap |
-| `ops/cron/seo-audit.sh`        | `/usr/local/bin/seo-audit.sh`        | SEO audit wrapper (log only, no LLM triage); installed non-executable and not scheduled        |
+| Repo file                      | Live location on server              | Purpose                                                                                               |
+| ------------------------------ | ------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| `ops/deploy.sh`                | `/var/www/zarrinac/deploy.sh`        | Pull → `npm ci` → `db:deploy` → `build` → `pm2 reload`                                                |
+| `ops/cron/zarrinac-monitor.sh` | `/usr/local/bin/zarrinac-monitor.sh` | Daily health check, deterministic thresholds (disk/mem/PM2), no external API calls                    |
+| `ops/cron/weekly-backup.sh`    | `/usr/local/bin/weekly-backup.sh`    | Weekly lean backup: `pg_dumpall` + `/etc` + app secrets, keeps 4 weeks                                |
+| `ops/cron/db-local-copy.sh`    | `/usr/local/bin/db-local-copy.sh`    | Nightly (02:30) logical copy of the shared `zarrin` DB into the local Postgres 18, row-count verified |
+| `ops/sync-media.sh`            | `/usr/local/bin/sync-media.sh`       | Mirror staged media → live dir + fix owner/perms (`a+rX`)                                             |
+| `ops/upload-media.ps1`         | (runs on the Windows dev PC)         | scp upload + trigger `sync-media.sh` over ssh (key auth)                                              |
+| `ops/preflight.mjs`            | (runs from deploy on the server)     | Validates Zarrinac env identity and the shared nexzarrin DB target without printing secrets           |
+| `ops/seo-audit.mjs`            | (runs from the repo on the server)   | Deterministic SEO checker: title/desc/canonical/hreflang/h1/size/JSON-LD over the live sitemap        |
+| `ops/cron/seo-audit.sh`        | `/usr/local/bin/seo-audit.sh`        | SEO audit wrapper (log only, no LLM triage); installed non-executable and not scheduled               |
 
 > Not included: `ecosystem.config.cjs`, `.env` — they hold secrets and are gitignored.
 > Keep them only on the server. The husky hooks (`.husky/pre-commit`, `pre-push`) live in
@@ -90,6 +91,42 @@ pm2 save                      # writes ~/.pm2/dump.pm2, replayed by pm2-reza.ser
 SEO audit is intentionally disabled on `zarrin-ng-site` for now: no cron entry, and
 `/usr/local/bin/seo-audit.sh` is installed without executable permission. Re-enable later with
 `sudo chmod +x /usr/local/bin/seo-audit.sh` and a cron entry if needed.
+
+## Standalone DB copy (separating from nexzarrin)
+
+zarrinac.com reads the shared `zarrin` DB on nexzarrin. So that nexzarrin can be stopped for a
+while, or the two sites split for good, `zarrin-ng-site` keeps its own **copy** of that DB:
+the local Postgres 18 cluster (`127.0.0.1:5432` only, scram), database `zarrin`, role `reza_sf`
+(password only in `~reza/.pgpass`, mode 600 — never in git). It is a **logical** copy
+(`pg_dump -Fc` → `pg_restore --clean` in one transaction), refreshed by
+`db-local-copy.sh` from reza's crontab at 02:30 daily. Physical streaming replication
+(`shared-db-runbook.md` Phase 4) is not possible: nexzarrin is Postgres 16, this host 18.
+
+- The copy is **not live**: the app still uses nexzarrin. Writes made after the last refresh
+  (complaint/survey submissions, admin edits) exist only on nexzarrin until the next run.
+- The script verifies exact row counts for every table and leaves the previous copy untouched
+  if the dump or restore fails. Log + last 7 dumps: `~reza/backups/`. It **refuses to run once
+  the app's `DATABASE_URL` points at this host**, so it can never overwrite a live local DB.
+- `weekly-backup.sh` (`pg_dumpall`) now also covers the local copy.
+
+**Switching zarrinac.com to the local copy** (nexzarrin down or retired). One step at a time:
+
+1. If nexzarrin is still up, run `/usr/local/bin/db-local-copy.sh` for a final refresh, then
+   `pm2 stop zarrinac` so no submission lands on the old DB after it.
+2. Back up first: `cp .env ~/backups/env-before-switch`.
+3. In `/var/www/zarrinac/app/.env` set
+   `DATABASE_URL="postgresql://reza_sf:<password from ~/.pgpass>@localhost:5432/zarrin?schema=public"`
+   and add `ZARRINAC_DB_STANDALONE=1` (without it `preflight.mjs` rejects a non-nexzarrin host).
+   Keep `DATABASE_URL` out of `ecosystem.config.cjs` (see the PM2 env-precedence note).
+4. `node ops/preflight.mjs`, then `pm2 restart zarrinac --update-env`; check
+   `/api/products` → `X-Data-Source: database`, `/admin/login`, and a test complaint.
+5. From then on the local DB is the only source of truth for zarrinac: `db-local-copy.sh`
+   stops itself, and `weekly-backup.sh` becomes its backup. Remove the cron line if you like.
+6. Migrations still ship from this repo (`db:deploy`). If hisense later changes `prisma/`,
+   port it byte-identically as before, or accept that the two schemas now diverge.
+
+Going back: restore the saved `.env`, drop `ZARRINAC_DB_STANDALONE`, restart. Anything written
+to the local DB in between must be merged into nexzarrin by hand first.
 
 ## Media sync (local PC → server)
 

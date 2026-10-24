@@ -10,7 +10,10 @@ import process from 'node:process';
 
 const APP_DIR = process.env.ZARRINAC_APP_DIR || process.cwd();
 const ENV_FILE = process.env.ZARRINAC_ENV_FILE || path.join(APP_DIR, '.env');
-const ALLOWED_DB_HOSTS = new Set(['172.17.0.10', 'nexzarrin']);
+const SHARED_DB_HOSTS = ['172.17.0.10', 'nexzarrin'];
+// Standalone mode: zarrinac runs on its own copy of the DB on this host (nexzarrin stopped
+// or the two sites split). Opt-in only, so a stray local DB in .env still fails the deploy.
+const LOCAL_DB_HOSTS = ['localhost', '127.0.0.1'];
 const ALLOWED_SSL_MODES = new Set(['require', 'verify-full', 'no-verify']);
 const EXPECTED_DB_NAME = 'zarrin';
 const EXPECTED_SITE_ID = 'zarrinac';
@@ -89,6 +92,11 @@ if (existsSync(ENV_FILE)) {
   env = parseEnvFile(ENV_FILE);
 }
 
+const standalone = (env.ZARRINAC_DB_STANDALONE || process.env.ZARRINAC_DB_STANDALONE) === '1';
+const allowedDbHosts = new Set(standalone ? LOCAL_DB_HOSTS : SHARED_DB_HOSTS);
+if (standalone)
+  addWarning('ZARRINAC_DB_STANDALONE=1: using the local DB copy, not the shared nexzarrin DB');
+
 const databaseUrl = env.DATABASE_URL || process.env.DATABASE_URL;
 if (!databaseUrl) {
   addError('DATABASE_URL is missing');
@@ -98,8 +106,10 @@ if (!databaseUrl) {
     const dbName = parsed.pathname.replace(/^\//, '');
     const sslMode = parsed.searchParams.get('sslmode');
 
-    if (!ALLOWED_DB_HOSTS.has(parsed.hostname)) {
-      addError(`DATABASE_URL host must be nexzarrin/172.17.0.10, got ${parsed.hostname}`);
+    if (!allowedDbHosts.has(parsed.hostname)) {
+      addError(
+        `DATABASE_URL host must be ${[...allowedDbHosts].join('/')}, got ${parsed.hostname}`,
+      );
     }
     if (dbName !== EXPECTED_DB_NAME) {
       addError(`DATABASE_URL database must be ${EXPECTED_DB_NAME}, got ${dbName || '(empty)'}`);
@@ -155,4 +165,6 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log('Preflight OK: zarrinac app identity and nexzarrin DB target are valid.');
+console.log(
+  `Preflight OK: zarrinac app identity and ${standalone ? 'local standalone' : 'nexzarrin'} DB target are valid.`,
+);
