@@ -45,7 +45,9 @@ sudo tar -czpf "$CONFIG_TAR" --xattrs --acls --ignore-failed-read \
 # SAFETY: never let the backup silently miss the secrets. tar stores paths without
 # the leading slash, so check for the de-slashed path.
 ENV_PATH_IN_TAR="${APP_DIR#/}/.env"
-if ! sudo tar -tzf "$CONFIG_TAR" | grep -Fxq "$ENV_PATH_IN_TAR"; then
+# No `grep -q` here: under `set -o pipefail` it exits at the first match, tar dies on
+# SIGPIPE, and a perfectly good backup is reported as incomplete.
+if ! sudo tar -tzf "$CONFIG_TAR" | grep -Fx "$ENV_PATH_IN_TAR" >/dev/null; then
   echo "FATAL: .env not found inside $CONFIG_TAR — backup is incomplete!" >&2
   exit 1
 fi
