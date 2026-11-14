@@ -1,5 +1,8 @@
 /* Global design tokens and Tailwind base import. */
 @import 'tailwindcss';
+/* public/media is a symlink to the media store outside the repo on the servers; Tailwind must not scan it
+   (Next 16.4 Turbopack rejects loader paths outside the project root). */
+@source not "../../public/media";
 
 :root {
   --brand-color: #00b3ac;
