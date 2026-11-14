@@ -759,6 +759,10 @@ Stores to `/backup`, keeps the last 4 weeks, deletes older runs.
 SEO audit is disabled on `zarrin-ng-site` for now: `/usr/local/bin/seo-audit.sh` is
 non-executable and there is no cron entry.
 
+### Build gotcha: Tailwind must not scan the `public/media` symlink (2026-11-14)
+
+On the servers `public/media` is a **symlink** to the media store outside the repo. Since Next 16.4 Turbopack rejects loader paths outside the project root, and Tailwind v4 auto-scans every non-ignored file, so the server build died with `webpack loader path ".../media/...svg" is outside configured roots` — and a failed `next build` has already wiped `.next`, leaving the live site half-broken (CSS 500) until a rebuild. Fixed with `@source not "../../public/media";` in `assets/styles/globals.css` plus `/public/media` (no trailing slash — a `dir/` pattern does not match a symlink) in `.gitignore`. Reproduced locally with a junction `public\media` → a folder outside the repo. **Any new symlink or outside-root folder under `public/` needs the same exclusion.** Emergency rebuild if it recurs: move the symlink aside, `npm run build`, move it back, `pm2 reload`.
+
 ### Ops scripts location
 
 Scripts under `ops/` are the source of truth. After a deploy pulls changes, manually copy affected scripts to their live locations (see `ops/README.md` for the exact copy commands). `deploy.sh` is intentionally not a symlink — bash reads a script as it runs, so `git pull` overwriting the executing file is unsafe.
