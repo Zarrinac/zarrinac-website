@@ -44,6 +44,7 @@ next-env.d.ts
 /ecosystem.config.cjs
 
 # media moved to server, keep out of repo
+/public/media
 /public/products/
 /public/images/
 /public/tv-banner/
