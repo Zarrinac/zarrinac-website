@@ -2,7 +2,7 @@
 
 Marketing and support website for Zarrinac / Hisense Iran (zarrinac.com). Bi-lingual (Persian/English), SEO-first, with a full admin portal, DB-first catalog, and a retained D'code brand section.
 
-**Last updated: 2026-09-09**
+**Last updated: 2026-11-19**
 
 ---
 
@@ -466,6 +466,8 @@ verbatim. Never hand-edit it and never seed a stale copy:
 > is **shared with hisense**. Seeding from an out-of-date copy here silently rolls back the live
 > representative list for _both_ sites. Same hazard as the products seed
 > (`ops/shared-db-runbook.md`): let hisense own the refresh, mirror the JSON, then seed.
+
+The 2026-11-19 refresh mirrors 1,526 entries from Hisense workbook `list-of-representatives-2026-11-4.xlsx`. It adds TV representative `LCD0838` in Rivash and removes the terminated home-appliance representative `HA010102` in Qods. The shared database is seeded once from Hisense after both apps deploy.
 
 ---
 
